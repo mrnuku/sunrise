@@ -1,0 +1,261 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.4.4.2 Source Code</TITLE>
+<META NAME="description" CONTENT="0.4.4.2 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="previous" HREF="node90.html">
+<LINK REL="up" HREF="node89.html">
+<LINK REL="next" HREF="node92.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1495"
+ HREF="node92.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1491"
+ HREF="node89.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1487"
+ HREF="node90.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1493"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1494"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1496"
+ HREF="node92.html">0.4.5 Spanning Trees</A>
+<B> Up:</B> <A NAME="tex2html1492"
+ HREF="node89.html">0.4.4 Dijkstra's Algorithm -</A>
+<B> Previous:</B> <A NAME="tex2html1488"
+ HREF="node90.html">0.4.4.1 Analysis</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00054200000000000000">
+0.4.4.2 Source Code</A>
+</H3>
+
+<P>
+An implementation of Dijkstra's algorithm is given below.
+
+<P>
+<HR>
+<BR><HR>
+<PRE>#include <stdlib.h>
+ #include <stdio.h>
+ 
+ #include "debug.h"
+ 
+ #define NUM_NODES                          8
+ #define NONE                               9999
+ #define X(l)                               ((l) - 'A')
+ #define Y(n)                               ((n) + 'A')
+ 
+ struct _NODE
+ {
+   int iDist;
+   int iPrev;
+ };
+ typedef struct _NODE NODE;
+ 
+ struct _QITEM
+ {
+   int iNode;
+   int iDist;
+   int iPrev;
+   struct _QITEM *qNext;
+ };
+ typedef struct _QITEM QITEM;
+ 
+ QITEM *qHead = NULL;
+ 
+ /*
+                                        H
+                                       / \
+                                      1   2
+                                     /     \
+                                    F---4---G
+                                   /         \
+                                  4           2
+                                 /             \
+                                E---2---A---3---D
+                                 \     / \     /
+                                  3   1   2   3
+                                   \ /     \ /
+                                    B---2---C
+ 
+ 				   */
+ 
+ 
+ 
+ 
+ 
+ int AdjMatrix[NUM_NODES][NUM_NODES] = 
+ { 
+         /*   A     B     C     D     E     F     G     H     */
+   /* A */ { NONE,    1,    2,    3,    2, NONE, NONE, NONE },
+   /* B */ {    1, NONE,    2, NONE,    3, NONE, NONE, NONE },
+   /* C */ {    2,    2, NONE,    2, NONE, NONE, NONE, NONE },
+   /* D */ {    3, NONE,    2, NONE, NONE, NONE,    2, NONE },
+   /* E */ {    2,    3, NONE, NONE, NONE,    4, NONE, NONE },
+   /* F */ { NONE, NONE, NONE, NONE,    4, NONE,    4,    1 },
+   /* G */ { NONE, NONE, NONE,    2, NONE,    4, NONE,    2 },
+   /* H */ { NONE, NONE, NONE, NONE, NONE,    1,    2, NONE }
+ };
+ 
+ int g_qCount = 0;
+ 
+ 
+ void print_path (NODE *rgnNodes, int chNode)
+ {
+   if (rgnNodes[chNode].iPrev != NONE)
+   {
+     print_path(rgnNodes, rgnNodes[chNode].iPrev);
+   }
+   printf (" %c", Y(chNode));
+   fflush(stdout);
+ }
+ 
+ 
+ void enqueue (int iNode, int iDist, int iPrev)
+ {
+   QITEM *qNew = (QITEM *) malloc(sizeof(QITEM));
+   QITEM *qLast = qHead;
+ 
+   if (!qNew) 
+   {
+     fprintf(stderr, "Out of memory.\n");
+     exit(1);
+   }
+   qNew->iNode = iNode;
+   qNew->iDist = iDist;
+   qNew->iPrev = iPrev;
+   qNew->qNext = NULL;
+ 
+   if (!qLast) 
+   {
+     qHead = qNew;
+   }
+   else
+   {
+     while (qLast->qNext) qLast = qLast->qNext;
+     qLast->qNext = qNew;
+   }
+   g_qCount++;
+   ASSERT(g_qCount);
+ }
+ 
+ 
+ void dequeue (int *piNode, int *piDist, int *piPrev)
+ {
+   QITEM *qKill = qHead;
+ 
+   if (qHead)
+   {
+     ASSERT(g_qCount);
+     *piNode = qHead->iNode;
+     *piDist = qHead->iDist;
+     *piPrev = qHead->iPrev;
+     qHead = qHead->qNext;
+     free(qKill);
+     g_qCount--;
+   }
+ }
+ 
+ 
+ int qcount (void)
+ {
+   return(g_qCount);
+ }
+ 
+ 
+ int main(void) 
+ {
+ 
+   NODE rgnNodes[NUM_NODES];
+   char rgchLine[255];
+   char chStart, chEnd, ch;
+   int iPrev, iNode;
+   int i, iCost, iDist;
+ 
+   for (ch = 'A'; ch <= 'A' + NUM_NODES; ch++)
+   {
+     rgnNodes[X(ch)].iDist = NONE;
+     rgnNodes[X(ch)].iPrev = NONE;
+   }
+ 
+   printf("What is the starting node? ");
+   gets(rgchLine);
+   chStart = toupper(rgchLine[0]);
+ 
+   printf("What is the ending node? ");
+   gets(rgchLine);
+   chEnd = toupper(rgchLine[0]);
+ 
+   if (chStart == chEnd) 
+   {
+     printf("Shortest path is 0 in cost.\nJust stay where you are.\n");
+     exit(0);
+   }
+   else
+   {
+     chStart = X(chStart);
+     chEnd = X(chEnd);
+     rgnNodes[chStart].iDist = 0;
+     rgnNodes[chStart].iPrev = NONE;
+ 
+     enqueue (chStart, 0, NONE);
+ 
+     while (qcount() > 0)
+     {
+       dequeue (&iNode, &iDist, &iPrev);
+       for (i = 0; i < NUM_NODES; i++)
+       {
+         if ((iCost = AdjMatrix[iNode][i]) != NONE)
+ 	{
+ 	  if ((NONE == rgnNodes[i].iDist) || 
+ 	      (rgnNodes[i].iDist > (iCost + iDist)))
+ 	  {
+ 	    rgnNodes[i].iDist = iDist + iCost;
+             rgnNodes[i].iPrev = iNode;
+ 	    enqueue (i, iDist + iCost, iNode);
+           }
+ 	}
+       }
+     }
+ 
+     printf("Shortest path is %d in cost.\n", rgnNodes[chEnd].iDist);
+     printf("Path is: ");
+     print_path(rgnNodes, chEnd);
+   }
+  
+ 
+   exit(0);
+ }
+ 
+ 
+</PRE>
+<HR>
+<BR></TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

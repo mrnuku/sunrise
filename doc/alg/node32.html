@@ -1,0 +1,1055 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.7.4 Source Code</TITLE>
+<META NAME="description" CONTENT="0.2.7.4 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node33.html">
+<LINK REL="previous" HREF="node31.html">
+<LINK REL="up" HREF="node28.html">
+<LINK REL="next" HREF="node33.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html728"
+ HREF="node33.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html724"
+ HREF="node28.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html718"
+ HREF="node31.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html726"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html727"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html729"
+ HREF="node33.html">0.2.7.5 One-way hashing</A>
+<B> Up:</B> <A NAME="tex2html725"
+ HREF="node28.html">0.2.7 Hashing</A>
+<B> Previous:</B> <A NAME="tex2html719"
+ HREF="node31.html">0.2.7.3 Choosing a Table</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00037400000000000000">
+0.2.7.4 Source Code</A>
+</H3>
+<P>
+Below is some code I wrote as an extension to an online game.  The
+code uses a fixed-size hash table and the method of external chaining
+to store items based on an integer key.  Although it is not
+immediately useful as-is it certainly gives you an idea of how to
+implement a hash table.
+<P>
+<PRE>
+//+----------------------------------------------------------------------------
+//
+// File:     random.c
+//
+// Module:   Smaug add-on
+//
+// Synopsis: Routines for random loading objs and mobs.
+//
+// Copyright (C) 1999-2000 Scott Gasch <sgasch@wannabe.guru.org>
+//
+// Created:  12 Jun 2000
+//
+//+----------------------------------------------------------------------------
+#include <ctype.h>
+#include <stdio.h>
+#include "mud.h"
+#include "random.h"
+
+#define HASH_SIZE       1024
+#define COMMAND_ADD     1
+#define COMMAND_DEL     2
+#define COMMAND_LIST    3
+#define COMMAND_CLEAR   4
+#define COMMAND_UNKNOWN 0
+#define RANDOM_MOB_FILE "../system/random.mob"
+#define RANDOM_OBJ_FILE "../system/random.obj"
+
+//
+// Global data structs and identifiers
+//
+typedef struct _RANDOM_TABLE_ENTRY
+{
+    int iVnum;
+    int iChance;
+    struct _RANDOM_TABLE_ENTRY *pNext;
+    int iNumChained;
+} RANDOM_TABLE_ENTRY;
+
+static RANDOM_TABLE_ENTRY g_ObjHash[HASH_SIZE];
+static RANDOM_TABLE_ENTRY g_MobHash[HASH_SIZE];
+
+//
+// Local function protos
+//
+static inline void ClearTable(RANDOM_TABLE_ENTRY *pRte);
+static inline void ClearRandTables(void);
+static bool AddObject(RANDOM_TABLE_ENTRY *pHash, int iVnum, int iChance);
+static bool DeleteObject(RANDOM_TABLE_ENTRY *pHash, int iVnum);
+static void ListObjects(RANDOM_TABLE_ENTRY *pRte, CHAR_DATA *pCh);
+static void ShowObjRecurse(RANDOM_TABLE_ENTRY *pEnt, CHAR_DATA *pCh,
+                           RANDOM_TABLE_ENTRY *pList);
+static RANDOM_TABLE_ENTRY *NameToList(char *szName);
+static int GetCommand(char *szCom);
+static void ReadRandTable(RANDOM_TABLE_ENTRY *pRand, FILE *pFile);
+static void WriteRandTable(RANDOM_TABLE_ENTRY *pRand, FILE *pFile);
+static void WriteObjRecurse(RANDOM_TABLE_ENTRY *pEnt, FILE *pFile);
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  GetObjRandom (interface)
+//
+// Synopsis:  
+//
+// Arguments: void
+//            
+// Returns:   OBJ_INDEX_DATA
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+OBJ_INDEX_DATA *GetObjRandom(void)
+{
+    int iNum = number_range(0, HASH_SIZE);
+    int iStart = iNum;
+    RANDOM_TABLE_ENTRY *pRte;
+    RANDOM_TABLE_ENTRY *pChain;
+    int iWhich;
+    int iVnum = 0;
+    int iChance = 0;
+
+    do
+    {
+        pRte = &(g_ObjHash[iNum]);
+
+        //
+        // Is there something here?
+        //
+        if (pRte->iVnum)
+        {
+            //
+            // Is it more than one thing?
+            //
+            if (pRte->iNumChained)
+            {
+                iWhich = number_range(0, pRte->iNumChained);
+
+                for (pChain = pRte;
+                     (iWhich && pChain);
+                     pChain = pChain->pNext); // note the semi
+                iVnum = pChain->iVnum;
+                iChance = pChain->iChance;
+            }
+            else
+            {
+                //
+                // Nope, only one thing.
+                //
+                iVnum = pRte->iVnum;
+                iChance = pRte->iChance;
+            }
+        }
+        
+        //
+        // Be ready with the next one...
+        //
+        iNum++;
+        if (iNum >= HASH_SIZE) iNum = 0;
+    }
+    while ((!iVnum) && (iNum != iStart));
+
+    //
+    // Get the thing...
+    //
+    if ((iVnum == 0) || 
+        (iVnum < 0))
+    {
+        return(NULL);
+    }
+
+    //
+    // Roll for it
+    //
+    if (number_range(0, 10000) <= iChance)
+    {
+        return(get_obj_index(iVnum));
+    }
+    return(NULL);
+}
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  GetObjRandom
+//
+// Synopsis:  
+//
+// Arguments: void
+//            
+// Returns:   MOB_INDEX_DATA
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+MOB_INDEX_DATA *GetMobRandom(void)
+{
+    int iNum = number_range(0, HASH_SIZE);
+    int iStart = iNum;
+    RANDOM_TABLE_ENTRY *pRte;
+    RANDOM_TABLE_ENTRY *pChain;
+    int iWhich;
+    int iVnum = 0;
+    int iChance = 0;
+
+    do
+    {
+        pRte = &(g_ObjHash[iNum]);
+
+        //
+        // Is there something here?
+        //
+        if (pRte->iVnum)
+        {
+            //
+            // Is it more than one thing?
+            //
+            if (pRte->iNumChained)
+            {
+                iWhich = number_range(0, pRte->iNumChained);
+
+                for (pChain = pRte;
+                     (iWhich && pChain);
+                     pChain = pChain->pNext); // note the semi
+                iVnum = pChain->iVnum;
+                iChance = pChain->iChance;
+            }
+            else
+            {
+                //
+                // Nope, only one thing.
+                //
+                iVnum = pRte->iVnum;
+	        iChance = pRte->iChance;
+            }
+        }
+        
+        //
+        // Be ready with the next one...
+        //
+        iNum++;
+        if (iNum >= HASH_SIZE) iNum = 0;
+    }
+    while ((!iVnum) && (iNum != iStart));
+
+    //
+    // Get the thing...
+    //
+    if ((iVnum == 0) || 
+        (iVnum < 0))
+    {
+        return(NULL);
+    }
+
+    //
+    // Roll for it...
+    //
+    if (number_range(0, 10000) <= iChance)
+    {
+        return(get_mob_index(iVnum));
+    }
+    return(NULL);
+}
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  do_random (interface)
+//
+// Synopsis:  Handler for the "random" command... a god command to modify
+//            (add to, delete from, list or clear) a random loader table.
+//
+// Arguments: CHAR_DATA *pCh - who is calling us
+//            char *szArgument - their args
+//            
+// Returns:   void
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+void do_random(CHAR_DATA *pCh, char *szArgument)
+{
+    char szArg1[MAX_INPUT_LENGTH];            // buf for arguments 
+    char szArg2[MAX_INPUT_LENGTH];            // buf for arguments
+    RANDOM_TABLE_ENTRY *pList = NULL;         // random hash table start
+    int iVnum, iChance;                       // vnum / chance for new entry
+    char buf[1024];
+    
+    //
+    // Sanity check the character.
+    //
+    set_char_color(AT_PLAIN, pCh);
+    if (!pCh->desc)
+    {
+        send_to_char("You have no descriptor.\n\r", pCh);
+        return;
+    }
+
+    //
+    // Figure out what they're trying to do... syntax as follows:
+    //
+    // random obj add vnum chance
+    // random obj del vnum
+    // random mob add vnum chance
+    // random mob del vnum
+    // random obj list
+    // random mob list
+    // random obj clear
+    // random mob clear
+    //
+    szArgument = one_argument(szArgument, szArg1);
+    if (NULL == (pList = NameToList(szArg1)))
+    {
+        goto syntax;
+    }
+
+    //
+    // Now we know what list they want to affect, lets find out what
+    // they want to do!
+    //
+    szArgument = one_argument(szArgument, szArg2);
+    switch (GetCommand(szArg2))
+    {
+    case COMMAND_ADD:
+        szArgument = one_argument(szArgument, szArg1);
+        if (szArg1[0] == 0) goto syntax;
+        szArgument = one_argument(szArgument, szArg2);
+        if (szArg2[0] == 0) goto syntax;
+        if (0 == (iVnum = atoi(szArg1))) goto syntax;
+        if (0 == (iChance = atoi(szArg2))) goto syntax;
+        if ((iChance < 0) || (iChance > 10000))
+        {
+            send_to_char("Invalid percentage: 0=0.00%, 10000=100.00%\n\r",
+                         pCh);
+            return;
+        }
+        if (FALSE == AddObject(pList, iVnum, iChance))
+        {
+            send_to_char("There was an error updating the random table.\n\r"
+                         "Perhaps the vnum you tried to add is already "
+                         "in the table?\n\r", pCh);
+            return;
+        }
+        sprintf(buf, "Added vnum %d with a %d.%d%% load rate.\n\r", 
+                iVnum, iChance / 100, iChance % 100);
+        send_to_char (buf, pCh);    
+        break;
+
+    case COMMAND_DEL:
+        szArgument = one_argument(szArgument, szArg1);
+        if (szArg1[0] == 0) goto syntax;
+        if (0 == (iVnum = atoi(szArg1))) goto syntax;
+        if (FALSE == DeleteObject(pList, iVnum))
+        {
+            send_to_char("There was an error updating the random table.\n\r"
+                         "Perhaps the vnum you tried to delete is not in "
+                         "the table?\n\r",
+                         pCh);
+            return;
+        }
+        send_to_char("Vnum deleted.\n\r", pCh);
+        break;
+
+    case COMMAND_LIST:
+        ListObjects(pList, pCh);
+        send_to_char("End of list.\n\r", pCh);
+        break;
+
+    case COMMAND_CLEAR:
+        ClearTable(pList);
+        send_to_char("Table cleared.\n\r", pCh);
+        break;
+
+    default:
+        goto syntax;
+        break;
+    }
+
+    return;
+
+ syntax:
+    send_to_char("Syntax: random <mob | obj> add <vnum> <chance>\n\r"
+                 "        random <mob | obj> del <vnum>\n\r"
+                 "        random <mob | obj> list\n\r"
+                 "        random <mob | obj> clear\n\r", pCh);
+    return;
+}
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  InitRandTables (interface)
+//
+// Synopsis:  Reads hash tables from disk.
+//
+// Arguments: void
+//            
+// Returns:   void
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+void InitRandTables(void)
+{
+    FILE *pFile;                              // File to read from
+    char buf[1024];                           // For error msg
+
+    //
+    // Start with clear tables.
+    //
+    ClearRandTables();
+
+    //
+    // Open the mob file.
+    //
+    if (NULL != (pFile = fopen(RANDOM_MOB_FILE, "r")))
+    {
+        //
+        // Parse it and build memory hash table.
+        //
+        ReadRandTable(g_MobHash, pFile);
+        fclose(pFile);
+    }
+    else
+    {
+        //
+        // File not found... no big deal but log it.
+        //
+        sprintf(buf, "Cannot open %s file for reading... mob random table "
+                "will be empty.", RANDOM_MOB_FILE);
+        bug(buf, 0);
+    }
+
+    //
+    // Open the obj file.
+    //
+    if (NULL != (pFile = fopen(RANDOM_OBJ_FILE, "r")))
+    {
+        //
+        // Parse it and build memory hash table.
+        //
+        ReadRandTable(g_ObjHash, pFile);
+        fclose(pFile);
+    }
+    else
+    {
+        //
+        // File not found... no big deal but log it.
+        //
+        sprintf(buf, "Cannot open %s file for reading... obj random table "
+                "will be empty.", RANDOM_OBJ_FILE);
+        bug(buf, 0);
+    }
+}
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  CleanupRandTables (interface)
+//
+// Synopsis:  Deallocates memory and writes hash tables to disk.
+//
+// Arguments: void
+//            
+// Returns:   void
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+void CleanupRandTables(void)
+{
+    RANDOM_TABLE_ENTRY *pNuke;                // A table entry to dealloc
+    int i;                                    // Loop control
+    FILE *pFile;                              // file ptr
+    char buf[1024];                           // for error messages
+
+    //
+    // Open the mob file for writing.
+    //
+    if (NULL != (pFile = fopen(RANDOM_MOB_FILE, "w+")))
+    {
+        //
+        // Parse it and build memory hash table.
+        //
+        WriteRandTable(g_MobHash, pFile);
+        fclose(pFile);
+    }
+    else
+    {
+        //
+        // File not found... no big deal but log it.
+        //
+        sprintf(buf, "Cannot open %s file for writing... could not save "
+                "random mob list.", RANDOM_MOB_FILE);
+        bug(buf, 0);
+    }
+
+    //
+    // Open the obj file.
+    //
+    if (NULL != (pFile = fopen(RANDOM_OBJ_FILE, "w+")))
+    {
+        //
+        // Parse it and build memory hash table.
+        //
+        WriteRandTable(g_ObjHash, pFile);
+        fclose(pFile);
+    }
+    else
+    {
+        //
+        // File not found... no big deal but log it.
+        //
+        sprintf(buf, "Cannot open %s file for writing... could not save "
+                "random obj list.", RANDOM_OBJ_FILE);
+        bug(buf, 0);
+    }
+    
+    //
+    // Deallocate any externally chained entries.
+    //
+    for (i = 0; i < HASH_SIZE; i++)
+    {
+        while (g_ObjHash[i].pNext)
+        {
+            pNuke = g_ObjHash[i].pNext;
+            g_ObjHash[i].pNext = pNuke->pNext;
+            free(pNuke);
+        }
+
+        while (g_MobHash[i].pNext)
+        {
+            pNuke = g_MobHash[i].pNext;
+            g_MobHash[i].pNext = pNuke->pNext;
+            free(pNuke);
+        }
+    }
+
+    //
+    // Clear the lists
+    //
+    ClearRandTables();
+}
+
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  ClearTable
+//
+// Synopsis:  Clears a hash table pointed to by arg.
+//
+// Arguments: RANDOM_TABLE_ENTRY *pRte - table to clear
+//            
+// Returns:   static inline void
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static inline void ClearTable(RANDOM_TABLE_ENTRY *pRte)
+{
+    memset(pRte, 0, sizeof(RANDOM_TABLE_ENTRY) * HASH_SIZE);
+}
+
+//+----------------------------------------------------------------------------
+//
+// Function:  ClearRandTables
+//
+// Synopsis:  Clears both hash tables.
+//
+// Arguments: void
+//            
+// Returns:   static inline void
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static inline void ClearRandTables(void)
+{
+    ClearTable(g_ObjHash);
+    ClearTable(g_MobHash);
+}
+
+//+----------------------------------------------------------------------------
+//
+// Function:  AddObject
+//
+// Synopsis:  Adds an object (vnum, chance) to a hash table.
+//
+// Arguments: RANDOM_TABLE_ENTRY *pHash - start of table to add to
+//            iVnum - vnum to add
+//            iChance - chance it loads
+//            
+// Returns:   bool - false on error
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static bool AddObject(RANDOM_TABLE_ENTRY *pHash, int iVnum, int iChance)
+{
+    int iHashLoc = iVnum % HASH_SIZE;         // Where the vnum should be
+    RANDOM_TABLE_ENTRY *pRte =                // Ptr to this node
+        (pHash + iHashLoc);
+    RANDOM_TABLE_ENTRY *pChain;               // Used for chained nodes
+    bool fRetVal = FALSE;                     // Our return value
+
+    //
+    // Is this hash position full?
+    //
+    if (pRte->iVnum)
+    {
+        //
+        // Before we add this vnum make sure its not already in the
+        // table.  Check the first table location and any external
+        // chaining we've done from there.
+        //
+        if (iVnum == pRte->iVnum)
+        {
+            goto end; // returns false
+        }
+
+        for (pChain = pRte->pNext;
+             pChain;
+             pChain = pChain->pNext)
+        {
+            if (iVnum == pChain->iVnum)
+            {
+                goto end; // returns false
+            }
+        }
+
+        //
+        // If we get here it's not already in the table... BUT the
+        // node where we want to add it is already full.  Add the new
+        // entry by allocating a new node and chaining it off this
+        // one.
+        //
+        pRte->iNumChained++;
+        pChain = (RANDOM_TABLE_ENTRY *) malloc(sizeof(RANDOM_TABLE_ENTRY));
+        if (NULL == pChain)
+        {
+            bug ("Out of memory adding to random table!", 0);
+            goto end;
+        }
+
+        pChain->iVnum = iVnum;
+        pChain->iChance = iChance;
+        pChain->pNext = pRte->pNext;
+        pRte->pNext = pChain;
+        fRetVal = TRUE;
+    }
+    else
+    {
+        //
+        // The hash position is not full, just add this info!
+        //
+        pRte->iVnum = iVnum;
+        pRte->iChance = iChance;
+        pRte->pNext = NULL;
+        pRte->iNumChained = 0;
+        fRetVal = TRUE;
+    }
+
+ end:
+    return(fRetVal);
+}
+
+//+----------------------------------------------------------------------------
+//
+// Function:  DeleteObject
+//
+// Synopsis:  Deletes an item by vnum from a hash table
+//
+// Arguments: RANDOM_TABLE_ENTRY *pHash - hash table to delete from
+//            iVnum - vnum to delete
+//            
+// Returns:   bool - false on error
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static bool DeleteObject(RANDOM_TABLE_ENTRY *pHash, int iVnum)
+{
+    int iHashLoc = iVnum % HASH_SIZE;         // Which node it should be at
+    RANDOM_TABLE_ENTRY *pRte =                // Ptr to this node
+        (pHash + iHashLoc);
+    RANDOM_TABLE_ENTRY *pChain, *pPrev;       // Used for chaining & deleting
+    bool fRetVal = FALSE;                     // Our return value
+   
+    //
+    // Is the vnum at the hash node we picked?
+    //
+    if (iVnum == pRte->iVnum)
+    {
+        //
+        // Yes, so is there any chaining going on?
+        //
+        if (NULL == pRte->pNext)
+        {
+            //
+            // No, so just clear the node in question!
+            //
+            pRte->iVnum = 0;
+            pRte->iChance = 0;
+            pRte->pNext = NULL;
+            pRte->iNumChained = 0;
+            fRetVal = TRUE;
+            goto end;
+        }
+        else
+        {
+            //
+            // Ok, there is something chained too... just promote
+            // it to be the head of the hash.
+            //
+            pRte->iNumChained--;
+            pRte->iVnum = pRte->pNext->iVnum;
+            pRte->iChance = pRte->pNext->iChance;
+            pRte->pNext = pRte->pNext->pNext;
+            fRetVal = TRUE;
+            goto end;
+        }
+    }
+    else
+    {
+        //
+        // This vnum is not at the head hash node... let's kill it
+        // in the chain if there is one.
+        //
+        pPrev = pRte;
+
+        for (pChain = pRte->pNext;
+             pChain;
+             pChain = pChain->pNext)
+        {
+            if (iVnum == pChain->iVnum)
+            {
+                pRte->iNumChained--;
+                pPrev->pNext = pChain->pNext;
+                free(pChain);
+                fRetVal = TRUE;
+                goto end;
+            }
+
+            pPrev = pChain;
+        }
+    }
+
+    //
+    // Not found.
+    //
+    fRetVal = FALSE;
+
+ end:
+    return(fRetVal);
+}
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  ListObjects
+//
+// Synopsis:  Show all the objects in a table.
+//
+// Arguments: RANDOM_TABLE_ENTRY *pRte,
+//            CHAR_DATA *pCh
+//            
+// Returns:   void
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static void ListObjects(RANDOM_TABLE_ENTRY *pRte, CHAR_DATA *pCh)
+{
+    int i;                                    // Loop control
+   
+    send_to_pager("VNUM    PROB    ITEM/MOB NAME\n\r", pCh); 
+    send_to_pager("----------------------------------------------------------"
+	          "-----\n\r", pCh);
+    for (i = 0; i < HASH_SIZE; i++)
+    {
+        ShowObjRecurse((pRte + i), pCh, pRte);
+    }
+}
+
+//+----------------------------------------------------------------------------
+//
+// Function:  ShowObjRecurse
+//
+// Synopsis:  Show an object
+//
+// Arguments: RANDOM_TABLE_ENTRY *pEnt,
+//            CHAR_DATA *pCh
+//            
+// Returns:   static void
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static void ShowObjRecurse(RANDOM_TABLE_ENTRY *pEnt, CHAR_DATA *pCh, 
+                           RANDOM_TABLE_ENTRY *pList)
+{
+    char buf[1024];                           // To send to character
+    OBJ_INDEX_DATA *pObjIndex;                // To get the short descr
+    MOB_INDEX_DATA *pMobIndex;                // Ditto
+
+    //
+    // If this item has chained items further down, show them first.
+    //
+    if (pEnt->pNext)
+    {
+        ShowObjRecurse(pEnt->pNext, pCh, pList);
+    }
+
+    //
+    // Now show it.
+    //
+    if (pEnt->iVnum)
+    {
+    	if ((pList == g_ObjHash) && (pObjIndex = get_obj_index(pEnt->iVnum)))
+        {
+            sprintf(buf, "%-5d (%02d.%02d%%) - %s\n\r", pEnt->iVnum,
+                    pEnt->iChance / 100, pEnt->iChance % 100,
+                    pObjIndex->short_descr);
+            send_to_pager(buf, pCh);
+        }
+        else if ((pList == g_MobHash) && 
+                 (pMobIndex = get_mob_index(pEnt->iVnum)))
+        {
+            sprintf(buf, "%-5d (%02d.%02d%%) - %s\n\r", pEnt->iVnum,
+                    pEnt->iChance / 100, pEnt->iChance % 100,
+                    pMobIndex->short_descr);
+            send_to_pager(buf, pCh);
+        }
+    }
+}
+    
+//+----------------------------------------------------------------------------
+//
+// Function:  GetCommand
+//
+// Synopsis:  Parse a command
+//
+// Arguments: char *szCom
+//            
+// Returns:   static int
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static int GetCommand(char *szCom)
+{
+    if (szCom[0] == 0)
+    {
+        return(COMMAND_UNKNOWN);
+    }
+    else if (!str_cmp(szCom, "add"))
+    {
+        return(COMMAND_ADD);
+    }
+    else if (!str_cmp(szCom, "del"))
+    {
+        return(COMMAND_DEL);
+    }
+    else if (!str_cmp(szCom, "list"))
+    {
+        return(COMMAND_LIST);
+    }
+    else if (!str_cmp(szCom, "clear"))
+    {
+        return(COMMAND_CLEAR);
+    }
+    return(COMMAND_UNKNOWN);
+}
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  NameToList
+//
+// Synopsis:  Parse a name (mob or obj) to a list pointer.
+//
+// Arguments: char *szName
+//            
+// Returns:   static RANDOM_TABLE_ENTRY
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static RANDOM_TABLE_ENTRY *NameToList(char *szName)
+{
+    if (szName[0] == 0)
+    {
+        return(NULL);
+    }
+    else if (!str_cmp(szName, "mob"))
+    {
+        return(g_MobHash);
+    }
+    else if (!str_cmp(szName, "obj"))
+    {
+        return(g_ObjHash);
+    }
+    return(NULL);
+}
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  ReadRandTable
+//
+// Synopsis:  
+//
+// Arguments: FILE *pFile,
+//            HASH_TABLE_ENTRY *pList
+//            
+// Returns:   static
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static void ReadRandTable(RANDOM_TABLE_ENTRY *pList, FILE *pFile)
+{
+    char buf[1024];                           // A line from the file
+    char *pVnum, *pChance;                    // Vnum and Chance on the line
+    int iVnum, iChance;                       // Above converted to ints
+
+    //
+    // Lines look like: VNUM CHANCE\n
+    //
+    while (fgets(buf, 1024, pFile))
+    {
+        pVnum = buf;
+        while (isspace(*pVnum))
+        {
+            pVnum++;
+        }
+
+        pChance = pVnum;
+        while (!isspace(*pChance))
+        {
+            pChance++;
+        }
+        while (isspace(*pChance))
+        {
+            pChance++;
+        }
+    
+        if (0 == (iVnum = atoi(pVnum)))
+        {
+            bug("Error reading random file.", 0);
+            continue;
+        }
+
+        if (0 == (iChance = atoi(pChance)))
+        {
+            bug("Error reading random file.", 0);
+            continue;
+        }
+
+        if (FALSE == AddObject(pList, iVnum, iChance))
+        {
+            return;
+        }
+    }
+}
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  WriteRandTable
+//
+// Synopsis:  
+//
+// Arguments: FILE *pFile,
+//            HASH_TABLE_ENTRY *pList
+//            
+// Returns:   static
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static void WriteRandTable(RANDOM_TABLE_ENTRY *pList, FILE *pFile)
+{
+    int i;                                    // Loop control
+    
+    for (i = 0; i < HASH_SIZE; i++)
+    {
+        WriteObjRecurse((pList + i), pFile);
+    }
+}
+
+
+//+----------------------------------------------------------------------------
+//
+// Function:  WriteObjRecurse
+//
+// Synopsis:  
+//
+// Arguments: RANDOM_TABLE_ENTRY *pEnt,
+//            FILE *pFile
+//            
+// Returns:   static void
+//
+// History:   sgasch Created Header    13 Jun 2000
+//
+//+----------------------------------------------------------------------------
+static void WriteObjRecurse(RANDOM_TABLE_ENTRY *pEnt, FILE *pFile)
+{
+    char buf[1024];
+    OBJ_INDEX_DATA *pObjIndex;
+    
+    if (pEnt->pNext)
+    {
+        WriteObjRecurse(pEnt->pNext, pFile);
+    }
+
+    if (pEnt->iVnum && (pObjIndex = get_obj_index(pEnt->iVnum)))
+    {
+        sprintf(buf, "%d %d\n", pEnt->iVnum, pEnt->iChance);
+        if (0 != fputs(buf, pFile))
+        {
+            return;
+        }
+    }
+}
+</PRE> 
+<HR><P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

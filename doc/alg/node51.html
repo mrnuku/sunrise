@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.2.1 Analysis</TITLE>
+<META NAME="description" CONTENT="0.3.2.1 Analysis">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node52.html">
+<LINK REL="previous" HREF="node50.html">
+<LINK REL="up" HREF="node50.html">
+<LINK REL="next" HREF="node52.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html995"
+ HREF="node52.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html991"
+ HREF="node50.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html985"
+ HREF="node50.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html993"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html994"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html996"
+ HREF="node52.html">0.3.2.2 Improvements</A>
+<B> Up:</B> <A NAME="tex2html992"
+ HREF="node50.html">0.3.2 The Mergesort</A>
+<B> Previous:</B> <A NAME="tex2html986"
+ HREF="node50.html">0.3.2 The Mergesort</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00042100000000000000">
+0.3.2.1 Analysis</A>
+</H3>
+
+<P>
+One drawback this sorting method is that in order to combine two lists
+of <I>n</I> elements we either need storage for 4<I>n</I> data items in memory,
+or a clever way of merging lists.  Using the most straightforward
+algorithm for merging two sorted lists we will need <I>n</I> storage cells
+for each of the two lists to be merged, and then another 2<I>n</I> for the
+aggregate list which we are building from members of the two sorted
+input lists.
+
+<P>
+There are some more space-efficient methods of building the aggregate
+list.  One attack on this space problem is to use <B>linked-lists</B>
+<A NAME="1261">&#160;</A>
+to represent the data items and then build the aggregate list by
+changing pointer values.  This way no space for the aggregate list
+need be allocated as it will be built of the memory already used by
+members of each sorted input list.  There are also other ways of
+building an aggregate list in the ``unused'' (or ``already used'')
+space of the two input lists but this saved space sometimes comes at
+the cost of a slight penalty in runtime and an increase in algorithm
+complexity.
+
+<P>
+Unlike the Quicksort, the Mergesort does not concern itself with the
+ordering of its sublists but rather accomplishes the goal of sorting
+the entire data set by sorting very small subsets and then merging
+these back together again in order.  The Mergesort's performance,
+therefore, is not greatly affected by the arrangement of values in the
+input set.  Thus, the worst case performance of the Mergesort does not
+deteriorate for certain ``bad'' data orders.
+
+<P>
+Mergesorts are often used to sort linked lists both because the
+algorithm does not require random access to the data set on which it
+is operating and because, due to the nature of a linked list, the need
+to allocate extra space for aggregate lists is eliminated (as
+discussed above).  The Mergesort can also be modified slightly to
+produce an effective external (i.e. on disk) sort.
+
+<P>
+Here is a more formal analysis of the algorithm.  In order to
+Mergesort two items we need one comparison.  Thus:
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(2) = 1
+\end{displaymath} -->
+
+
+<I>T</I>(2) = 1
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+In order to Mergesort <I>n</I> items we will need to split the <I>n</I> items
+in to two sets of 
+<!-- MATH: $\frac{n}{2}$ -->
+<IMG
+ WIDTH="18" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.gif"
+ ALT="$\frac{n}{2}$">
+and then combine them.  In order to
+merge two data sets of 
+<!-- MATH: $\frac{n}{2}$ -->
+<IMG
+ WIDTH="18" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.gif"
+ ALT="$\frac{n}{2}$">
+items we will need to make, at
+most, (<I>n</I>-1) comparisons.  Thus:
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = 2T(\frac{n}{2}) + n - 1
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="190" HEIGHT="45"
+ SRC="img21.gif"
+ ALT="\begin{displaymath}T(n) = 2T(\frac{n}{2}) + n - 1
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+If <I>n</I> is restricted to be 2<SUP><I>x</I></SUP> then <I>T</I>(<I>n</I>) can be expressed as:
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+\begin{array}{ll}
+T(n) & = 2T(\frac{n}{2}) + n - 1 \\
+& = 2(2T(\frac{n}{4}) + \frac{n}{2} - 1) + n - 1 \\
+     & = 4T(\frac{n}{4}) + 2n - 2 - 1 \\
+     & = 4(2T(\frac{n}{8}) + \frac{n}{4} - 1) + 2n - 2 - 1 \\
+     & = 8T(\frac{n}{8} + 3n - 4 - 2 - 1 \\
+     & \vdots
+\end{array}
+
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="337" HEIGHT="161"
+ SRC="img22.gif"
+ ALT="\begin{displaymath}\begin{array}{ll}
+T(n) & = 2T(\frac{n}{2}) + n - 1 \\
+& = 2...
+... & = 8T(\frac{n}{8} + 3n - 4 - 2 - 1 \\
+& \vdots
+\end{array}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Therefore,
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+\begin{array}{ll}
+T(n) & = 2^iT(\frac{n}{2^i}) + in - \sum_{j=0}^{i-1} 2^j \\
+& = 2^iT(\frac{n}{2^i}) + in - 2^i + 1
+\end{array}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="269" HEIGHT="57"
+ SRC="img23.gif"
+ ALT="\begin{displaymath}\begin{array}{ll}
+T(n) & = 2^iT(\frac{n}{2^i}) + in - \sum_{j...
+...-1} 2^j \\
+& = 2^iT(\frac{n}{2^i}) + in - 2^i + 1
+\end{array}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Now, since 
+<!-- MATH: $i = log_2 n$ -->
+<I>i</I> = <I>log</I><SUB>2</SUB> <I>n</I>:
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+\begin{array}{ll}
+T(n) & = 2^{log_2 n}T(\frac{n}{2^{log_2 n}} + n log_2 n - 2^{log_2 n} + 1 \\
+& = n log_2 n - n + 1
+\end{array}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="367" HEIGHT="57"
+ SRC="img24.gif"
+ ALT="\begin{displaymath}\begin{array}{ll}
+T(n) & = 2^{log_2 n}T(\frac{n}{2^{log_2 n}}...
+...og_2 n - 2^{log_2 n} + 1 \\
+& = n log_2 n - n + 1
+\end{array}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

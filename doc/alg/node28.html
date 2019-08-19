@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.7 Hashing</TITLE>
+<META NAME="description" CONTENT="0.2.7 Hashing">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node35.html">
+<LINK REL="previous" HREF="node25.html">
+<LINK REL="up" HREF="node7.html">
+<LINK REL="next" HREF="node29.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html674"
+ HREF="node29.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html670"
+ HREF="node7.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html664"
+ HREF="node27.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html672"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html673"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html675"
+ HREF="node29.html">0.2.7.1 Selecting a Hash</A>
+<B> Up:</B> <A NAME="tex2html671"
+ HREF="node7.html">0.2 Data Searching and</A>
+<B> Previous:</B> <A NAME="tex2html665"
+ HREF="node27.html">0.2.6.2 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00037000000000000000">&#160;</A>
+<A NAME="297">&#160;</A>
+<BR>
+0.2.7 Hashing
+</H2>
+<A NAME="298">&#160;</A>
+
+<P>
+A <B>hash table</B> is a data structure used to maximize the speed with
+which a stored data item can be accessed.  Operations typically
+defined for hash tables are item insertion, lookup, and deletion.  The
+complexity of an average search operation is <IMG
+ WIDTH="46" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.gif"
+ ALT="$\Theta(1)$">
+- constant
+time.  In many hash schemes a worst case bound for search operation
+complexity is <I>O</I>(<I>n</I>).  The price for such speed, as we will see, is
+space.
+
+<P>
+A hashing table data structure is usually implemented as a large
+array.  Whenever an item must be added to the hash table it is <B>not</B> simply added at the end of the structure.  Instead a function
+called a <B>hash function</B>
+<A NAME="302">&#160;</A>
+determines the location at which a given item is stored based,
+somehow, on some attribute of the item in to be stored.  This computed
+location is called an item's <B>hash value</B>.
+<A NAME="304">&#160;</A>  
+The value being hashed is sometimes called the <B>pre-image</B>.
+<A NAME="306">&#160;</A>
+
+<P>
+In order to insert a new item into a hash table it is necessary to
+compute the hash value of the item.  Once the hash value of the item
+is known, the insertion routine looks in the table at the location
+specified by the hash value.  If this table location is empty the new
+item can be inserted outright.  However if this location in the table
+is already in use by some other data item an alternate strategy must
+be used.  This occurrence is known as a <B>collision</B>
+<A NAME="308">&#160;</A>
+and, as we will see, there are many ways of handling collisions.
+
+<P>
+Looking up an item in the hash table entails computing where the item
+would be stored by finding its hash value then checking the table at
+that location.  Deleting an item is just as straightforward.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html676"
+ HREF="node29.html">0.2.7.1 Selecting a Hash Function</A>
+<LI><A NAME="tex2html677"
+ HREF="node30.html">0.2.7.2 Dealing with Collisions</A>
+<LI><A NAME="tex2html678"
+ HREF="node31.html">0.2.7.3 Choosing a Table Size</A>
+<LI><A NAME="tex2html679"
+ HREF="node32.html">0.2.7.4 Source Code</A>
+<LI><A NAME="tex2html680"
+ HREF="node33.html">0.2.7.5 One-way hashing</A>
+<LI><A NAME="tex2html681"
+ HREF="node34.html">0.2.7.6 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

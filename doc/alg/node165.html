@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.10.1.1 Source Code</TITLE>
+<META NAME="description" CONTENT="0.10.1.1 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node166.html">
+<LINK REL="previous" HREF="node164.html">
+<LINK REL="up" HREF="node164.html">
+<LINK REL="next" HREF="node166.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2451"
+ HREF="node166.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2447"
+ HREF="node164.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2441"
+ HREF="node164.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2449"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2450"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2452"
+ HREF="node166.html">0.10.1.2 References</A>
+<B> Up:</B> <A NAME="tex2html2448"
+ HREF="node164.html">0.10.1 Run-Length Encoding</A>
+<B> Previous:</B> <A NAME="tex2html2442"
+ HREF="node164.html">0.10.1 Run-Length Encoding</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000111100000000000000">
+0.10.1.1 Source Code</A>
+</H3>
+
+<P>
+<HR>
+<DIV><TT>
+<BR>/* -- rle_encode.c -- */
+<BR>
+<BR><HR>
+<BR><PRE>#include <stdlib.h>
+ #include <stdio.h>
+ 
+ #include "global.h"
+ #include "debug.h"
+ 
+ //
+ // Modified version of Rex & Binstock's rle1.c, see Practical Algorithms
+ // for Programmers pg. 470-472.
+ //
+ 
+ 
+ //
+ // This is the byte value that will denote an encoded run sequence
+ //
+ #define FLAG            (char) 0xF0
+ 
+ //
+ // Input buffer size
+ //
+ #define BUFFER_SIZE     30000
+ 
+ //
+ // Macro for writing a three-byte run sequence code to output
+ //
+ #define WRITE_CODE(a, b, c)                               \
+     ASSERT((b) > 3);                                      \
+     ASSERT((b) < 260);                                    \
+     fprintf(pfOutFile, "%c%c%c", (a), (b - 4), (c));      \
+ 
+ 
+ //
+ // Global file handles
+ //
+ FILE *pfInFile, *pfOutFile;
+ 
+ int main (int argc, char *argv[])
+ {
+   char *buf;
+   char chPrevChar;
+   DWORD dwBytesRead;
+   DWORD dwCount;
+   DWORD dwI;
+   BOOL fEof = FALSE;
+   BOOL fFirstTime = TRUE;
+ 
+   if (argc != 3) 
+   {
+     fprintf(stderr, "Usage: %s infile outfile\n", argv[0]);
+     exit(1);
+   }
+ 
+   if ((pfInFile = fopen(argv[1], "rb")) == NULL)
+   {
+     perror(argv[1]);
+     exit(1);
+   }
+ 
+   if ((pfOutFile = fopen(argv[2], "wb")) == NULL)
+   {
+     perror(argv[2]);
+     exit(1);
+   }
+  
+   //
+   // This code writes a header to the output file -- it records what
+   // value was used as the FLAG and that this is an RLE encoded file.
+   // This header can be omitted if the flag value will always be the
+   // same and you don't care about magic numbers idenfitying binary file
+   // types.
+   //
+ 
+   fprintf(pfOutFile, "%c%c%c%c", 'R', 'L', 'E', FLAG);
+ 
+   //
+   // Get memory for the buffer
+   //
+ 
+   buf = (char *) malloc(BUFFER_SIZE);
+   if (!buf) 
+   {
+     fclose(pfInFile);
+     fclose(pfOutFile);
+     fprintf(stderr, "Out of memory, cannot allocate buffer.\n");
+     exit(1);
+   }
+ 
+   //
+   // Process input
+   //
+   
+   while (!fEof)
+   {
+     dwBytesRead = fread(buf, 1, BUFFER_SIZE, pfInFile);
+     if (!dwBytesRead) 
+     {
+       fEof = TRUE;
+       break;
+     }
+ 
+ 
+     for (dwI = 0; dwI < dwBytesRead; dwI++) 
+     {
+ 
+       //
+       // First time is a special case
+       //
+ 
+       if (fFirstTime) 
+       {
+ 	chPrevChar = buf[dwI];
+ 	dwCount = 1;
+ 	fFirstTime = FALSE;
+ 	dwI++;
+       }
+ 
+ 
+       //
+       // See if we have a run in the making
+       //
+       if (buf[dwI] == chPrevChar) 
+       {
+ 	dwCount += 1;
+ 	if (dwCount == 259)
+ 	{
+ 	  WRITE_CODE(FLAG, dwCount, chPrevChar);
+ 	  dwCount = 0;
+ 	}
+ 	continue;
+       }
+ 
+       //
+       // Else there's a new character... possibly write data,
+       // definately reset the count and prevchar...
+       //
+       else
+       {
+ 
+ 	// 
+ 	// Write code
+ 	//
+ 	if (dwCount < 3)
+ 	{
+ 
+ 	  //
+ 	  // Non-adjusted count for flag character.
+ 	  //
+ 	  if (chPrevChar == FLAG)
+ 	  {
+ 	    fprintf(pfOutFile, "%c%c%c", FLAG, dwCount, FLAG);
+ 	  }
+ 	  else
+ 	  {
+ 	    do
+ 	    {
+ 	      fputc(chPrevChar, pfOutFile);
+ 	    }
+ 	    while (--dwCount);
+ 	  }
+ 	}
+ 	else
+ 	{
+ 	  WRITE_CODE(FLAG, dwCount, chPrevChar);
+ 	}
+ 	
+ 	chPrevChar = buf[dwI];
+ 	dwCount = 1;
+       }
+     }
+ 
+     //
+     // End of bytes read... is it eof?
+     //
+     if (dwBytesRead < BUFFER_SIZE)
+     {
+       fEof = TRUE;
+     }
+ 
+   }
+ 
+   // 
+   // At EOF, flush out buffers
+   //
+   if (dwCount < 3)
+   {
+     if (chPrevChar == FLAG)
+     {
+ 
+       //
+       // Encode a flag char with FLAG, count, FLAG -- note that in 
+       // this case the count is not adjusted.
+       //
+       fprintf(pfOutFile, "%c%c%c", FLAG, dwCount, FLAG);
+     }
+     else
+     {
+       do
+       {
+ 	fputc(chPrevChar, pfOutFile);
+       } 
+       while(--dwCount);
+     }
+   }
+   else
+   {
+     WRITE_CODE(FLAG, dwCount, chPrevChar);
+   }
+ 
+   fclose(pfInFile);
+   fclose(pfOutFile);
+   exit(0);
+ }
+ 
+</PRE>
+<BR><HR>
+<BR></TT></DIV><HR>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

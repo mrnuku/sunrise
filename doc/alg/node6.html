@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.1.4 Example Code</TITLE>
+<META NAME="description" CONTENT="0.1.4 Example Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="previous" HREF="node5.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node7.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html374"
+ HREF="node7.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html370"
+ HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html366"
+ HREF="node5.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html372"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html373"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html375"
+ HREF="node7.html">0.2 Data Searching and</A>
+<B> Up:</B> <A NAME="tex2html371"
+ HREF="node2.html">0.1 Introduction</A>
+<B> Previous:</B> <A NAME="tex2html367"
+ HREF="node5.html">0.1.3 Conventions</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00024000000000000000">
+0.1.4 Example Code</A>
+</H2>
+
+<P>
+The example code in this document may or may not compile as is.  The
+reason I include it is to give a concrete implementation of an
+angorithm or idea.  You may, of course, use the code however you want.
+The code that is intended to compile was built on a FreeBSD machine
+with <TT>gcc 2.7.2</TT>.  In order to compile certain examples you may
+need this header file, called <TT>global.h</TT>:
+
+<P>
+<DIV><TT>
+<BR>
+<BR><HR>
+<BR><PRE>#ifndef TYPEDEFS_
+ #define TYPEDEFS_
+ 
+ #ifndef FAILURE
+ #define FAILURE -1
+ #endif
+ 
+ #ifndef DWORD
+ typedef unsigned int DWORD;
+ #endif
+ 
+ #ifndef ULONG
+ typedef unsigned long ULONG;
+ #endif
+ 
+ #ifndef BOOL
+ typedef int BOOL;
+ #endif
+ 
+ #ifndef TRUE
+ #define TRUE 1
+ #endif
+ 
+ #ifndef FALSE
+ #define FALSE 0
+ #endif
+ 
+ #ifndef VOID
+ typedef void VOID;
+ #endif
+ 
+ #ifndef CHAR
+ typedef unsigned char CHAR;
+ #endif
+ 
+ #ifndef UCHAR
+ typedef unsigned char UCHAR;
+ #endif
+ 
+ #ifndef BYTE
+ typedef unsigned char BYTE;
+ #endif
+ 
+ #ifndef HANDLE
+ typedef int HANDLE;
+ #endif
+ 
+ #define IN
+ #define OUT
+ #define INOUT
+ 
+ #endif
+</PRE>
+<BR><HR>
+<BR></TT></DIV>
+<P>
+Also, here is <TT>debug.h</TT>:
+
+<P>
+<DIV><TT>
+<BR>
+<BR><HR>
+<BR><PRE>INSERTFILE=/home/scott/algs/code/headers/debug.h</PRE>
+<BR><HR>
+<BR></TT></DIV>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

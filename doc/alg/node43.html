@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.1 The Quicksort</TITLE>
+<META NAME="description" CONTENT="0.3.1 The Quicksort">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node50.html">
+<LINK REL="previous" HREF="node42.html">
+<LINK REL="up" HREF="node42.html">
+<LINK REL="next" HREF="node44.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html891"
+ HREF="node44.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html887"
+ HREF="node42.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html881"
+ HREF="node42.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html889"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html890"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html892"
+ HREF="node44.html">0.3.1.1 Picking a Pivot</A>
+<B> Up:</B> <A NAME="tex2html888"
+ HREF="node42.html">0.3 Sorting Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html882"
+ HREF="node42.html">0.3 Sorting Algorithms</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00041000000000000000">&#160;</A>
+<A NAME="1162">&#160;</A>
+<BR>
+0.3.1 The Quicksort
+</H2>
+<A NAME="1163">&#160;</A>
+
+<P>
+Over the years computer scientists have come up with many different
+algorithms for sorting data.  C.A.R. Hoare's Quicksort, however, is
+<A NAME="1164">&#160;</A>
+generally regarded as the most efficient and fastest sorting algorithm
+in the average case.  As we will see, though, a worst case data set
+causes the Quicksort to perform poorly.
+
+<P>
+A Quicksort operates by selecting a value called the <B>pivot point</B>
+<A NAME="1166">&#160;</A>
+<A NAME="1167">&#160;</A>
+<A NAME="1168">&#160;</A>
+<A NAME="1169">&#160;</A>
+and then arranging the data being sorted such that all data items with
+a key value less than the that of the pivot point appear at the
+beginning of the data structure and all data items greater than or
+equal to the pivot value are moved towards the end of the data
+structure.
+
+<P>
+Thus, the data set to be sorted is <B>partitioned</B> into two pieces;
+<A NAME="1171">&#160;</A>
+the <I>k</I> items less in value than the pivot item's value, and the (<I>n</I> -
+<I>k</I>) items greater than or equal to the pivot value.  It is essential
+to note that neither of these two partitions are sorted as they are
+built; all we know after the partitioning operation is that every item
+to the ``left'' of the pivot is less in value than it, and every item
+``right'' of the pivot point is greater than or equal to it.
+
+<P>
+The Quicksort continues, at this point, to process the two partitions
+discussed above.  In each sub-partition a new pivot value is selected
+which allows yet another sub-division of the data set.  This process
+of selecting a new pivot value and then sub-dividing a range of data
+into two more partitions continues again and again until the size of a
+resulting partition becomes small enough that it can be easily
+explicitly sorted.  This point usually occurs when there are two or
+fewer items remaining in a partition because such ranges can be easily
+put into order with a very little effort.  As we will see later, there
+are other alternatives.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html893"
+ HREF="node44.html">0.3.1.1 Picking a Pivot Value</A>
+<LI><A NAME="tex2html894"
+ HREF="node45.html">0.3.1.2 Partitioning</A>
+<LI><A NAME="tex2html895"
+ HREF="node46.html">0.3.1.3 Analysis</A>
+<LI><A NAME="tex2html896"
+ HREF="node47.html">0.3.1.4 Improvement Strategies</A>
+<LI><A NAME="tex2html897"
+ HREF="node48.html">0.3.1.5 Source Code</A>
+<LI><A NAME="tex2html898"
+ HREF="node49.html">0.3.1.6 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

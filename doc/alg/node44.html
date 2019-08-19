@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.1.1 Picking a Pivot Value</TITLE>
+<META NAME="description" CONTENT="0.3.1.1 Picking a Pivot Value">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node45.html">
+<LINK REL="previous" HREF="node43.html">
+<LINK REL="up" HREF="node43.html">
+<LINK REL="next" HREF="node45.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html909"
+ HREF="node45.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html905"
+ HREF="node43.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html899"
+ HREF="node43.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html907"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html908"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html910"
+ HREF="node45.html">0.3.1.2 Partitioning</A>
+<B> Up:</B> <A NAME="tex2html906"
+ HREF="node43.html">0.3.1 The Quicksort</A>
+<B> Previous:</B> <A NAME="tex2html900"
+ HREF="node43.html">0.3.1 The Quicksort</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00041100000000000000">
+0.3.1.1 Picking a Pivot Value</A>
+</H3>
+
+<P>
+As you might imagine, selecting a good pivot value is crucial to the
+success and performance of this sort.  In the ideal case we want to
+pick the statistical median key in a partition as the pivot value and,
+thus, split the partition into equal halves.
+<A NAME="1173">&#160;</A>
+
+<P>
+The simplist way to pick a pivot value is to use the value of
+first data item.  This method has the advantage of being a very
+fast but, unfortunately, operates on a sometimes faulty supposition.
+If the data being sorted is in near-sorted order then the first item
+in a given partition is very likely to have the lowest value of
+all items in said partition.  This leads to unbalanced partitioning
+of the data set.  To avoid infinite recursion usually Quicksort is
+implemented to partition into a set containing the pivot element
+and a set containing the <I>n</I>-1 others.  However, repeated unbalanced
+partitioning causes Quicksort to perform very poorly.
+
+<P>
+In order to eliminate this risk, often the higher of the two first
+distinct key values in a partition is selected to be the pivot.  Other
+pivot selection schemes add the first and last values in the partition
+and divide by two.  Still others take the middle-of-three approach.
+While methods such as these must examine slightly more data than one
+which blindly chooses the first element, normally they speed up the
+overall algorithm by choosing a value more likely to be near the
+median of the partition.
+
+<P>
+Below is an example pivot selecting routine written in C.  It uses the
+greater of the first two distinct values in a partition as the pivot
+point and returns NONE if the partition does not need to be sorted any
+further.
+
+<P>
+<HR><PRE>
+/* NONE must be a value that cannot occur as a key */
+#define NONE -1
+
+/* these are arbitrary */
+typedef key int;
+typedef data struct {
+  key thekey;
+  char *therest;
+};
+
+/*
+ *  Return the pivot value or NONE if the partition does
+ *  not need to be sorted any further.
+ *
+ */
+
+key selectpivot(data *array, int left, int right) {
+
+  key first = value(array[left]);         /* the first key */
+  int lcv;                                 /* loop control */
+
+  for (lcv = left + 1; lcv &lt;= right; lcv++) {
+    if (value(array[lcv]) &gt; first) return (value(lcv));
+    else if (value(array[lcv]) &lt; first) return first;
+  }
+
+  /* if we get here the partition is homogeneous */
+  return (NONE);
+}
+
+key value(data *item) {
+  return (item-&gt;thekey);
+}
+</PRE> 
+<HR>
+<P>
+Above, the routine selects the value of a pivot point and returns it,
+or, if all the elements in the partition are equal in value, returns
+<TT>NONE</TT> to indicate that further sorting of this partition is not
+necessary.  <TT>NONE</TT> must be a value that will not appear in the
+array.  If you cannot predict which values will appear in your data
+set, it would be better to write the above routine to return the index
+of the pivot value rather than the value itself.  Then it could return
+an invalid index number to specify a homogeneous partition.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

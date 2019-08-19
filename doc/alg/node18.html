@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.4 Red-Black Trees</TITLE>
+<META NAME="description" CONTENT="0.2.4 Red-Black Trees">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node23.html">
+<LINK REL="previous" HREF="node14.html">
+<LINK REL="up" HREF="node7.html">
+<LINK REL="next" HREF="node19.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html553"
+ HREF="node19.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html549"
+ HREF="node7.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html543"
+ HREF="node17.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html551"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html552"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html554"
+ HREF="node19.html">0.2.4.1 Insertion Operation</A>
+<B> Up:</B> <A NAME="tex2html550"
+ HREF="node7.html">0.2 Data Searching and</A>
+<B> Previous:</B> <A NAME="tex2html544"
+ HREF="node17.html">0.2.3.3 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00034000000000000000">&#160;</A>
+<A NAME="227">&#160;</A>
+<BR>
+0.2.4 Red-Black Trees
+</H2>
+
+<P>
+<B>Binary search trees</B>
+<A NAME="229">&#160;</A>
+are superior to array-based <B>binary searches</B> because they make
+addition and deletion from the data storage structure less costly.
+However, as discussed in the binary search tree section, it is
+possible to create <B>degenerate trees</B>
+<A NAME="232">&#160;</A>
+which suffer from poor search operation performance.  These degenerate
+trees look like linked lists; each node in the tree has one child
+causing the data lookup to be a linear operation.  As said in the
+binary search tree section, the optimal shape for a search tree data
+structure is a <B>balanced tree</B>
+<A NAME="234">&#160;</A>
+or one in which each node in the tree has either two or no child
+nodes.
+
+<P>
+The red-black tree algorithm is a method for maintaining balanced
+search trees.  The algorithm is actually based on AVL trees which are
+data structures that were proposed by G. M. Adel'son-Vel'skii and
+E. M. Landis.  As you might expect, in a red-black tree every node is
+given a color - either red or black.  Further, in a red-black tree,
+unlike in a binary search tree, data is only stored at the <B>leaf
+nodes</B>
+<A NAME="236">&#160;</A>
+of the data structure.  <B>Internal nodes</B>
+<A NAME="238">&#160;</A>
+are used as guides or reference points.
+
+<P>
+A node's color is determined by the following heuristics:
+<DL COMPACT>
+<DT>1.
+<DD>All leaf nodes in a red-black tree must be black.
+<DT>2.
+<DD>On any path from the root of the tree to a leaf, two consecutive
+red colored nodes are not allowed.
+<DT>3.
+<DD>All the leaves of the tree must have the same number of black
+  nodes on the path from the root of the red-black tree to that leaf.
+  This number of black nodes is called the <B>black depth</B>
+<A NAME="241">&#160;</A>
+of a node.
+</DL>
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html555"
+ HREF="node19.html">0.2.4.1 Insertion Operation</A>
+<LI><A NAME="tex2html556"
+ HREF="node20.html">0.2.4.2 Deletion</A>
+<LI><A NAME="tex2html557"
+ HREF="node21.html">0.2.4.3 Source Code</A>
+<LI><A NAME="tex2html558"
+ HREF="node22.html">0.2.4.4 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.7.2 Dealing with Collisions</TITLE>
+<META NAME="description" CONTENT="0.2.7.2 Dealing with Collisions">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node31.html">
+<LINK REL="previous" HREF="node29.html">
+<LINK REL="up" HREF="node28.html">
+<LINK REL="next" HREF="node31.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html704"
+ HREF="node31.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html700"
+ HREF="node28.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html694"
+ HREF="node29.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html702"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html703"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html705"
+ HREF="node31.html">0.2.7.3 Choosing a Table</A>
+<B> Up:</B> <A NAME="tex2html701"
+ HREF="node28.html">0.2.7 Hashing</A>
+<B> Previous:</B> <A NAME="tex2html695"
+ HREF="node29.html">0.2.7.1 Selecting a Hash</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00037200000000000000">
+0.2.7.2 Dealing with Collisions</A>
+</H3>
+
+<P>
+No matter how good your hash function is, or how carefully you choose
+the hash table size, sometimes data collisions are bound to occur.
+Recall that a collision is when two distinct data items produce the
+same hash value and, thus, want to be stored in the same table
+location.  For instance, suppose you have an item, A, already in your
+hash table at location 144.  A's hash function value, therefore, is
+144.  Another item, B, with a totally different key than A, is to be
+added to the table.  Suppose, however, that B's hash value is 144also.  B cannot be stored at table location 144 because A is already
+there... or can it?
+
+<P>
+One way of dealing with this situation is to make each location in the
+hash table the head of a <B>linked-list</B>
+<A NAME="341">&#160;</A>
+data structure.  If you find a collision has occurred, traverse down
+the linked list at the hash value and add the new data item to the
+list's tail (or head).  Of course, when you search for an item in a
+table using this insertion scheme you must be mindful of the fact that
+such an item may not be at the head of the linked list residing in the
+hash table at the hash location.  This method is sometimes known as
+<B>open hashing</B>
+<A NAME="343">&#160;</A>
+<A NAME="344">&#160;</A>
+<A NAME="345">&#160;</A>
+because multiple data items sharing the same hash value are stored
+``outside'' the hash table.
+
+<P>
+The following methods all store collided data inside the hash table at
+different locations than their computed hash value.  This practice is
+known as <B>closed hashing</B>.
+<A NAME="347">&#160;</A>
+<A NAME="348">&#160;</A>
+<A NAME="349">&#160;</A>
+
+<P>
+The classic way to deal with collisions is to simply increment an
+item's hash value by one until a finding an unoccupied hash table
+location then store the item a location or two away from it's computed
+hash value.  This method is known as <B>linear probing</B>.
+<A NAME="351">&#160;</A>
+<A NAME="352">&#160;</A>
+In querying a table employing such an insertion scheme you have to not
+only check at the hash location of the item for which you are looking,
+but, if it contains some item other than the one you seek, continue to
+search in adjacent hash table locations until you either find your
+goal item or encounter an empty table location.  Linear probing, while
+simple to understand and implement, leads to data clumping and is not
+the ideal way of handling collisions.
+
+<P>
+Different spins on the concept of probing are known as <B>quadratic
+probing</B>
+<A NAME="354">&#160;</A>
+<A NAME="355">&#160;</A>
+and <B>random probing</B>.
+<A NAME="357">&#160;</A>
+<A NAME="358">&#160;</A>
+In quadratic probing instead of simply moving one address down in the
+hash table the number of spaces moved is somehow dependent on the
+number of times that we have moved so far.  For example, consider the
+following hash value offset function:
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+o(i) = 2^i - 1
+\end{displaymath} -->
+
+
+<I>o</I>(<I>i</I>) = 2<SUP><I>i</I></SUP> - 1
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+The first collision adds one address to the base hash address, the
+second three, the third seven, and so on.  When quadratic probing is
+employed, collisions tend not to produce the <B>clusters</B>
+<A NAME="360">&#160;</A>
+<A NAME="361">&#160;</A>
+of full areas in the hash table which are linear probing's drawback.
+
+<P>
+Random probing uses the address of the collision as the seed for a
+pseudo-random number generator and computes the next address to try
+with a function which takes a random element into account.  Both
+quadratic and random probing are usually slower than linear probing
+but produce more uniform hash data distributions.
+
+<P>
+One final way of dealing with collisions is called <B>rehashing</B> or
+<B>dualhashing</B>.
+<A NAME="364">&#160;</A>
+<A NAME="365">&#160;</A>
+<A NAME="366">&#160;</A>
+<A NAME="367">&#160;</A>
+If the hash address produced is a collision, the address is reused as
+input to the hash function in order to compute a new address.  This
+process, as you might expect, complicates lookups and deletes.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

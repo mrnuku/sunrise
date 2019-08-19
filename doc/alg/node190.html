@@ -1,0 +1,488 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.12.3.1 CRC-CCIT</TITLE>
+<META NAME="description" CONTENT="0.12.3.1 CRC-CCIT">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node191.html">
+<LINK REL="previous" HREF="node189.html">
+<LINK REL="up" HREF="node189.html">
+<LINK REL="next" HREF="node191.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2757"
+ HREF="node191.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2753"
+ HREF="node189.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2747"
+ HREF="node189.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2755"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2756"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2758"
+ HREF="node191.html">0.12.3.2 CRC-16</A>
+<B> Up:</B> <A NAME="tex2html2754"
+ HREF="node189.html">0.12.3 Cyclic Redundancy Checks</A>
+<B> Previous:</B> <A NAME="tex2html2748"
+ HREF="node189.html">0.12.3 Cyclic Redundancy Checks</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000133100000000000000">
+0.12.3.1 CRC-CCIT</A>
+</H3>
+
+<P>
+The CRC-CCIT is used by the Xmodem-CRC telecommunication protocol and
+<A NAME="4200">&#160;</A>
+takes its name from the CCIT worldwide standards organization.  This
+<A NAME="4201">&#160;</A>
+<A NAME="4202">&#160;</A>
+flavor of CRC is used on single bytes of data.  The divisor polynomial
+for this CRC flavor is:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+x^{16} + x^{12} + x^5 + 1
+\end{displaymath} -->
+
+
+<I>x</I><SUP>16</SUP> + <I>x</I><SUP>12</SUP> + <I>x</I><SUP>5</SUP> + 1
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+The CRC-CCIT value, for an 8-bit number, is the remainder of the division
+of the CRC polynomial by the above divisor polynomial.  For instance,
+for the previously examined bit pattern 10011011 the
+CRC-CCIT fraction would look like this:
+<DIV ALIGN="CENTER">
+CRC-CCIT = remainder of 
+<!-- MATH: $\frac{x^7 + x^4 + x^3 + x^1 + 1}
+{x^{16} + x^{12} + x^5 + 1}$ -->
+<IMG
+ WIDTH="120" HEIGHT="48" ALIGN="MIDDLE" BORDER="0"
+ SRC="img46.gif"
+ ALT="$\frac{x^7 + x^4 + x^3 + x^1 + 1}
+{x^{16} + x^{12} + x^5 + 1}$"></DIV>
+<P>
+This may look like a difficult expression to simplify, especially with
+the speed demanded by limited buffer size and high bandwidth
+communications.  However, by carefully choosing the value of <I>x</I> so as
+to make division possible using only bitwise operations, the value can
+be computed very rapidly.  This value is 0<I>x</I>1021.
+
+<P>
+An even faster alternative to calculating the remainder of the above
+division is to create a lookup table of values.  Since the denominator 
+<A NAME="4210">&#160;</A>
+of the division is a constant and the numerator can have only 256
+possible values (one for each possible bit combination), a table of
+256 remainders can provide instant access to the CRC-CCIT value of a
+particular byte.  Such a table can be generated easily by repeatedly
+calling the <TT>get_crc_ccit</TT> function below in a loop with values
+ranging from zero to 255 and a crc seed value of zero.
+<PRE>
+unsigned short table[256];
+
+for (i = 0; i &lt; 256; i++) {
+
+  /* the implementation of get_crc_ccit is given below */
+  table[i] = get_crc_ccit(i, 0);
+}
+</PRE>
+<P>
+Here's the table (all CRC values are hexadecimal):
+
+<P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(0)</TD>
+<TD ALIGN="LEFT">0x0000</TD>
+<TD ALIGN="LEFT">0x1021</TD>
+<TD ALIGN="LEFT">0x2042</TD>
+<TD ALIGN="LEFT">0x3063</TD>
+<TD ALIGN="LEFT">0x4084</TD>
+<TD ALIGN="LEFT">0x50a5</TD>
+<TD ALIGN="LEFT">0x60c6</TD>
+<TD ALIGN="LEFT">0x70e7</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(8)</TD>
+<TD ALIGN="LEFT">0x8108</TD>
+<TD ALIGN="LEFT">0x9129</TD>
+<TD ALIGN="LEFT">0xa14a</TD>
+<TD ALIGN="LEFT">0xb16b</TD>
+<TD ALIGN="LEFT">0xc18c</TD>
+<TD ALIGN="LEFT">0xd1ad</TD>
+<TD ALIGN="LEFT">0xe1ce</TD>
+<TD ALIGN="LEFT">0xf1ef</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(16)</TD>
+<TD ALIGN="LEFT">0x1231</TD>
+<TD ALIGN="LEFT">0x0210</TD>
+<TD ALIGN="LEFT">0x3273</TD>
+<TD ALIGN="LEFT">0x2252</TD>
+<TD ALIGN="LEFT">0x52b5</TD>
+<TD ALIGN="LEFT">0x4294</TD>
+<TD ALIGN="LEFT">0x72f7</TD>
+<TD ALIGN="LEFT">0x62d6</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(24)</TD>
+<TD ALIGN="LEFT">0x9339</TD>
+<TD ALIGN="LEFT">0x8318</TD>
+<TD ALIGN="LEFT">0xb37b</TD>
+<TD ALIGN="LEFT">0xa35a</TD>
+<TD ALIGN="LEFT">0xd3bd</TD>
+<TD ALIGN="LEFT">0xc39c</TD>
+<TD ALIGN="LEFT">0xf3ff</TD>
+<TD ALIGN="LEFT">0xe3de</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(32)</TD>
+<TD ALIGN="LEFT">0x2462</TD>
+<TD ALIGN="LEFT">0x3443</TD>
+<TD ALIGN="LEFT">0x0420</TD>
+<TD ALIGN="LEFT">0x1401</TD>
+<TD ALIGN="LEFT">0x64e6</TD>
+<TD ALIGN="LEFT">0x74c7</TD>
+<TD ALIGN="LEFT">0x44a4</TD>
+<TD ALIGN="LEFT">0x5485</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(40)</TD>
+<TD ALIGN="LEFT">0xa56a</TD>
+<TD ALIGN="LEFT">0xb54b</TD>
+<TD ALIGN="LEFT">0x8528</TD>
+<TD ALIGN="LEFT">0x9509</TD>
+<TD ALIGN="LEFT">0xe5ee</TD>
+<TD ALIGN="LEFT">0xf5cf</TD>
+<TD ALIGN="LEFT">0xc5ac</TD>
+<TD ALIGN="LEFT">0xd58d</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(48)</TD>
+<TD ALIGN="LEFT">0x3653</TD>
+<TD ALIGN="LEFT">0x2672</TD>
+<TD ALIGN="LEFT">0x1611</TD>
+<TD ALIGN="LEFT">0x0630</TD>
+<TD ALIGN="LEFT">0x76d7</TD>
+<TD ALIGN="LEFT">0x66f6</TD>
+<TD ALIGN="LEFT">0x5695</TD>
+<TD ALIGN="LEFT">0x46b4</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(56)</TD>
+<TD ALIGN="LEFT">0xb75b</TD>
+<TD ALIGN="LEFT">0xa77a</TD>
+<TD ALIGN="LEFT">0x9719</TD>
+<TD ALIGN="LEFT">0x8738</TD>
+<TD ALIGN="LEFT">0xf7df</TD>
+<TD ALIGN="LEFT">0xe7fe</TD>
+<TD ALIGN="LEFT">0xd79d</TD>
+<TD ALIGN="LEFT">0xc7bc</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(64)</TD>
+<TD ALIGN="LEFT">0x48c4</TD>
+<TD ALIGN="LEFT">0x58e5</TD>
+<TD ALIGN="LEFT">0x6886</TD>
+<TD ALIGN="LEFT">0x78a7</TD>
+<TD ALIGN="LEFT">0x0840</TD>
+<TD ALIGN="LEFT">0x1861</TD>
+<TD ALIGN="LEFT">0x2802</TD>
+<TD ALIGN="LEFT">0x3823</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(72)</TD>
+<TD ALIGN="LEFT">0xc9cc</TD>
+<TD ALIGN="LEFT">0xd9ed</TD>
+<TD ALIGN="LEFT">0xe98e</TD>
+<TD ALIGN="LEFT">0xf9af</TD>
+<TD ALIGN="LEFT">0x8948</TD>
+<TD ALIGN="LEFT">0x9969</TD>
+<TD ALIGN="LEFT">0xa90a</TD>
+<TD ALIGN="LEFT">0xb92b</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(80)</TD>
+<TD ALIGN="LEFT">0x5af5</TD>
+<TD ALIGN="LEFT">0x4ad4</TD>
+<TD ALIGN="LEFT">0x7ab7</TD>
+<TD ALIGN="LEFT">0x6a96</TD>
+<TD ALIGN="LEFT">0x1a71</TD>
+<TD ALIGN="LEFT">0x0a50</TD>
+<TD ALIGN="LEFT">0x3a33</TD>
+<TD ALIGN="LEFT">0x2a12</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(88)</TD>
+<TD ALIGN="LEFT">0xdbfd</TD>
+<TD ALIGN="LEFT">0xcbdc</TD>
+<TD ALIGN="LEFT">0xfbbf</TD>
+<TD ALIGN="LEFT">0xeb9e</TD>
+<TD ALIGN="LEFT">0x9b79</TD>
+<TD ALIGN="LEFT">0x8b58</TD>
+<TD ALIGN="LEFT">0xbb3b</TD>
+<TD ALIGN="LEFT">0xab1a</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(96)</TD>
+<TD ALIGN="LEFT">0x6ca6</TD>
+<TD ALIGN="LEFT">0x7c87</TD>
+<TD ALIGN="LEFT">0x4ce4</TD>
+<TD ALIGN="LEFT">0x5cc5</TD>
+<TD ALIGN="LEFT">0x2c22</TD>
+<TD ALIGN="LEFT">0x3c03</TD>
+<TD ALIGN="LEFT">0x0c60</TD>
+<TD ALIGN="LEFT">0x1c41</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(104)</TD>
+<TD ALIGN="LEFT">0xedae</TD>
+<TD ALIGN="LEFT">0xfd8f</TD>
+<TD ALIGN="LEFT">0xcdec</TD>
+<TD ALIGN="LEFT">0xddcd</TD>
+<TD ALIGN="LEFT">0xad2a</TD>
+<TD ALIGN="LEFT">0xbd0b</TD>
+<TD ALIGN="LEFT">0x8d68</TD>
+<TD ALIGN="LEFT">0x9d49</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(112)</TD>
+<TD ALIGN="LEFT">0x7e97</TD>
+<TD ALIGN="LEFT">0x6eb6</TD>
+<TD ALIGN="LEFT">0x5ed5</TD>
+<TD ALIGN="LEFT">0x4ef4</TD>
+<TD ALIGN="LEFT">0x3e13</TD>
+<TD ALIGN="LEFT">0x2e32</TD>
+<TD ALIGN="LEFT">0x1e51</TD>
+<TD ALIGN="LEFT">0x0e70</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(120)</TD>
+<TD ALIGN="LEFT">0xff9f</TD>
+<TD ALIGN="LEFT">0xefbe</TD>
+<TD ALIGN="LEFT">0xdfdd</TD>
+<TD ALIGN="LEFT">0xcffc</TD>
+<TD ALIGN="LEFT">0xbf1b</TD>
+<TD ALIGN="LEFT">0xaf3a</TD>
+<TD ALIGN="LEFT">0x9f59</TD>
+<TD ALIGN="LEFT">0x8f78</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(128)</TD>
+<TD ALIGN="LEFT">0x9188</TD>
+<TD ALIGN="LEFT">0x81a9</TD>
+<TD ALIGN="LEFT">0xb1ca</TD>
+<TD ALIGN="LEFT">0xa1eb</TD>
+<TD ALIGN="LEFT">0xd10c</TD>
+<TD ALIGN="LEFT">0xc12d</TD>
+<TD ALIGN="LEFT">0xf14e</TD>
+<TD ALIGN="LEFT">0xe16f</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(136)</TD>
+<TD ALIGN="LEFT">0x1080</TD>
+<TD ALIGN="LEFT">0x00a1</TD>
+<TD ALIGN="LEFT">0x30c2</TD>
+<TD ALIGN="LEFT">0x20e3</TD>
+<TD ALIGN="LEFT">0x5004</TD>
+<TD ALIGN="LEFT">0x4025</TD>
+<TD ALIGN="LEFT">0x7046</TD>
+<TD ALIGN="LEFT">0x6067</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(144)</TD>
+<TD ALIGN="LEFT">0x83b9</TD>
+<TD ALIGN="LEFT">0x9398</TD>
+<TD ALIGN="LEFT">0xa3fb</TD>
+<TD ALIGN="LEFT">0xb3da</TD>
+<TD ALIGN="LEFT">0xc33d</TD>
+<TD ALIGN="LEFT">0xd31c</TD>
+<TD ALIGN="LEFT">0xe37f</TD>
+<TD ALIGN="LEFT">0xf35e</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(152)</TD>
+<TD ALIGN="LEFT">0x02b1</TD>
+<TD ALIGN="LEFT">0x1290</TD>
+<TD ALIGN="LEFT">0x22f3</TD>
+<TD ALIGN="LEFT">0x32d2</TD>
+<TD ALIGN="LEFT">0x4235</TD>
+<TD ALIGN="LEFT">0x5214</TD>
+<TD ALIGN="LEFT">0x6277</TD>
+<TD ALIGN="LEFT">0x7256</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(160)</TD>
+<TD ALIGN="LEFT">0xb5ea</TD>
+<TD ALIGN="LEFT">0xa5cb</TD>
+<TD ALIGN="LEFT">0x95a8</TD>
+<TD ALIGN="LEFT">0x8589</TD>
+<TD ALIGN="LEFT">0xf56e</TD>
+<TD ALIGN="LEFT">0xe54f</TD>
+<TD ALIGN="LEFT">0xd52c</TD>
+<TD ALIGN="LEFT">0xc50d</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(168)</TD>
+<TD ALIGN="LEFT">0x34e2</TD>
+<TD ALIGN="LEFT">0x24c3</TD>
+<TD ALIGN="LEFT">0x14a0</TD>
+<TD ALIGN="LEFT">0x0481</TD>
+<TD ALIGN="LEFT">0x7466</TD>
+<TD ALIGN="LEFT">0x6447</TD>
+<TD ALIGN="LEFT">0x5424</TD>
+<TD ALIGN="LEFT">0x4405</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(176)</TD>
+<TD ALIGN="LEFT">0xa7db</TD>
+<TD ALIGN="LEFT">0xb7fa</TD>
+<TD ALIGN="LEFT">0x8799</TD>
+<TD ALIGN="LEFT">0x97b8</TD>
+<TD ALIGN="LEFT">0xe75f</TD>
+<TD ALIGN="LEFT">0xf77e</TD>
+<TD ALIGN="LEFT">0xc71d</TD>
+<TD ALIGN="LEFT">0xd73c</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(184)</TD>
+<TD ALIGN="LEFT">0x26d3</TD>
+<TD ALIGN="LEFT">0x36f2</TD>
+<TD ALIGN="LEFT">0x0691</TD>
+<TD ALIGN="LEFT">0x16b0</TD>
+<TD ALIGN="LEFT">0x6657</TD>
+<TD ALIGN="LEFT">0x7676</TD>
+<TD ALIGN="LEFT">0x4615</TD>
+<TD ALIGN="LEFT">0x5634</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(192)</TD>
+<TD ALIGN="LEFT">0xd94c</TD>
+<TD ALIGN="LEFT">0xc96d</TD>
+<TD ALIGN="LEFT">0xf90e</TD>
+<TD ALIGN="LEFT">0xe92f</TD>
+<TD ALIGN="LEFT">0x99c8</TD>
+<TD ALIGN="LEFT">0x89e9</TD>
+<TD ALIGN="LEFT">0xb98a</TD>
+<TD ALIGN="LEFT">0xa9ab</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(200)</TD>
+<TD ALIGN="LEFT">0x5844</TD>
+<TD ALIGN="LEFT">0x4865</TD>
+<TD ALIGN="LEFT">0x7806</TD>
+<TD ALIGN="LEFT">0x6827</TD>
+<TD ALIGN="LEFT">0x18c0</TD>
+<TD ALIGN="LEFT">0x08e1</TD>
+<TD ALIGN="LEFT">0x3882</TD>
+<TD ALIGN="LEFT">0x28a3</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(208)</TD>
+<TD ALIGN="LEFT">0xcb7d</TD>
+<TD ALIGN="LEFT">0xdb5c</TD>
+<TD ALIGN="LEFT">0xeb3f</TD>
+<TD ALIGN="LEFT">0xfb1e</TD>
+<TD ALIGN="LEFT">0x8bf9</TD>
+<TD ALIGN="LEFT">0x9bd8</TD>
+<TD ALIGN="LEFT">0xabbb</TD>
+<TD ALIGN="LEFT">0xbb9a</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(216)</TD>
+<TD ALIGN="LEFT">0x4a75</TD>
+<TD ALIGN="LEFT">0x5a54</TD>
+<TD ALIGN="LEFT">0x6a37</TD>
+<TD ALIGN="LEFT">0x7a16</TD>
+<TD ALIGN="LEFT">0x0af1</TD>
+<TD ALIGN="LEFT">0x1ad0</TD>
+<TD ALIGN="LEFT">0x2ab3</TD>
+<TD ALIGN="LEFT">0x3a92</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(224)</TD>
+<TD ALIGN="LEFT">0xfd2e</TD>
+<TD ALIGN="LEFT">0xed0f</TD>
+<TD ALIGN="LEFT">0xdd6c</TD>
+<TD ALIGN="LEFT">0xcd4d</TD>
+<TD ALIGN="LEFT">0xbdaa</TD>
+<TD ALIGN="LEFT">0xad8b</TD>
+<TD ALIGN="LEFT">0x9de8</TD>
+<TD ALIGN="LEFT">0x8dc9</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(232)</TD>
+<TD ALIGN="LEFT">0x7c26</TD>
+<TD ALIGN="LEFT">0x6c07</TD>
+<TD ALIGN="LEFT">0x5c64</TD>
+<TD ALIGN="LEFT">0x4c45</TD>
+<TD ALIGN="LEFT">0x3ca2</TD>
+<TD ALIGN="LEFT">0x2c83</TD>
+<TD ALIGN="LEFT">0x1ce0</TD>
+<TD ALIGN="LEFT">0x0cc1</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(240)</TD>
+<TD ALIGN="LEFT">0xef1f</TD>
+<TD ALIGN="LEFT">0xff3e</TD>
+<TD ALIGN="LEFT">0xcf5d</TD>
+<TD ALIGN="LEFT">0xdf7c</TD>
+<TD ALIGN="LEFT">0xaf9b</TD>
+<TD ALIGN="LEFT">0xbfba</TD>
+<TD ALIGN="LEFT">0x8fd9</TD>
+<TD ALIGN="LEFT">0x9ff8</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">(248)</TD>
+<TD ALIGN="LEFT">0x6e17</TD>
+<TD ALIGN="LEFT">0x7e36</TD>
+<TD ALIGN="LEFT">0x4e55</TD>
+<TD ALIGN="LEFT">0x5e74</TD>
+<TD ALIGN="LEFT">0x2e93</TD>
+<TD ALIGN="LEFT">0x3eb2</TD>
+<TD ALIGN="LEFT">0x0ed1</TD>
+<TD ALIGN="LEFT">0x1ef0</TD>
+</TR>
+</TABLE></DIV>
+<P>
+In order to arrive at a CRC for the entire range of data to be
+verified, a running CRC value is used.  This is to say, the CRC of the 
+first byte of data is used to somehow affect the CRC value of the
+second byte, and so on...
+<PRE>
+for (i = 0; i &lt; data_size; i++) {
+  crc = get_crc_ccit(crc, buffer[i]);
+}
+</PRE>
+<P>
+Here is the code to calculate the CRC of a byte, based on source from
+Rex and Binstock.  The initial value of crc should be zero on the
+first call to this routine.
+
+<P>
+<PRE>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+unsigned short get_crc_ccit (unsigned short crc, unsigned short data) {
+  static unsigned int i;
+
+  /* move to most significant bit */
+  data &lt;&lt;= 8;
+
+  /* for each bit in the character... */
+  for (i = 8; i &gt; 0; i--) {
+
+    /* calculate */
+    if ((data ^ crc) &amp; 0x8000) crc = (crc &lt;&lt; 1) ^ 0x1021;
+    else crc &lt;&lt;= 1;
+
+    /* next bit please */
+    data &lt;&lt;= 1;
+  }
+  return(crc)
+}
+</PRE>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

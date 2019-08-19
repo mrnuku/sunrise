@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.9.1 Source Code</TITLE>
+<META NAME="description" CONTENT="0.2.9.1 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="previous" HREF="node38.html">
+<LINK REL="up" HREF="node38.html">
+<LINK REL="next" HREF="node40.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html809"
+ HREF="node40.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html805"
+ HREF="node38.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html801"
+ HREF="node38.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html807"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html808"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html810"
+ HREF="node40.html">0.2.10 Quadtrees and Octrees</A>
+<B> Up:</B> <A NAME="tex2html806"
+ HREF="node38.html">0.2.9 Tries</A>
+<B> Previous:</B> <A NAME="tex2html802"
+ HREF="node38.html">0.2.9 Tries</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00039100000000000000">
+0.2.9.1 Source Code</A>
+</H3>
+
+<P>
+This code, in C++, implements an alphabetic trie class.
+
+<P>
+<HR>
+<DIV><TT>
+<BR><HR>
+<BR><PRE>
+ struct trie_node {
+ 
+     // how many nodes are beneath this one?
+     int count;                      
+ 
+     // array of pointers to children
+     trie_node *child_list[ALPH_SIZE];
+ 
+     // initializer...
+     trie_node();
+ };
+ 
+ trie_node::trie_node() {
+ 
+     // there is nothing below us...
+     count = 0;
+ 
+     // all child pointers start out pointing nowhere...
+     for(int index = 0; index < ALPHABET_SIZE; index++)
+         child_list[index] = NULL;
+ }
+ 
+ 
+ 
+ class Trie {
+ 
+ public:
+     
+     // methods
+ 
+     Trie(int level, int chars);        // create it
+     ~Trie();                           // destroy trie nodes
+     int node_count;                    // the number of nodes in whole trie
+     void AddToTrie(const string \&s);   // add string to trie
+     
+ private:
+ 
+     // methods
+ 
+     void recursive_delete (trie_node * t);     // recursive delete helper function
+     
+ 
+ 
+     // data
+ 
+     int node_count;                      // number of nodes in the trie
+     trie_node * Root;                  // the root of the trie
+ };
+ 
+ 
+ 
+ 
+ Trie::Trie() {
+     node_count = 0;
+     Root(new trie_node);
+ }
+ 
+ 
+ Trie::~Trie() {
+ 
+     // delete whole trie
+     recursive_delete(myRoot);
+ }
+ 
+ 
+ void Trie::recursive_delete(trie_node * t) {
+     int index;
+ 
+     if (t != NULL) {
+ 
+         // delete all children
+         for(index = 0; index < ALPHABET_SIZE; index++)
+            recursive_delete(t->child_list[index]);
+ 
+ 	// delete self
+         delete t;
+     }
+ }
+ 
+ 
+ 
+ 
+ int Trie::node_count() {
+ 
+     return (node_count);
+ 
+ }
+ 
+      
+ 
+ void Trie::AddToTrie(const string \&s) {
+     int lcv, index;
+ 
+     trie_node *t = Root;
+     
+     // there is one more string stored somewhere under the root...
+     t->count++;
+     
+ 
+     // loop over the length of the string to add and traverse the trie...
+     for(lcv=0; lcv < s.length(); lcv++) {
+ 
+         index = s[lcv]; // the character in s we are processing...
+ 
+ 	// is there a child node for this character?
+         if (t->child_list[index] == NULL) {
+ 
+ 	    // if not, make one!
+             t->child_list[index] = new trie_node;
+             node_count++;
+         }
+ 
+         // there is another string under this node...
+         t->child_list[index]->count++;
+ 
+         // move to it this node... and loop
+         t = t->child_list[index];
+     }
+ }
+</PRE>
+<BR><HR>
+<BR></TT></DIV> 
+<HR><P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

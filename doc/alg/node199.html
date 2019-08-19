@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.12.3.3 CRC-32</TITLE>
+<META NAME="description" CONTENT="0.12.3.3 CRC-32">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node200.html">
+<LINK REL="previous" HREF="node198.html">
+<LINK REL="up" HREF="node196.html">
+<LINK REL="next" HREF="node200.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2882"
+ HREF="node200.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2878"
+ HREF="node196.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2872"
+ HREF="node198.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2880"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2881"
+ HREF="node201.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2883"
+ HREF="node200.html">0.12.3.4 References</A>
+<B> Up:</B> <A NAME="tex2html2879"
+ HREF="node196.html">0.12.3 Cyclic Redundancy Checks</A>
+<B> Previous:</B> <A NAME="tex2html2873"
+ HREF="node198.html">0.12.3.2 CRC-16</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000133300000000000000">
+0.12.3.3 CRC-32</A>
+</H3>
+<P>
+<B>One of the drawbacks shared by the CRC-16 and the CRC-CCIT is that
+they will both fail to detect errors involving the omission of leading 
+null (zero) bits.  The CRC-32 attempts to solve this problem by
+initializing the value of the CRC to 0xFFFFFFFF.  The other two
+methods discussed operate with an initial CRC value of zero.  This use 
+of a non-zero initial CRC value is known as <B>preconditioning</B>.
+The CRC-32 also makes use of something called <B>postconditioning</B>
+which means altering the value of the final CRC before returning.
+CRC-32 flips the bits on the CRC.  According to Rex and Binstock, this 
+practice is not designed to increase the accuracy of error detection
+but is, rather, simply part of the definition of CRC-32.
+</B>
+<P>
+<B>CRC-32 operates with the same scheme as the other two methods
+previously addressed; it creates a numerator polynomial and a
+denominator polynomial.  The latter is what you would expect:
+</B>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+\sum_{n=0}^{31} x^n
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="48" HEIGHT="62"
+ SRC="img47.gif"
+ ALT="\begin{displaymath}\sum_{n=0}^{31} x^n
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+<P>
+<B>The divisor in CRC-32 is:
+</B>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+x^{32} + x^{26} + x^{23} + x^{22} + x^{16} + x^{12} + x^{11} + x^{10} + x^8 + x^7 + x^5 + x^4 + x^2 + x + 1
+\end{displaymath} -->
+
+
+<I>x</I><SUP>32</SUP> + <I>x</I><SUP>26</SUP> + <I>x</I><SUP>23</SUP> + <I>x</I><SUP>22</SUP> + <I>x</I><SUP>16</SUP> + <I>x</I><SUP>12</SUP> + <I>x</I><SUP>11</SUP> + <I>x</I><SUP>10</SUP> + <I>x</I><SUP>8</SUP> + <I>x</I><SUP>7</SUP> + <I>x</I><SUP>5</SUP> + <I>x</I><SUP>4</SUP> + <I>x</I><SUP>2</SUP> + <I>x</I> + 1
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+<P><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2882"
+ HREF="node200.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2878"
+ HREF="node196.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2872"
+ HREF="node198.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2880"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2881"
+ HREF="node201.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2883"
+ HREF="node200.html">0.12.3.4 References</A>
+<B> Up:</B> <A NAME="tex2html2879"
+ HREF="node196.html">0.12.3 Cyclic Redundancy Checks</A>
+<B> Previous:</B> <A NAME="tex2html2873"
+ HREF="node198.html">0.12.3.2 CRC-16</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-05-28</I>
+</ADDRESS>
+</BODY>
+</HTML>

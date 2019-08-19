@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.12.3.2 CRC-16</TITLE>
+<META NAME="description" CONTENT="0.12.3.2 CRC-16">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node199.html">
+<LINK REL="previous" HREF="node197.html">
+<LINK REL="up" HREF="node196.html">
+<LINK REL="next" HREF="node199.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2870"
+ HREF="node199.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2866"
+ HREF="node196.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2860"
+ HREF="node197.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2868"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2869"
+ HREF="node201.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2871"
+ HREF="node199.html">0.12.3.3 CRC-32</A>
+<B> Up:</B> <A NAME="tex2html2867"
+ HREF="node196.html">0.12.3 Cyclic Redundancy Checks</A>
+<B> Previous:</B> <A NAME="tex2html2861"
+ HREF="node197.html">0.12.3.1 CRC-CCIT</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000133200000000000000">
+0.12.3.2 CRC-16</A>
+</H3>
+<P>
+<B>CRC-16's numerator polynomial is based on sixteen bits of data unlike
+the CCIT's which is based on eight.  The divisor polynomial for the
+CRC-16 is also different than the CCIT's, it is:
+</B>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+x^{16} + x^{5} + x^{2} + 1
+\end{displaymath} -->
+
+
+<I>x</I><SUP>16</SUP> + <I>x</I><SUP>5</SUP> + <I>x</I><SUP>2</SUP> + 1
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+<P>
+<B>The CRC-16, like the CRC-CCIT, can be implemented with a table lookup
+strategy.  However where the CCIT needed 256 distinct entries in the
+table (one for each possible numerator - </B>2<SUP>8</SUP><B> total) the CRC-16 can
+work with a much smaller table.  By examining the table value of each
+of the four nibbles (four bits) of data in the sixteen bit numerator
+polynomial the CRC-16 can arrive at a value for the upper part of the
+fraction.  The denominator is, of course, a constant.  So, the CRC-16
+can operate quickly with a table size of only sixteen entries.
+</B>
+<P>
+<B>Because it can operate quickly with a small lookup table, the CRC-16
+is often used in hardware devices such as disk controllers and the like.
+</B><PRE>
+/* 
+ *  this source code is based on Rex and Binstock which, in turn,
+ *  acknowledges William James Hunt.
+ */
+
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+unsigned int crc_16_table[16] = {
+  0x0000, 0xCC01, 0xD801, 0x1400, 0xF001, 0x3C00, 0x2800, 0xE401,
+  0xA001, 0x6C00, 0x7800, 0xB401, 0x5000, 0x9C01, 0x8801, 0x4400 };
+
+unsigned short int get_crc_16 (int start, char *p, int n) {
+  unsigned short int crc = start;
+  int r;
+
+  /* while there is more data to process */
+  while (n-- &gt; 0) {
+
+    /* compute checksum of lower four bits of *p */
+    r = crc_16_table[crc &amp; 0xF];
+    crc = (crc &gt;&gt; 4) &amp; 0x0FFF;
+    crc = crc ^ r ^ crc_16_table[*p &amp; 0xF];
+
+    /* now compute checksum of upper four bits of *p */
+    r = crc_16_table[crc &amp; 0xF];
+    crc = (crc &gt;&gt; 4) &amp; 0x0FFF;
+    crc = crc ^ r ^ crc_16_table[(*p &gt;&gt; 4) &amp; 0xF];
+
+    /* next... */
+    p++;
+  }
+ 
+  return(crc);
+}
+</PRE>
+<P>
+<BR><HR>
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-05-28</I>
+</ADDRESS>
+</BODY>
+</HTML>

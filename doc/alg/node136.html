@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.5.12.2 Source Code</TITLE>
+<META NAME="description" CONTENT="0.5.12.2 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node137.html">
+<LINK REL="previous" HREF="node135.html">
+<LINK REL="up" HREF="node134.html">
+<LINK REL="next" HREF="node137.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2082"
+ HREF="node137.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2078"
+ HREF="node134.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2072"
+ HREF="node135.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2080"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2081"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2083"
+ HREF="node137.html">0.5.12.3 References</A>
+<B> Up:</B> <A NAME="tex2html2079"
+ HREF="node134.html">0.5.12 A Pseudo-Random Number</A>
+<B> Previous:</B> <A NAME="tex2html2073"
+ HREF="node135.html">0.5.12.1 Analysis</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000612200000000000000">
+0.5.12.2 Source Code</A>
+</H3>
+
+<P>
+<HR><PRE>
+int r[100]; // "global" pseudo-random table -- 
+            // must be visible to rand and init_rand
+
+//
+// return a random number in the range 0 to 999999999
+//
+int rand (void) 
+{
+  int i = r[98];
+  int j = r[99];
+  int k;
+  int t;
+
+  if ((t = r[i] - r[j]) &lt; 0) t += 1000000000L;
+
+  r[i] = t;
+
+  r[98]--; r[99]--;
+  if (r[98] == 0) r[98] = 55;
+  if (r[99] == 0] r[99] = 55;
+
+  k = r[100] % 42 + 56;
+  r[100] = r[k];
+
+  r[k] = t;
+
+  return(r[100]);
+}
+
+
+//
+// seed the random number table
+//
+int init_rand (char *seed) 
+{
+  char buf[101];
+  int i, j, k;
+
+  if (strlen(seed) &gt; 85) return(0);
+  sprintf(buf, "aEbFcGdHeI%s", seed);
+  while (strlen(buf) &lt; 98) strcat(buf, "Q");
+
+  for (i = 1; i &lt; 98; i++)
+    r[i] = buf[i] * 8171717 + i * 997;
+
+  i = 97; j = 12;
+  for (k = 1; k &lt; 998; k++) {
+    r[i] -= r[j];
+    if (r[i] &lt; 0) r[i] += 1000000000;
+
+    i--; j--;
+    if (i == 0) i=97;
+    if (j == 0) j=97;
+  }
+
+  r[98] = 55;
+  r[99] = 24;
+  r[100] = 77;
+}
+
+
+// 
+// return a random int between a and b 
+// assumes init_rand already called.  
+//
+int rand_int(int a, int b) 
+{
+  return (a + rand() % (b - a + 1));
+}
+</PRE> 
+<HR><P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

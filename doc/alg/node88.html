@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.4.3 Floyd's Algorithm - Shortest Paths</TITLE>
+<META NAME="description" CONTENT="0.4.3 Floyd's Algorithm - Shortest Paths">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node89.html">
+<LINK REL="previous" HREF="node82.html">
+<LINK REL="up" HREF="node80.html">
+<LINK REL="next" HREF="node89.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1459"
+ HREF="node89.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1455"
+ HREF="node80.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1449"
+ HREF="node87.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1457"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1458"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1460"
+ HREF="node89.html">0.4.4 Dijkstra's Algorithm -</A>
+<B> Up:</B> <A NAME="tex2html1456"
+ HREF="node80.html">0.4 Graph Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html1450"
+ HREF="node87.html">0.4.2.4 Hamilton Circuits</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00053000000000000000">&#160;</A>
+<A NAME="2227">&#160;</A>
+<A NAME="2228">&#160;</A>
+<BR>
+0.4.3 Floyd's Algorithm - Shortest Paths
+</H2>
+This algorithm is designed to find the least-expensive paths
+between all the vertices in a graph.  It does this by operating
+on a matrix representing the costs of edges between vertices.
+<A NAME="2229">&#160;</A>
+<A NAME="2230">&#160;</A>
+
+<P>
+Before we invoke Floyd's algorithm we must build a matrix,
+usually in a two-dimensional array.  If there are n vertices
+in our graph, our matrix will be nxn.  Each row in the matrix
+represents a "starting" vertex in the graph while each column
+in the matrix represents an "ending" point in the graph.  If
+there is an edge between a starting point i and ending point j
+in the graph, the cost of this edge is placed in position (i,j)
+of the matrix.  If we are dealing with an undirected graph in
+which all edges are bi-directional, an entry is also made in
+position (j,i) of the matrix.  If there is no edge directly
+linking two vertices, an infinite (or, in practice, very large)
+value is placed in the (i,j) position of the matrix to specify
+that it is impossible to directly move from i to j.
+
+<P>
+For example, if we have a graph in which points 1 and 5 are
+connected by a bi-directional edge with a cost of 22 units,
+we would place the number 22 into positions (1,5) and (5,1)
+of our matrix.
+
+<P>
+Once we have set this matrix up, we use Floyd's algorithm
+to compute the shortest distance between all points in the
+graph.  Floyd's algorithm is given below in C:
+
+<P>
+<HR><PRE>
+int floyds(int *matrix) {
+  int k, i, j;
+
+  for (k = 1; k &lt;= n; k++)
+    for (i = 1; i &lt;= n; i++)
+      for (j = 1; j &lt;= n; j++)
+        if (matrix[i][j] &lt; (matrix[i][k] + matrix[k][j]))
+          matrix[i,j] = matrix[i][k] + matrix[k][j];
+}
+</PRE> 
+<HR><P>
+When this routine finishes the entries in all positions of
+the matrix represent the lowest-cost traversal between the
+row-vertex and column-vertex.
+
+<P>
+Floyd's algorithm works by looking for all non-direct paths between
+two vertices that have a less-expensive total cost than the best way
+yet found to move between said vertices.  If such a path is found, it
+becomes the value against which future indirect paths between these
+vertices are tested.  In the end, each element of the matrix
+represents the lowest-cost traversal between the vertices it's row and
+column represent.  Remember that if the graph is directed, so is the
+answer in (i,j) of the matrix; moreover, (i,j) may not be equal to
+(j,i) in a di-graph.
+
+<P>
+It is clear that Floyd's algorithm takes <I>n</I><SUP>3</SUP> time.  In the next
+section we will discuss an alternative to Floyd's algorithm called
+Dijkstra's algorithm.  It is important to note, however, that for
+dense graphs (i.e. graphs with many edges) Floyd's algorithm is as
+good as or better than Dijkstra's algorithm.
+<A NAME="2235">&#160;</A>
+<A NAME="2236">&#160;</A>
+<A NAME="2237">&#160;</A>
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

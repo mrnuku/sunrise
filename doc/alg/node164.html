@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.10.1 Run-Length Encoding</TITLE>
+<META NAME="description" CONTENT="0.10.1 Run-Length Encoding">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node167.html">
+<LINK REL="previous" HREF="node163.html">
+<LINK REL="up" HREF="node163.html">
+<LINK REL="next" HREF="node165.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2437"
+ HREF="node165.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2433"
+ HREF="node163.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2427"
+ HREF="node163.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2435"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2436"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2438"
+ HREF="node165.html">0.10.1.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html2434"
+ HREF="node163.html">0.10 Data Compression Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html2428"
+ HREF="node163.html">0.10 Data Compression Algorithms</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000111000000000000000">
+0.10.1 Run-Length Encoding</A>
+</H2>
+
+<P>
+Sometimes called <B>recurrence coding</B>, This is one of the simplest
+<A NAME="3532">&#160;</A>
+<A NAME="3533">&#160;</A>
+<A NAME="3534">&#160;</A>
+<A NAME="3535">&#160;</A>
+data compression algorithms but is effective for data sets which are
+comprised of long sequences of a single repeated character.  For
+instance, text files with large runs of spaces or tabs may compress
+well with this algorithm.  Old versions of the <TT>arc</TT> compression
+program used run-length encoding.
+
+<P>
+The way RLE works is by finding runs of repeated characters in the
+input stream and replacing them with a three-byte code.  The code
+consists of a flag character, a count byte, and the repeated
+character.  For instance, the string ``AAAAAABBBBCCCCC'' could be more
+efficiently represented as ``*A6*B4*C5''.  That saves us six bytes.
+Of course, since it does not make sense to represent runs less than
+three characters in length with a code, none is used.  Thus
+``AAAAAABBCCCDDDD'' might be represented as ``*A6BBCCC*D4''.  The flag
+byte is called a <B>sentinel byte</B>.
+<A NAME="3538">&#160;</A>
+
+<P>
+One problem with this approach lies in the selection of the sentinel
+value.  This flag signals to the decompression code that an encoded
+sequence follows.  Ideally we would like to select a byte value that
+does not occur in the input stream.  However, running through the
+input stream looking for an absent value slows down this algorithm.
+Since the main advantage of this algorithm is its speed, slowing it
+down for only slightly better compression results is not usually
+considered.  Often an arbitrary, non-letter ASCII value is chosen as
+the sentinel.  When compressing a stream with natural occurrences of
+the sentinel flag, 
+<A NAME="3539">&#160;</A>
+the flag byte must be represented.  Sometimes a three-byte code is
+used with a count of less than three.  Another aproach is to use a
+doubled flag byte represent one naturally occurring flag byte in the
+input.  Thus, ``AAAAAA*BBBBCC*D'' would encode to ``*A6***B4CC**D''.
+The two stars after ``A6'' and the final two stars denote a natural
+star in the input stream.
+
+<P>
+It is wasteful to only encode run counts with ordinal numbers from
+zero to nine.  Instead we can use the value of the byte to denote the
+number of characters in the run.  In this way we can get a range of
+zero to 255.  However, since we are never encoding any run with less
+than four characters, the range becomes four to 259.  Runs comprised
+of more than 259 characters in them will be broken up into two or more 
+three-byte flag-character-count sequences.
+
+<P>
+<A NAME="3540">&#160;</A>
+<A NAME="3541">&#160;</A>
+<A NAME="3542">&#160;</A>
+RLE is used as one of the steps in the JPEG image compression process.
+Basically the JPEG algorithm breaks an image up into a series of 8x8
+matrixes and proceeds to run a ``DCT'' transformation on each matrix.
+This transformation isolates the important image components in the
+upper left portion of the matrix.  The lossy step of the JPEG process
+happens when values far from the upper-left corner are rounded.
+Unless these values are of very high magnitude they tend to become
+zeros.  However, the further away from the upper left corner of the
+matrix, the less likely bytes are to have a high magniture so there
+ends up being a lot of zeros in the transformed matrix.  To maximize
+the length of zero runs, JPEG scans the matrix in a diagonal pattern
+and then uses RLE to encode multiple zeros in a row efficiently.  This
+is a terribly high-level explaination of how JPEG works and I would
+recommend reading Nelson and Gailly's chapter on lossy graphic
+compression for more information.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html2439"
+ HREF="node165.html">0.10.1.1 Source Code</A>
+<LI><A NAME="tex2html2440"
+ HREF="node166.html">0.10.1.2 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

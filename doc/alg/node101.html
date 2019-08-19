@@ -1,0 +1,268 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.5.1.1.1 Analysis</TITLE>
+<META NAME="description" CONTENT="0.5.1.1.1 Analysis">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node102.html">
+<LINK REL="previous" HREF="node100.html">
+<LINK REL="up" HREF="node100.html">
+<LINK REL="next" HREF="node102.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1663"
+ HREF="node102.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1659"
+ HREF="node100.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1653"
+ HREF="node100.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1661"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1662"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1664"
+ HREF="node102.html">0.5.1.1.2 Source Code</A>
+<B> Up:</B> <A NAME="tex2html1660"
+ HREF="node100.html">0.5.1.1 Divide and Conquer</A>
+<B> Previous:</B> <A NAME="tex2html1654"
+ HREF="node100.html">0.5.1.1 Divide and Conquer</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00061110000000000000">
+0.5.1.1.1 Analysis</A>
+</H4>
+
+<P>
+In order to calculate the maximum subsequence of a set this algorithm
+first calculates three values, max_right, max_left and max_spanning.
+Once these values are computed, two comparisons will yield the maximum
+subsequence in the set.  The cost of computing these three values is
+what determines the complexity of this algorithm.
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = 2T(n/2) + C(n) + 3
+\end{displaymath} -->
+
+
+<I>T</I>(<I>n</I>) = 2<I>T</I>(<I>n</I>/2) + <I>C</I>(<I>n</I>) + 3
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Because this is a recursive solution, the time to find the maximum
+subsequence of one set depends on the amount of time spent finding the
+maximum subsequence in each half.  It is for this reason that in the
+above recurrence relation <I>T</I>(<I>n</I>) is related to 2<I>T</I>(<I>n</I>/2).  However
+the addition of the middle term, <I>C</I>(<I>n</I>) greatly complicates this
+analysis.  <I>C</I>(<I>n</I>), above, represents the cost of calculating the
+spanning subsequence of maximum value.  
+
+<P>
+This term <I>C</I>(<I>n</I>) involves processing each of the <I>n</I> items.  One
+pointer works right from the center until it reaches the right set
+limit.  At each step we add a value to a running sum and check whether
+the new sum has a greater value than the max so far.  This process
+involves a total of <I>n</I>/2 comparisons.  The same process takes place
+as another pointer moves left from the center until it reaches the
+leftmost limit.  So, the <I>C</I>(<I>n</I>) procedure is a linear process.  This
+means the recurrence relation of the entire algorithm can be written
+as:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = 2T(n/2) + n + 2
+\end{displaymath} -->
+
+
+<I>T</I>(<I>n</I>) = 2<I>T</I>(<I>n</I>/2) + <I>n</I> + 2
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+By expanding this relation we get:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+\begin{array}{l}
+T(n)   = 2T(n/2) + n + 2 \\
+T(n/2) = 2T(n/4) + n/2 + 2 \\
+T(n/4) = 2T(n/8) + n/4 + 2 \\
+\vdots \\
+T(1) = 0
+\end{array}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="245" HEIGHT="137"
+ SRC="img28.gif"
+ ALT="\begin{displaymath}\begin{array}{l}
+T(n) = 2T(n/2) + n + 2 \\
+T(n/2) = 2T(n/4) ...
+...
+T(n/4) = 2T(n/8) + n/4 + 2 \\
+\vdots \\
+T(1) = 0
+\end{array}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+So we know that <I>T</I>(<I>n</I>) can be written as:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = n + 2 + 2( n/2 + 2 + 2( n/4 + 2 + 2( ... 1) ...) )
+\end{displaymath} -->
+
+
+<I>T</I>(<I>n</I>) = <I>n</I> + 2 + 2( <I>n</I>/2 + 2 + 2( <I>n</I>/4 + 2 + 2( ... 1) ...) )
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+That is:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = \sum_{i=1}^{q} n + 2^i
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="145" HEIGHT="60"
+ SRC="img29.gif"
+ ALT="\begin{displaymath}T(n) = \sum_{i=1}^{q} n + 2^i
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+The term <I>q</I> in the above expression is a bit non-deterministic.  If
+we restrict <I>n</I> to be 2<SUP><I>x</I></SUP> in order to simplify this exercise, then
+
+<!-- MATH: $q = log_2 n = x$ -->
+<I>q</I> = <I>log</I><SUB>2</SUB> <I>n</I> = <I>x</I>.
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = \sum_{i=1}^{log_2 n} n + 2^i
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="155" HEIGHT="64"
+ SRC="img30.gif"
+ ALT="\begin{displaymath}T(n) = \sum_{i=1}^{log_2 n} n + 2^i
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Writing that out in long format:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = n + 2 + n + 4 + n + 8 + ... n + 2^{x-1} + n + 2^{x}
+\end{displaymath} -->
+
+
+<I>T</I>(<I>n</I>) = <I>n</I> + 2 + <I>n</I> + 4 + <I>n</I> + 8 + ... <I>n</I> + 2<SUP><I>x</I>-1</SUP> + <I>n</I> + 2<SUP><I>x</I></SUP>
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Now we'll invoke cancellation by subtracting <I>T</I>(<I>n</I>) from 2<I>T</I>(<I>n</I>)
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+\begin{array}{llllllll}
+2T(n) = &       & 2n + 4 &+ 2n + 8& + 2n + 16 &+ ...& 2n + 2^{x}& + 2n+ 2^{x+1} \\
+-T(n) =& -n - 2& -n  - 4& - n - 8& - n - 16 &- ...& n - 2^{x} \\\hline
+ T(n) = & -n - 2& +n &     +n     & +n       &+ ... &n & + 2n + 2^{x+1}
+\end{array}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="676" HEIGHT="82"
+ SRC="img31.gif"
+ ALT="\begin{displaymath}\begin{array}{llllllll}
+2T(n) = & & 2n + 4 &+ 2n + 8& + 2n + ...
+...= & -n - 2& +n & +n & +n &+ ... &n & + 2n + 2^{x+1}
+\end{array}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+(<I>x</I> above is <I>log</I><SUB>2</SUB> <I>n</I>).  This gives us:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = (n-1) log_2 n + 2^{log_2 n + 1}
+\end{displaymath} -->
+
+
+<I>T</I>(<I>n</I>) = (<I>n</I>-1) <I>log</I><SUB>2</SUB> <I>n</I> + 2<SUP><I>log</I><SUB>2</SUB> <I>n</I> + 1</SUP>
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Or...
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = (n-1) log_2 n + 2n
+\end{displaymath} -->
+
+
+<I>T</I>(<I>n</I>) = (<I>n</I>-1) <I>log</I><SUB>2</SUB> <I>n</I> + 2<I>n</I>
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+The dominant term is 
+<!-- MATH: $(n-1) log_2 n$ -->
+(<I>n</I>-1) <I>log</I><SUB>2</SUB> <I>n</I> making this an 
+<!-- MATH: $O(n log_2 n)$ -->
+<I>O</I>(<I>n log</I><SUB>2</SUB> <I>n</I>) algorithm.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

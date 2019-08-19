@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.10.2 Integer Coding</TITLE>
+<META NAME="description" CONTENT="0.10.2 Integer Coding">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node170.html">
+<LINK REL="previous" HREF="node164.html">
+<LINK REL="up" HREF="node163.html">
+<LINK REL="next" HREF="node168.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2473"
+ HREF="node168.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2469"
+ HREF="node163.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2463"
+ HREF="node166.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2471"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2472"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2474"
+ HREF="node168.html">0.10.2.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html2470"
+ HREF="node163.html">0.10 Data Compression Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html2464"
+ HREF="node166.html">0.10.1.2 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000112000000000000000">&#160;</A>
+<A NAME="3554">&#160;</A>
+<A NAME="3555">&#160;</A>
+<BR>
+0.10.2 Integer Coding
+</H2>
+
+<P>
+Section note: this description and source code are provided courtesy
+of <A NAME="tex2html20"
+ HREF="http://www.mds.rmit.edu.au/~hugh/">Hugh Williams</A>.
+
+<P>
+Integer coding is a method by which a set of integer values can be
+represented more efficiently.  Two of the most often used methods of
+integer coding are called <B>Elias codes</B> and <B>Golomb codes</B>.
+Both Elias and Golomb codes are frequently used in compressing
+inverted indexes of English text.
+<A NAME="3560">&#160;</A>
+<A NAME="3561">&#160;</A>
+<A NAME="3562">&#160;</A>
+<A NAME="3563">&#160;</A>
+
+<P>
+In the Elias gamma code, a positive integer <I>x</I> is represented by: 
+
+<!-- MATH: $1 + \lfloor \log_{2}x \rfloor$ -->
+<IMG
+ WIDTH="105" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img38.gif"
+ ALT="$1 + \lfloor \log_{2}x \rfloor$">
+in unary. (that is, 
+
+<!-- MATH: $\lfloor \log_{2}x \rfloor$ -->
+<IMG
+ WIDTH="71" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img39.gif"
+ ALT="$\lfloor \log_{2}x \rfloor$">
+0-bits followed 
+by a 1-bit), followed by the binary representation of <I>x</I> 
+without its most significant bit.
+
+<P>
+Thus the number nine is represented by 0001001, since:
+
+<!-- MATH: $1+\lfloor\log_2 9\rfloor=4$ -->
+<IMG
+ WIDTH="139" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img40.gif"
+ ALT="$1+\lfloor\log_2 9\rfloor=4$">
+or 0001 in unary, and 9 is 001 in
+binary with the most significant bit removed.  In this way, 1 is
+represented by 1, that is, is represented in one bit.  Gamma coding is
+efficient for small integers but is not suited to large integers for
+which parameterized Golomb codes or a second Elias code, the delta
+code, are more suitable.
+<A NAME="3566">&#160;</A>
+<A NAME="3567">&#160;</A>
+
+<P>
+Elias delta codes are somewhat longer than gamma codes for small
+integers, but for larger integers, such as ordinal sequence numbers,
+the situation is reversed.  A delta code stores the gamma code
+representation of an integer <I>x</I>, followed by the binary
+representation of <I>x</I> less the most significant bit.  However, while
+Elias codes yield acceptable compression and fast decoding, better
+performance in both respects is possible with Golomb codes.
+<A NAME="3568">&#160;</A>
+<A NAME="3569">&#160;</A>
+
+<P>
+Golomb codes are a form of parameterized coding in which integers to
+be coded are stored as values relative to a constant <I>k</I>.  Using
+Golomb coding, a positive integer <I>x</I> is represented in two parts: the
+first is a unary representation of the quotient:
+
+<!-- MATH: $q=\lfloor(x-1)/k\rfloor+1$ -->
+<IMG
+ WIDTH="174" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img41.gif"
+ ALT="$q=\lfloor(x-1)/k\rfloor+1$">
+the second is a binary representation of
+the remainder: <I>x</I>-<I>qk</I>-1.  In this way, the binary representation
+requires 
+<!-- MATH: $\lfloor\log k\rfloor or \lceil\log k\rceil$ -->
+<IMG
+ WIDTH="139" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img42.gif"
+ ALT="$\lfloor\log k\rfloor or \lceil\log k\rceil$">
+bits.
+
+<P>
+Witten et al. report that for cases where the probability of any
+particular value occurring is small, an approximate calculation of <I>k</I>can be used.  Where there is a wide range of values to be coded and
+each occurs with reasonable frequency, a practical global
+approximation of the Golomb parameter <I>k</I> is <BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+k\approx
+0.69\times{{N\times p}\over f}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="149" HEIGHT="53"
+ SRC="img43.gif"
+ ALT="\begin{displaymath}k\approx
+0.69\times{{N\times p}\over f}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+where <I>N</I> is the number of documents,
+<I>p</I> is the number of distinct terms in the collection, and <I>f</I> is the
+count of document identifiers stored in inverted lists, that is, <I>f</I>is the sum of the lengths of all inverted lists.  This model for
+selection of <I>k</I> is often referred to as a global Bernoulli model,
+since each term is assumed to have an independent probability of
+occurrence and the occurrences of terms have a geometric distribution.
+<A NAME="3571">&#160;</A>
+
+<P>
+Another approach to selecting <I>k</I> is to use a local model.  Local
+models use the information stored within a list to calculate an
+appropriate <I>k</I> value for that list; local models result in better
+compression than global models, but require a parameter for each
+locality.  For example, by using a simple local Bernoulli model for
+storing sequence identifiers, a possible choice of a <I>k</I> value for a
+given list is an approximation of the mean difference between the
+document identifiers in that list, or, using the scheme above,
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+k\approx 0.69\times {{N}\over {l}}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="115" HEIGHT="49"
+ SRC="img44.gif"
+ ALT="\begin{displaymath}k\approx 0.69\times {{N}\over {l}}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+where <I>l</I> is the length of a
+given list, that is, the count of entries in the list.
+
+<P>
+Skewed Bernoulli models, where a simple mean difference is not used,
+typically result in better compression than simple local models.
+
+<P>
+With integers of varying magnitudes, as is the case in document
+occurrence counts and inverted-file offsets that vary from 1 to the
+database size, efficient storage is possible by using a variable-byte
+integer scheme.  We use a representation in which seven bits in each
+byte is used to code an integer, with the least significant bit set to
+0 if this is the last byte, or to 1 if further bytes follow.  In this
+way, we represent small integers efficiently; for example, we
+represent 135 in two bytes, since it lies in the range <BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+[2^7\cdots
+2^{14})
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="84" HEIGHT="36"
+ SRC="img45.gif"
+ ALT="\begin{displaymath}[2^7\cdots
+2^{14})\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>, as 00000011&nbsp;00001110; this is read as 00000010000111 by
+removing the least significant bit from each byte and concatenating
+the remaining 14 bits.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html2475"
+ HREF="node168.html">0.10.2.1 Source Code</A>
+<LI><A NAME="tex2html2476"
+ HREF="node169.html">0.10.2.2 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

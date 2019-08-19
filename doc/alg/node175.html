@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.10.5 Sliding Window Compression</TITLE>
+<META NAME="description" CONTENT="0.10.5 Sliding Window Compression">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node178.html">
+<LINK REL="previous" HREF="node173.html">
+<LINK REL="up" HREF="node163.html">
+<LINK REL="next" HREF="node176.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2568"
+ HREF="node176.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2564"
+ HREF="node163.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2558"
+ HREF="node174.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2566"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2567"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2569"
+ HREF="node176.html">0.10.5.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html2565"
+ HREF="node163.html">0.10 Data Compression Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html2559"
+ HREF="node174.html">0.10.4.1 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000115000000000000000">&#160;</A>
+<A NAME="3629">&#160;</A>
+<A NAME="3630">&#160;</A>
+<A NAME="3631">&#160;</A>
+<BR>
+0.10.5 Sliding Window Compression
+</H2>
+
+<P>
+Recall the RLE (run-length encoding) is a compression algorithm that
+<A NAME="3632">&#160;</A>
+<A NAME="3633">&#160;</A>
+<A NAME="3634">&#160;</A>
+represents long runs of a single character more efficiently.  Sliding
+window compression is an algorithm that represents <I>groups of
+characters</I> that occur frequently more efficiently.  For instance,
+``can count countville count the countably infinite count'' repeats
+the string ``count'' five times.  It would not be compressed at all
+with RLE since no characters repeat.  But with sliding window, the
+phrase ``count'' would be represented with a small code.
+
+<P>
+Sliding window compression is a <B>dictionary-based</B> compression
+<A NAME="3637">&#160;</A>
+algorithm based on the work of Lempel and Ziv in 1977.
+Dictionary-based compression algorithms maintain a group of strings
+from the input stream as the encoding process executes.  This group of
+strings is called a dictionary and can be used to abbreviate recurring
+patterns in the text.  If the algorithm spots a string in the input
+stream that it has seen already and has stored as part of the
+dictionary, the string can be represented in a more efficient manner.
+Usually dictionary entries are denoted with a two-byte code that
+points to its entry number in the dictionary and its size.  During the
+decompression process the routine creates and maintains a dictionary
+with the same rules as were used in the compression process.  So entry
+<I>n</I> in the dictionary is the same at compression and decompression
+time.
+<A NAME="3638">&#160;</A>
+<A NAME="3639">&#160;</A>
+
+<P>
+Before implementing a sliding window compression scheme the size
+(number of possible entries) of the dictionary must be fixed.  More
+dictionary entries mean a greater chance that a repeated string will
+be found in the dictionary text and therefore compressed.  However,
+more dictionary entries also lead to longer dictionary codes.  Typical 
+<A NAME="3640">&#160;</A>
+<A NAME="3641">&#160;</A>
+sliding window algorithms use a dictionary size of 
+<!-- MATH: $2^{12} = 4096$ -->
+2<SUP>12</SUP> = 4096entries.  The dictionary code is, therefore, always a 12 bit number.
+
+<P>
+Since some words found in the input stream will have no exact matches
+in the dictionary but will be prefixes of dictionary words, most
+sliding window algorithms choose to add a length code to the
+dictionary code.  For instance, imagine ``eyeball'' is in the
+dictionary at position 255.  The word ``eye'' is not in the dictionary
+at all.  The word ``eye'' now appears in the input text.  If we use
+twelve bits to represent the dictionary entry for ``eyeball''
+(
+<!-- MATH: $000001111111$ -->
+000001111111) and use four bits to say ``use only the first three
+letters of entry 255'' (0011) then we can represent ``eye'' as two
+bytes instead of three (
+<!-- MATH: $00000111 11110011$ -->
+00000111 11110011).  The choice of twelve bit
+entry codes and four bit prefix codes make the amount of data needed
+<A NAME="3643">&#160;</A>
+<A NAME="3644">&#160;</A>
+to represent any dictionary entry two bytes.  These choices also limit 
+the number of dictionary entries to 
+<!-- MATH: $2^{12} = 4096$ -->
+2<SUP>12</SUP> = 4096 and the max length
+of a dictionary string to 2<SUP>4</SUP> = 16 bytes.  Since, however, we will
+never encode a one or two byte sequence, this kicks the size limit of
+the dictionary up to 
+<!-- MATH: $16 + 2 = 18$ -->
+16 + 2 = 18 bytes.
+
+<P>
+You may be wondering how we can distinguish encoded dictionary
+pointers from raw (unencoded) text.  The answer is to use accounting
+bytes.  Before every sequence of eight bytes in the compressed text we
+use a <B>flag byte</B>.  This byte contains no data from the input
+<A NAME="3647">&#160;</A>
+<A NAME="3648">&#160;</A>
+stream - rather it is used to tell the decompresser which bytes in
+the following eight are raw text and which contain dictionary
+compression codes.  For instance imagine we have the string ``invite
+him!'' in the input stream.  The ``invit'' is encoded using a
+dictionary code of 
+<!-- MATH: $00000111 11110101$ -->
+00000111 11110101 - use the first five bytes of
+entry 255, which was ``invitation''.  The rest of the text cannot be
+found in the dictionary.  It is added to the dictionary for future
+processing but is encoded as raw ``e him!''.  We would write the
+following eight bytes to the output stream: (
+<!-- MATH: $00000111
+11110101$ -->
+00000111
+11110101)=dictionary code for ``invit'' (01100101)=``e''
+(00100000)=space (01101000)=``h'' (01101001)=``i''
+(01101101)=``m'' (00100001)=``!''.  However, before these eight
+bytes we would write the flag byte 00111111.  The 0's tell the
+decoder that the first two of the next eight bytes are dictionary
+codes whereas the next six are raw text.  The use of flag bytes, of
+course, decreases the efficiency of the compression.
+
+<P>
+Given this information we can determine the best and worst case
+compression rates of sliding window compression.  Since we are using
+flag bytes, if no compression is possible we will encode nine bytes in
+the output for every eight bytes of input.  Therefore, the worst case
+for this algorithm increases the file size to 112.5 percent of the
+original.  If every character sequence is represented with a
+dictionary entry of maximum length (18 bytes) then each 18 byte
+sequence will be represented by 16 bits + 1 bit (in the flag
+byte).  That means the best possible compression will see an output
+file that is 11.8 percent the size of the original.
+
+<P>
+It is inefficient to search the whole previous window of text for
+matches.  The way most implementations of sliding window algorithms
+handle this is by keeping the dictionary in a data structure such as a 
+binary search tree.  That way it is easy to search for newly read text 
+in the dictionary - just traverse the binary tree.  Remember that new 
+text might only partially match text in the dictionary, though.  We
+want the node on the root-to-leaf traversal that best matches the new
+text.  It is also possible that the new text will exactly match a node 
+in the tree.  In this case the node must be replaced with the new data 
+and its offset.  Likewise, as text falls out of the window it is
+important to delete the cooresponding node.  Deletion in a binary
+search tree is a little tricky so check the BST section for a full
+explaination.  Studies have shown that it is not a good idea to use a
+more complicated data structure such as a red-black tree or an AVL
+tree.  While these data structures will be better balanced than a BST, 
+in most cases, the extra time spent keeping them balanced slows down
+the compression.  Due to the dynamic nature of the tree, caused by
+phrases being continually added to and deleted from the dictionary,
+highly unbalanced trees should quickly correct themselves.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html2570"
+ HREF="node176.html">0.10.5.1 Source Code</A>
+<LI><A NAME="tex2html2571"
+ HREF="node177.html">0.10.5.2 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

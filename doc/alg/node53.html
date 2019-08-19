@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.2.3 Source Code</TITLE>
+<META NAME="description" CONTENT="0.3.2.3 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node54.html">
+<LINK REL="previous" HREF="node52.html">
+<LINK REL="up" HREF="node50.html">
+<LINK REL="next" HREF="node54.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1019"
+ HREF="node54.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1015"
+ HREF="node50.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1009"
+ HREF="node52.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1017"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1018"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1020"
+ HREF="node54.html">0.3.2.4 References</A>
+<B> Up:</B> <A NAME="tex2html1016"
+ HREF="node50.html">0.3.2 The Mergesort</A>
+<B> Previous:</B> <A NAME="tex2html1010"
+ HREF="node52.html">0.3.2.2 Improvements</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00042300000000000000">
+0.3.2.3 Source Code</A>
+</H3>
+
+<P>
+The Mergesort, implemented in C, follows:
+
+<P>
+<HR><PRE>
+void mergesort (int *array, int left, int right) {
+  if (left &lt; right) {
+    merge_sort (array, left, (left+right)/2);
+    merge_sort (array, (left+right)/2 + 1, right);
+    merge (array, left, (left+right)/2, (left+right)/2+1, right);
+  }
+}
+
+
+void merge (int *A, int first1, int last1, int first2, int last2) {
+  int temp[MAX_ARRAY];
+  int index, index1, index2;
+  int num;
+
+  index = 0;
+  index1 = first1;
+  index2 = first2;
+
+  num = last1 - first1 + last2 - first2 + 2;
+
+  /*
+   *  Merge the two lists back together until one list runs out of
+   *  items...
+   *
+   */
+
+  while ((index1 &lt;= last1) &amp;&amp; (index2 &lt;= last2)) {
+    if (A[index1] &lt; A[index2]) temp[index++] = A[index1++];
+    else temp[index++] = A[index2++];
+  }
+ 
+  /*
+   *  At which point fill in the merged list with the "rest" of the
+   *  non exhausted list.
+   *
+   */
+
+  if (index1 &gt; last1)
+    move (A, index2, last2, temp, index);
+  else 
+    move (A, index1, last1, temp, index);
+
+  
+  /* finally move our merged array in temp space to the real array */
+  move(temp, 0, num-1, A, first1);
+}
+
+
+void move (int *list1, int first1, int last1, int *list2, int first2) {
+  while (first1 &lt;= last1)
+    list2[first2++] = list1[first1++];
+}
+</PRE> 
+<HR><P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

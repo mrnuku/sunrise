@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.7.1 Dijkstra's Banker's Algorithm for Deadlock Prevention</TITLE>
+<META NAME="description" CONTENT="0.7.1 Dijkstra's Banker's Algorithm for Deadlock Prevention">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node151.html">
+<LINK REL="previous" HREF="node148.html">
+<LINK REL="up" HREF="node148.html">
+<LINK REL="next" HREF="node150.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2240"
+ HREF="node150.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2236"
+ HREF="node148.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2230"
+ HREF="node148.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2238"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2239"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2241"
+ HREF="node150.html">0.7.1.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html2237"
+ HREF="node148.html">0.7 Operating Systems Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html2231"
+ HREF="node148.html">0.7 Operating Systems Algorithms</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00081000000000000000">&#160;</A>
+<A NAME="3284">&#160;</A>
+<A NAME="3285">&#160;</A>
+<A NAME="3286">&#160;</A>
+<BR>
+0.7.1 Dijkstra's Banker's Algorithm for Deadlock Prevention
+</H2>
+
+<P>
+The Banker's Algorithm is a strategy for <B>deadlock</B> prevention.
+In an operating system, deadlock is a state in which two or more
+processes are "stuck" in a <B>circular wait</B>
+<A NAME="3289">&#160;</A>
+<A NAME="3290">&#160;</A>
+state.  All deadlocked processes are waiting for resources held by
+other processes.  Because most systems are <B>non-preemptive</B> (that
+is, will not take resources held by a process away from it), and
+employ a <B>hold and wait</B>
+<A NAME="3293">&#160;</A>
+<A NAME="3294">&#160;</A>
+method for dealing with system resources (that is, once a process gets
+a certain resource it will not give it up voluntarily), deadlock is a
+dangerous state that can cause poor system performance.
+
+<P>
+One reason this algorithm is not widely used in the real world is
+because to use it the operating system must know the maximum amount of
+resources that every process is going to need at all times.
+Therefore, for example, a just-executed program must declare up-front
+that it will be needing no more than, say, 400K of memory.  The
+operating system would then store the limit of 400K and use it in the
+deadlock avoidance calculations.
+
+<P>
+The Banker's Algorithm seeks to prevent deadlock by becoming involved
+in the granting or denying of system resources.  Each time that a
+process needs a particular <B>non-sharable</B> resource, the request
+must be approved by
+<A NAME="3296">&#160;</A>
+the banker.
+
+<P>
+The banker is a conservative loaner.  Every time that a process makes
+a request of for a resource to be ``loaned'' the banker takes a careful
+look at the bank books and attempts to determine whether or not a
+deadlock state could possibly arise in the future if the loan request
+is approved.
+
+<P>
+This determination is made by ``pretending'' to grant the request and
+then looking at the resulting post-granted request system state.
+After granting a resource request there will be an amount of that
+resource left free in the system, <I>f</I>.  Further, there may be other
+processes in system.  We demanded that each of these other processes
+state the maximum amount of all system resources they needed to
+terminate up-front so, therefore, we know how much of each resource
+every process <B>is holding</B> and <B>has claim to</B>.
+<A NAME="3299">&#160;</A>
+
+<P>
+If the banker has enough free resource to guarantee that even one
+process can terminate, it can then take the resource held by that
+process and add it to the free pool.  At this point the banker can
+look at the (hopefully) now larger free pool and attempt to guarantee
+that another process will terminate by checking whether its <B>claim</B> can be met.  If the banker can guarantee that all jobs in
+system will terminate, it approves the loan in question.
+
+<P>
+If, on the other hand, at any point in the reduction the banker cannot
+guarantee any processes will terminate because there is not enough
+free resource to meet the smallest claim, a state of deadlock can
+ensue.  This is called an <B>unsafe state</B>.  In this case the loan
+request in question is denied and the requesting process is usually
+<B>blocked</B>.
+<A NAME="3303">&#160;</A>
+
+<P>
+The efficiency of the Banker's algorithm depends greatly on how it is
+implemented.  For example, if the bank books are kept sorted by
+process claim size, adding new process information to the table is
+<I>O</I>(<I>n</I>) but reducing the table is simplified.  However if the table is
+kept in no order, adding a new entry is <I>O</I>(1) however reducing the
+table is less efficient.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html2242"
+ HREF="node150.html">0.7.1.1 Source Code</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

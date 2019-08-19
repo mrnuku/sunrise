@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.6 Boyer-Moore String Searching</TITLE>
+<META NAME="description" CONTENT="0.2.6 Boyer-Moore String Searching">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node28.html">
+<LINK REL="previous" HREF="node23.html">
+<LINK REL="up" HREF="node7.html">
+<LINK REL="next" HREF="node26.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html638"
+ HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html634"
+ HREF="node7.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html628"
+ HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html636"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html637"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html639"
+ HREF="node26.html">0.2.6.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html635"
+ HREF="node7.html">0.2 Data Searching and</A>
+<B> Previous:</B> <A NAME="tex2html629"
+ HREF="node24.html">0.2.5.1 Source Code</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00036000000000000000">&#160;</A>
+<A NAME="285">&#160;</A>
+<BR>
+0.2.6 Boyer-Moore String Searching
+</H2>
+<A NAME="286">&#160;</A>
+
+<P>
+The Boyer-Moore searching algorithm, described in R. S. Boyer and
+J. S. Moore's 1977 paper <I>A Fast String Searching Algorithm</I> is
+among the best ways known for finding a substring in a search space.
+Using their method it is possible to search a data space for a known
+pattern without having to examine all the characters in the search
+space.  Boyer-Moore search algorithms are based on two search
+heuristics.
+
+<P>
+The first of these rule tells us how to search for substrings without
+repeats in a data space.  Keep a pointer into the data space at the
+current search location; initialize this pointer to the start of the
+space plus <I>n</I> - 1 characters where <I>n</I> is the number of characters in
+the target string.
+
+<P>
+Compare the character in the data space pointed to by this pointer
+with the characters in the target string.  If this character does not
+occur in the target string, advance the pointer by <I>n</I> places.
+
+<P>
+If the character does occur in the target string, advance the pointer
+by <I>n</I> - <I>p</I> places where <I>p</I> is the position that the character in
+question first occurs in the target string.
+
+<P>
+This process repeats until either a match is found or we have shifted
+over past the end of the search space.
+
+<P>
+The second search heuristic applies to searching for targets with
+repeating patterns.  Using only the rules set forth in the first
+heuristic will work for targets with repeating patterns but the search
+will not be as efficient as possible.  By examining partial matches
+and repeats in the target string, though, it is possible to make more
+drastic pointer jumps and arrive at the match more rapidly.  This type
+of jump is based on a table which is computed before the search
+begins.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html640"
+ HREF="node26.html">0.2.6.1 Source Code</A>
+<LI><A NAME="tex2html641"
+ HREF="node27.html">0.2.6.2 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

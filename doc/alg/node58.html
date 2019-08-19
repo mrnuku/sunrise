@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.3.3 Operations on a Max-Heap</TITLE>
+<META NAME="description" CONTENT="0.3.3.3 Operations on a Max-Heap">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node59.html">
+<LINK REL="previous" HREF="node57.html">
+<LINK REL="up" HREF="node55.html">
+<LINK REL="next" HREF="node59.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1083"
+ HREF="node59.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1079"
+ HREF="node55.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1073"
+ HREF="node57.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1081"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1082"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1084"
+ HREF="node59.html">0.3.3.4 Analysis</A>
+<B> Up:</B> <A NAME="tex2html1080"
+ HREF="node55.html">0.3.3 Heapsort</A>
+<B> Previous:</B> <A NAME="tex2html1074"
+ HREF="node57.html">0.3.3.2 Analysis</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00043300000000000000">
+0.3.3.3 Operations on a Max-Heap</A>
+</H3>
+
+<P>
+Once a heap has been built, a Heapsort can simply remove the maximum
+value (root node) and create the output, sorted array one item at a
+time.  This process is somewhat akin to the Selection Sort but much
+more efficient.
+
+<P>
+When the root node in a heap is removed to become part of the final,
+ordered data set, the last item on the heap is promoted to fill the
+vacancy at the root position.  Clearly, in many cases, this last item
+will now be out of place (that is, it may be smaller than one of its
+new children).  To ensure that the modified heap retains the max-heap
+property it becomes necessary to ``push down'' the newly promoted
+root item until it is back in the right place.  This pushing down
+process entails examining the node's key value and comparing it with
+the key value of the node's greatest child.  If the node's greater
+child is larger in value than the node itself, a swap is performed.
+The process repeats, following the node from the root down through
+demotion, until no swap is needed.  At this point the heap is back in
+order, the new root may be popped off, and the sorting process can
+continue.
+
+<P>
+The process of removing the root, promoting the last node, and
+re-heapifying continues until the heap is exhausted.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

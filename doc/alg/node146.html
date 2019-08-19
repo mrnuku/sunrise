@@ -1,0 +1,994 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.6.3.1 Source Code</TITLE>
+<META NAME="description" CONTENT="0.6.3.1 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="previous" HREF="node145.html">
+<LINK REL="up" HREF="node145.html">
+<LINK REL="next" HREF="node147.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2202"
+ HREF="node147.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2198"
+ HREF="node145.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2194"
+ HREF="node145.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2200"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2201"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2203"
+ HREF="node147.html">0.6.4 Shift-reduce bottom-up parsing</A>
+<B> Up:</B> <A NAME="tex2html2199"
+ HREF="node145.html">0.6.3 Samuelson-Bauer xpression analysis</A>
+<B> Previous:</B> <A NAME="tex2html2195"
+ HREF="node145.html">0.6.3 Samuelson-Bauer xpression analysis</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00073100000000000000">
+0.6.3.1 Source Code</A>
+</H3>
+
+<P>
+Many thanks to Rob McClinton of Virginia Tech and (now) Microsoft
+for allowing me to use this code.  Rob, I, and three other students
+at Virginia Tech worked on a compiler for a web programming language
+called golo for credit in Fall of 1997.  This code is in java.
+
+<P>
+<PRE>
+import java.util.*;
+import java.io.*;
+import golo.codegen.*;
+import golo.lex.LexLevel1;
+import golo.common.*;
+import golo.symtable.*;
+import golo.syntax.SyntaxErrorException;
+
+public class samBauer
+{
+   private symbolTable symtable;
+   private CodeGenLevel1 codegen;
+   private LexLevel1 lex;
+   
+   private boolean debug_sam = false;
+   
+   public samBauer(LexLevel1 _lex,symbolTable _symtable,CodeGenLevel1 _codegen)
+   {
+      symtable = _symtable;
+      codegen = _codegen;
+      lex = _lex;
+   }
+   
+   /**
+    * Reads tokens from Lex and parses them as a GOLO expression.
+    * CodeGen is called to generate the code to evaluate the expression.
+    * Semantic processing is done to coerce types as needed/possible and
+    * the final type is returned as an integer.
+    *
+    * @return the final type of the expression: expObject.[REAL|INTEGER|BOOLEAN]
+    */
+   public int readExp() throws SyntaxErrorException
+   {
+       Stack prefix = new Stack();
+       binNode head;
+       int finalType;
+       
+       // parse into a reverse pre-order stack
+       debugPrint("Input Expression:");
+       RailRoad(prefix);
+       debugPrintln("");
+       
+       if (debug_sam)
+       {
+          System.out.print("Result of railroad: ");
+          printStack(prefix);
+       }
+       
+       // build parse tree
+       head = makeTree(prefix,(binNode)null);
+       if (head==null)
+       {
+         System.err.println("makeTree returned null, what the hell??");
+         Runtime.getRuntime().exit(1);
+       }
+       
+       // add typing info to the parse tree and insert type coercions
+       finalType = addTypes(head);
+       // traverse the parse tree and tell codegen how to generate the exp
+       generateCode(head);
+
+       return finalType;
+   }
+   
+   /**
+    * Implements the samelson-bauer algorithm to parse the tokens read from
+    * lex as a golo expression.  The result of the parse is pushed onto the
+    * stack 'result', such that poping elements off result will provide a 
+    * reverse prefix notiation expression.  
+    *
+    * @param result stack to put the parsed expression on
+    */
+   private void RailRoad(Stack result) throws SyntaxErrorException
+   {
+      Stack ops = new Stack();
+      expObject temp;
+      boolean expectBin = false, mismatch = false;
+      int parin = 0;
+      TokenLevel1 tok = lex.nextToken();
+      
+      while (!mismatch)
+      {
+         debugPrint(" "+tok.getString());
+         if (expectBin)
+         {
+//       System.out.println("expecting bin");
+            if (tok.getCode()==TokenLevel1.RPAR)
+            {
+//                System.out.println("got right paren");
+               if (parin==0)
+                  mismatch = true;
+               else
+               {
+                  parin--;  
+                  expectBin = true;
+               }
+            }
+            else
+            if (!isBinOp(tok))
+               mismatch = true;
+            else
+            {
+               expectBin = false;
+               temp = new expObject(tok,parin,true);
+               while ( !ops.empty() &amp;&amp; 
+                          ( ((expObject)ops.peek()).rank() &gt;= temp.rank()) )
+                  result.push( ops.pop() );
+               ops.push( temp );
+            }
+         }
+         else
+         {
+//       System.out.println("expecting unary");
+            if (isUnaryOp(tok))
+            {
+               temp = new expObject(tok,parin,false);
+               while ( !ops.empty() &amp;&amp; 
+                          ( ((expObject)ops.peek()).rank() &gt;= temp.rank()) )
+                  result.push( ops.pop() );
+               ops.push( temp );
+               expectBin = false;
+            }
+            else
+            if (isBinOp(tok))    // notice there is overlap between unary and
+               mismatch = true;       //                           binary
+            else
+            if (isBuiltinFunc(tok))
+            {
+               temp = new expObject(tok,expObject.FUNCTION);
+               while ( !ops.empty() &amp;&amp; 
+                          ( ((expObject)ops.peek()).rank() &gt;= temp.rank()) )
+                  result.push( ops.pop() );
+               ops.push( temp );
+               // *** get arguments
+               // for( int i=0; i&lt;numArgs; i++)
+               //    RailRoad(lex,result);
+               expectBin = true;
+            }
+            else
+            if (tok.getCode()==TokenLevel1.LPAR)
+            {
+//                System.out.println("got left paren");
+               parin++;
+            }
+            else
+            if (isConst(tok))
+            {
+                temp = new expObject(tok,expObject.CONST);
+                result.push( temp );
+                expectBin = true;
+            }
+            else
+            if ( isVar( tok ) )
+            {
+                temp = new expObject(tok,expObject.VAR);
+                result.push( temp );
+                expectBin = true;
+            }
+            else
+            if (isUserFunction(tok))
+            {
+               temp = new expObject(tok,expObject.FUNCTION);
+	       
+	       if (numParam(temp)&gt;0)
+	       {
+        	  // read LPAR from lex
+        	  lex.advance();
+        	  if (lex.nextToken().getCode()!=TokenLevel1.LPAR)
+                     throw new SyntaxErrorException("Syntax Error line "+ 
+                                	lex.nextToken().getLineNo()+
+                                	": Expecting '(' but got '"+
+                                	 lex.nextToken().getString()+"'.");
+        	  debugPrint(" (");
+        	  lex.advance();
+        	  // *** get arguments
+        	  RailRoad(result);
+        	  for( int i=1; i&lt;numParam(temp); i++)
+        	  {
+                      // read comma separating params
+                      if (lex.nextToken().getCode()!=TokenLevel1.COMMA)
+                	 throw new SyntaxErrorException(
+                                            "Syntax Error line "+ 
+                                            lex.nextToken().getLineNo()+
+                                            ": Expecting ',' but got '"+
+                                             lex.nextToken().getString()+
+                                             "'.");
+                      debugPrint(" ,");
+                      lex.advance();
+                      // read next parameter
+                      RailRoad(result);
+        	  }
+        	  // read RPAR from lex
+        	  if (lex.nextToken().getCode()!=TokenLevel1.RPAR)
+                     throw new SyntaxErrorException("Syntax Error line "+ 
+                                	lex.nextToken().getLineNo()+
+                                	": Expecting ')' but got '"+
+                                	 lex.nextToken().getString()+"'.");
+        	  debugPrint(" )");
+               }
+               result.push(temp);
+               expectBin = true;
+            }
+            else
+            {
+               mismatch = true;
+               if (isUndefined(tok))
+                  throw new SyntaxErrorException(
+                                          "undefined identifier: '"+
+                                           tok.getString()+"' on line "+
+                                           tok.getLineNo());
+           }
+         }
+         if (!mismatch)
+         {
+            lex.advance();
+            tok = lex.nextToken();
+         }
+      }
+      debugPrint("X");
+      // move the operators still on the op stack onto the result
+      while ( !ops.empty() )
+         result.push( ops.pop() );
+
+      if (!expectBin || result.empty() ) 
+          throw new SyntaxErrorException("incomplete expression on line "
+                                 + tok.getLineNo()); 
+
+               //throw syntax error since the expression is incomplete
+      if (parin!=0) 
+         throw new SyntaxErrorException("unbalenced parentheses on line "
+                                 + tok.getLineNo());
+   }
+   
+    /**
+     * Takes a reverse prefix expression from a stack and builds an equivalent
+     * binary parse tree.
+     * @param exp The stack which contains a the expression.
+     * @param parent A reference to a node to use as the root of the parse tree
+     */
+    private binNode makeTree(Stack exp,binNode parent)
+    {
+       expObject temp;
+       binNode ret=null,params;
+
+       if (exp.empty()) return null;
+
+       temp = (expObject)exp.pop();
+       if ( temp.isOperand() )
+       {
+          // we have an operand, so this node of the tree can have no children
+          ret = new binNode(temp,parent,null,null);
+       }
+       else
+       {
+          // we have some type of operator
+          if ( temp.getType()==expObject.UNOP )
+          {
+             ret = new binNode(temp,parent,null,null);
+             ret.setLeftChild(makeTree(exp,ret));
+          }
+          else if ( temp.getType()==expObject.BINOP )
+          { 
+             ret = new binNode(temp,parent,null,null);
+             ret.setLeftChild(makeTree(exp,ret));
+             ret.setRightChild(makeTree(exp,ret));
+          }
+          else if ( temp.getType()==expObject.FUNCTION )
+          { 
+             int numP = numParam(temp);
+             Vector vect = new Vector(numP);
+             
+             vect.ensureCapacity(numP);
+             for( int i=0; i&lt;numP; i++)
+                vect.addElement(null);
+                
+             ret = new binNode(temp,parent,null,null);
+             // functions may need more than 2 children, 
+             // so store them in a Vector.
+             ret.setLeftChild( new binNode( vect ) );
+             for ( numP-- ; numP&gt;=0 ; numP--)
+                vect.setElementAt(makeTree(exp,ret),numP);
+          }
+       }
+       return ret;
+    }
+
+   
+   /*
+    * Adds semantic type information to our parse tree, so we know if
+    * add means Real Add or Int Add.  This also inserts type conversion
+    * operations when needed.
+    *
+    * @param head reference to the root node of a (sub)parse tree
+    *
+    * @return the final type of the expression: expObject.[REAL|INTEGER|BOOLEAN]
+    */
+   private int addTypes(binNode head) throws SyntaxErrorException
+   {
+      Vector params,realParams;
+      int typeL,typeR,typeF;
+      
+      expObject obj = (expObject)head.getData();
+      switch (obj.getType())
+      {
+         case expObject.CONST:
+             switch(obj.getToken().getCode())
+            {
+               case TokenLevel1.INTTHING:
+                  obj.setStorageType(expObject.INTEGER);
+                  return expObject.INTEGER;
+               case TokenLevel1.TRUE:
+               case TokenLevel1.FALSE:
+                  obj.setStorageType(expObject.BOOLEAN);
+                  return expObject.BOOLEAN;
+            }
+            break; // not needed
+         case expObject.VAR:
+            try {
+              switch( symtable.getKind(obj.getToken().getId()) )
+              {
+                 case kinds.INT:
+                    obj.setStorageType(expObject.INTEGER);
+                    return expObject.INTEGER;
+                 case kinds.BOOL:
+                    obj.setStorageType(expObject.BOOLEAN);
+                    return expObject.BOOLEAN;
+                 case kinds.REAL:
+                    obj.setStorageType(expObject.REAL);
+                    return expObject.REAL;
+                 default:
+                    System.err.println("Fatal Internal Error in samBauer.\n");
+                    System.err.print("An expObject claimed to be a variable, ");
+                    System.err.println("but 'kind' doesn't match.\n");
+                    Runtime.getRuntime().exit(1);
+              }
+            }
+            catch (stException e) {
+              System.err.println("systable error: " + e.getMessage());
+              e.printStackTrace();
+              System.err.println("Fatal Internal Error in samBauer.\n");
+              System.err.print("An expObject claimed to be a variable, ");
+              System.err.println("but symTable didn't agree.\n");
+              Runtime.getRuntime().exit(1);
+            }
+         case expObject.UNOP:
+            if ( expObject.BOOLEAN == (typeL=addTypes( head.getLeftChild() )) )
+            {
+               if (!isBoolOp(obj))
+                  semanticError("Invalid type for operand to operator "
+                                    + obj.getToken().getString() );
+               obj.setStorageType(expObject.BOOLEAN);
+               return expObject.BOOLEAN;
+            }
+            else  // the operand is a real or integer
+            {
+               if (isBoolOp(obj))
+                  semanticError("Invalid type for operand to operator "
+                                    + obj.getToken().getString() );
+               obj.setStorageType(typeL);
+               return typeL;
+            }
+         case expObject.BINOP:
+            typeL = addTypes( head.getLeftChild() );
+            typeR = addTypes( head.getRightChild() );
+            typeF = balenceTypes(typeL,typeR);
+            if ( typeL == expObject.BOOLEAN )
+            {
+               if (!isBoolOp(obj))
+                  semanticError("Invalid type for operand to operator "
+                                    + obj.getToken().getString() );
+               obj.setStorageType(expObject.BOOLEAN);
+               return expObject.BOOLEAN;
+            }
+            else  // the operand is a real or integer
+            {
+               if (isBoolOp(obj))
+               {
+                  semanticError("Invalid type for operand to operator "
+                                    + obj.getToken().getString() );
+                  System.err.println(typeL+" "+typeR);
+               }
+               else
+               {
+                  if ( typeF != typeL )
+                  {
+                     // insert type conversion operator on left
+                     semanticError("SamB Warning: forgot type conversion\n");
+                  }
+                  if ( typeF != typeR )
+                  {
+                     // insert type conversion operator on right
+                     semanticError("SamB Warning: forgot type conversion\n");
+                  }
+               }
+               obj.setStorageType(typeF);
+               if (isRelOp(obj))
+                  return expObject.BOOLEAN;
+               else
+                  return typeF;
+            }
+         case expObject.FUNCTION:
+            try {
+            // run addtypes for each parameter and check with def
+            params = (Vector)head.getLeftChild().getData();
+	    realParams = (Vector)symtable.getParamterList(
+	                                  obj.getToken().getId() );
+	    for ( int i=0; i&lt;params.size(); i++ )
+            {
+               typeL = addTypes( (binNode)params.elementAt(i) );
+	       switch (((param)realParams.elementAt(i+1)).type())
+	       {
+	          case kinds.BOOLEAN:
+		     if (typeL!=expObject.BOOLEAN)
+		        semanticError("Type mismatch for argument "+(i+1)
+			    +" to function "+obj.getToken().getString()
+			    +" on line "+obj.getToken().getLineNo());
+		     break;
+		  case kinds.INTEGER:
+		     if (typeL==expObject.BOOLEAN)
+		        semanticError("Type mismatch for argument "+(i+1)
+			    +" to function "+obj.getToken().getString()
+			    +" on line "+obj.getToken().getLineNo());
+	             else if (typeL==expObject.REAL)
+                     {
+                        // insert a conversion to integer
+                        semanticError("SamB Warning: forgot type conversion\n");
+                     }   
+                     break;
+                  case kinds.REAL:
+                     if (typeL==expObject.BOOLEAN)
+		        semanticError("Type mismatch for argument "+(i+1)
+			    +" to function "+obj.getToken().getString()
+			    +" on line "+obj.getToken().getLineNo());
+                     else if (typeL==expObject.INTEGER)
+                     {
+                        // insert a conversion to real
+                         semanticError("SamB Warning: forgot type conversion\n");
+                     }
+ 	       }
+            }
+            // lookup return type and stow it
+            if (realParams.elementAt(0)==null)
+               throw new SyntaxErrorException(
+                                  "Error - Non-Function in an expression\n");
+            if (!(realParams.elementAt(0) instanceof param))
+	       timeToDie("First Element in Function param list is not a param or null");
+	    switch ( ((param)realParams.elementAt(0)).type() )
+            {
+               case kinds.INTEGER:
+                  obj.setStorageType( expObject.INTEGER );
+                  return expObject.INTEGER;
+               case kinds.REAL:
+                  obj.setStorageType( expObject.REAL );
+                  return expObject.REAL;
+               case kinds.BOOLEAN:
+                  obj.setStorageType( expObject.BOOLEAN );
+                  return expObject.BOOLEAN;
+            }
+            
+            } catch ( stException e ) {
+                System.err.println("Internal error: " + e.getMessage());
+                e.printStackTrace();
+                Runtime.getRuntime().exit(1);
+            }
+      }
+      System.err.println("Internal error: samBauer.addTypes() (hit bottom)");
+      Runtime.getRuntime().exit(1);
+      return 0;  // see java suck. suck, java, suck!
+   }
+   
+   
+   /**
+    * Generates instructions to codeGen, which if performed will result
+    * in the result of the GOLO expression being placed on the top of the
+    * stack.  The instructions are given via a forward post-order traversal
+    * of the parse tree.
+    * @param head The root node of the parse tree for the expression.
+    */
+   private void generateCode( binNode head )
+   {
+      Vector params;
+      expObject obj = (expObject)head.getData();
+            
+      // if this node is a function, the children are arrainged differently
+      if ( obj.getType() == expObject.FUNCTION )
+      {
+         // put the function's children on the stack from right to left
+         params = (Vector) head.getLeftChild().getData();
+         for( int i = params.size()-1; i&gt;=0; i-- )
+            generateCode( (binNode)params.elementAt(i) );
+         // now call the function
+         codegen.callFunction( obj.getToken().getId() );
+	 return;
+      }
+      
+      // generate code for any possible operands
+      if (head.getLeftChild()!=null) 
+         generateCode( head.getLeftChild() );
+      if (head.getRightChild()!=null)
+         generateCode( head.getRightChild() );
+         
+      // generate code for this node
+      switch ( obj.getType() )
+      {
+         case expObject.VAR:
+            codegen.pushVariable( obj.getToken().getID() );
+            break;
+         case expObject.CONST:
+            switch ( obj.getToken().getCode() )
+            {
+               case TokenLevel1.TRUE:
+                  codegen.pushBool(true);
+                  break;
+               case TokenLevel1.FALSE:
+                  codegen.pushBool(false);
+                  break;
+               case TokenLevel1.INTTHING:
+                  codegen.pushInt( obj.getToken().intValue() );
+                  break;
+//                case TokenLevel1.REAL:
+//                   codegen.pushReal( Float.valueOf( 
+//                                                obj.getToken().getString() ) );
+//                   break;
+            }
+            break;
+         case expObject.BINOP:
+            switch ( obj.getStorageType() )
+            {
+               case expObject.REAL:
+                   switch ( obj.getToken().getCode() )
+                   {
+                      case TokenLevel1.PLUSOP:
+                         codegen.floatAdd();
+                         break;
+                      case TokenLevel1.MINUSOP:
+                         codegen.floatSub();
+                         break;
+                      case TokenLevel1.TIMESOP:
+                         codegen.floatMult();
+                         break;
+                      case TokenLevel1.DIVOP:
+                         codegen.floatDiv();
+                          break;
+                      case TokenLevel1.EQUALTO    :
+                         codegen.floatEqual();
+                          break;
+                      case TokenLevel1.LESSTHAN   :
+                         codegen.floatLess();
+                          break;
+                      case TokenLevel1.GREATERTHAN:
+                         codegen.floatGreater();
+                          break;
+                      case TokenLevel1.LEQ        :
+                         codegen.floatNotGreater();
+                          break;
+                      case TokenLevel1.GEQ        :
+                         codegen.floatNotLess();
+                          break;
+                  }
+                  break;
+               case expObject.INTEGER:
+                   switch ( obj.getToken().getCode() )
+                   {
+                      case TokenLevel1.PLUSOP:
+                         codegen.intAdd();
+                         break;
+                      case TokenLevel1.MINUSOP:
+                         codegen.intSub();
+                         break;
+                      case TokenLevel1.TIMESOP:
+                         codegen.intMult();
+                         break;
+                      case TokenLevel1.DIVOP:
+                         codegen.intDiv();
+                          break;
+                      case TokenLevel1.EQUALTO    :
+                         codegen.intEqual();
+                          break;
+                      case TokenLevel1.LESSTHAN   :
+                         codegen.intLess();
+                          break;
+                      case TokenLevel1.GREATERTHAN:
+                         codegen.intGreater();
+                          break;
+                      case TokenLevel1.LEQ        :
+                         codegen.intNotGreater();
+                          break;
+                      case TokenLevel1.GEQ        :
+                         codegen.intNotLess();
+                          break;
+                   }
+                  break;
+               case expObject.BOOLEAN:
+                   switch ( obj.getToken().getCode() )
+                   {
+                      case TokenLevel1.AND:
+                         codegen.logicalAnd();
+                         break;
+                      case TokenLevel1.OR:
+                         codegen.logicalOr();
+                         break;
+                  }
+                  break;
+            }
+            break;
+         case expObject.UNOP:
+            switch ( obj.getStorageType() )
+            {
+               case expObject.REAL:
+                  codegen.floatNegate();
+                  break;
+               case expObject.INTEGER:
+                  codegen.intNegate();
+                  break;
+               case expObject.BOOLEAN:
+                  codegen.logicalNot();
+                  break;
+            }
+            break;
+      }
+   }
+   
+   
+   /**
+    * Used for testing purposes.  Use the java interpreter to run
+    * this.  Pass the program 1 argument, which is the name of a file
+    * which contains the expression(s) to be tested.
+    */
+   public static void main(String args[])
+   {
+      try {
+      symbolTable sym = new symbolTable();
+      LexLevel1 lex = new LexLevel1(args.length&gt;0?args[0]:"testexp.in",sym);
+      CodeGenLevel1 cg = new CodeGenLevel1(sym);
+      samBauer sb = new samBauer(lex,sym,cg);
+//      semRecord sr;
+      
+      // define a variable to play with
+      ID id = sym.createEntry("intVar");
+      sym.setKind(id,kinds.INTEGER);
+      cg.newvar(id);
+      id = sym.createEntry("boolVar");
+      sym.setKind(id,kinds.BOOLEAN);
+      cg.newvar(id);
+      
+      sb.debug_sam = false;
+      
+      sb.readExp();
+      
+      if (lex.nextToken().getCode()!=TokenLevel1.SCANEOF)
+      {
+         System.out.println("Extra data after expression: '"+
+             lex.nextToken().getString()+"'");
+      }
+      
+      }
+      catch (FileNotFoundException e)
+      {
+         System.err.println("Couldn't open file exptest.in");
+      }
+      catch (stException e)
+      {
+         e.printStackTrace();
+      }
+      catch (SyntaxErrorException e)
+      {
+         System.err.println("Got syntax error");
+         System.err.println(e.getMessage());
+	 e.printStackTrace();
+      }
+   }
+
+
+   // ************************************************************
+   // ************************************************************
+   // *******          Utility  Functions   **********************
+   // ************************************************************
+
+   /**
+    * prints an error message.  I don't know why I wanted to encapsulate this
+    * functionality in a method. just felt like it.
+    */
+   private void semanticError(String msg)
+   {
+      Exception e = new Exception(msg);
+//       System.err.println(msg);
+      e.printStackTrace();
+   }
+
+   private void debugPrint(String str)
+   {
+      if (debug_sam)
+         System.out.print(str);
+   }
+   private void debugPrintln(String str)
+   {
+      if (debug_sam)
+         System.out.println(str);
+   }
+
+   private static int balenceTypes(int left, int right) 
+                                           throws SyntaxErrorException
+   {
+      if (left==right)
+         return left; //easy out
+         
+      if ( (left==expObject.BOOLEAN) || (right==expObject.BOOLEAN) )
+         throw new SyntaxErrorException();
+      
+      return expObject.REAL; // it is the only remaining choise,  honest.
+   }
+   
+   private static boolean isBoolOp( expObject obj )
+   {
+      switch (obj.getToken().getCode())
+      {
+         case TokenLevel1.OR:
+         case TokenLevel1.AND:
+         case TokenLevel1.NOT:
+            return true;
+         default:
+            return false;
+      }
+   }
+   
+   private static boolean isRelOp( expObject obj )
+   {
+      switch (obj.getToken().getCode())
+      {
+         case TokenLevel1.GREATERTHAN:
+         case TokenLevel1.LESSTHAN:
+         case TokenLevel1.EQUALTO:
+         case TokenLevel1.LEQ:
+         case TokenLevel1.GEQ:
+            return true;
+         default:
+            return false;
+      }
+   }
+
+   private boolean isBinOp(TokenLevel1 tok)
+   {
+      switch (tok.getCode())
+      {
+         case TokenLevel1.PLUSOP:
+         case TokenLevel1.MINUSOP:
+         case TokenLevel1.TIMESOP:
+         case TokenLevel1.DIVOP:
+         case TokenLevel1.OR:
+         case TokenLevel1.AND:
+         case TokenLevel1.EQUALTO:
+         case TokenLevel1.LESSTHAN:
+         case TokenLevel1.GREATERTHAN:
+         case TokenLevel1.LEQ:
+         case TokenLevel1.GEQ:
+             return true;
+         default:
+             return false;
+      }
+   }
+
+   private boolean isUnaryOp(TokenLevel1 tok)
+   {
+      switch (tok.getCode())
+      {
+         case TokenLevel1.MINUSOP:
+         case TokenLevel1.NOT:
+             return true;
+         default:
+             return false;
+      }
+   }
+   
+   private boolean isBuiltinFunc(TokenLevel1 tok)
+   {
+      switch (tok.getCode())
+      {
+         case TokenLevel1.ROUND:
+         case TokenLevel1.FLOOR:
+         case TokenLevel1.CEILING:
+         case TokenLevel1.XCORQM:
+         case TokenLevel1.YCORQM:
+         case TokenLevel1.HEADINGQM:
+         case TokenLevel1.PENCOLORQM:
+         case TokenLevel1.PENSIZEQM:
+         case TokenLevel1.PENDOWNQM:
+         case TokenLevel1.SHOWNQM:
+             System.err.println("Lex didn't leave a builtin function as an identifier\n");
+             System.exit(1);
+         default:
+             return false;
+      }
+   }
+   
+   private boolean isIdent(TokenLevel1 tok)
+   {
+      if (tok.getCode()==TokenLevel1.IDENTIFIER)
+         return true;
+      else
+         return false;
+   }
+   
+   private boolean isConst(TokenLevel1 tok)
+   {
+      switch (tok.getCode())
+      {
+         case TokenLevel1.INTTHING:
+         case TokenLevel1.TRUE:
+         case TokenLevel1.FALSE:
+             return true;
+         default:
+             return false;
+      }
+   }
+
+   private boolean isVar(TokenLevel1 tok)
+   {
+      try {
+      if ( isIdent(tok) &amp;&amp;
+             kinds.isVar(symtable.getKind(tok.getID())) ) 
+          return true;
+      else
+          return false;
+      }
+      catch (stException e)
+      {
+          System.err.println("Internal error: " + e.getMessage());
+          e.printStackTrace();
+          Runtime.getRuntime().exit(1);
+      }
+      return false; // never reached
+   }
+
+    private int numParam(expObject obj)
+    {
+        if (obj.getType()==expObject.UNOP)
+           return 1;
+        if (obj.getType()!=expObject.FUNCTION)
+           return 0;
+        else 
+        {
+            try {
+              if (obj.getToken().getId()==null)
+              {
+                 Exception e = new Exception("Bad token.  getId()==null.");
+                 e.printStackTrace();
+                 System.exit(1);
+              }
+              return
+	         symtable.getParamterList(obj.getToken().getId()).size()-1;
+            }
+            catch (stException e) {
+              System.err.println("Fatal Internal Error in samBauer.\n");
+              System.err.print("An expObject claimed to be a function, ");
+              System.err.println("but symTable didn't agree.\n");
+              Runtime.getRuntime().exit(1);
+              return 0;  // java is retarded
+            }
+        }
+    }
+   
+   private boolean isUndefined(TokenLevel1 tok)
+   {
+      try {
+      if ( (tok.getCode()==TokenLevel1.IDENTIFIER) &amp;&amp;
+            (symtable.getKind(tok.getID())==kinds.UNKNOWN) )
+          return true;
+      else
+          return false;
+      }
+      catch (stException e)
+      {
+          System.err.println("Internal error: " + e.getMessage());
+          e.printStackTrace();
+          Runtime.getRuntime().exit(1);
+      }
+      return false; // never reached
+   }
+
+   private boolean isUserFunction(TokenLevel1 tok)
+   {
+      try {
+      if ( (tok.getCode()==TokenLevel1.IDENTIFIER) &amp;&amp;
+              (symtable.getKind(tok.getID()) == kinds.FUNCTION) )
+          return true;
+      else
+          return false;
+      }
+      catch (stException e)
+      {
+          System.err.println("Internal error: " + e.getMessage());
+          e.printStackTrace();
+          Runtime.getRuntime().exit(1);
+      }
+      return false; // never reached
+   }
+   
+   /**
+    * Prints a stack of expObjects.  It is printed from top to bottom
+    * outputing the related string of the token for each expObject.
+    * The input stack is returned in the same condition.
+    */
+   private void printStack(Stack exp)
+   {
+      expObject temp;
+      Stack save = new Stack();
+      
+      while( !exp.empty() )
+      {
+         temp = (expObject)exp.pop();
+         System.out.print(temp.getToken().getString()+' ');
+         save.push( temp );
+      }
+      System.out.println();
+      while( !save.empty() )
+         exp.push( save.pop() );
+   }
+
+   private void timeToDie(String str)
+   {
+      System.err.println(str);
+      System.exit(1);
+   }
+}
+</PRE>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

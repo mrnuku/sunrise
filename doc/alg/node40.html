@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.10 Quadtrees and Octrees</TITLE>
+<META NAME="description" CONTENT="0.2.10 Quadtrees and Octrees">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="previous" HREF="node38.html">
+<LINK REL="up" HREF="node7.html">
+<LINK REL="next" HREF="node41.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html819"
+ HREF="node41.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html815"
+ HREF="node7.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html811"
+ HREF="node39.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html817"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html818"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html820"
+ HREF="node41.html">0.2.10.1 Octree Source Code</A>
+<B> Up:</B> <A NAME="tex2html816"
+ HREF="node7.html">0.2 Data Searching and</A>
+<B> Previous:</B> <A NAME="tex2html812"
+ HREF="node39.html">0.2.9.1 Source Code</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000310000000000000000">&#160;</A>
+<A NAME="448">&#160;</A>
+<BR>
+0.2.10 Quadtrees and Octrees
+</H2>
+<A NAME="449">&#160;</A>
+
+<P>
+A quadtree is a hierarchical data structure often used for image
+representation.  Quadtrees encode two-dimensional images by placing
+subsections of the image into a tree structure much like a <B>binary
+tree</B>.  Unlike a binary tree where every tree node has up to two
+children, in a quadtree every node can have up to four children.  Each
+node stores a particular piece of the overall image.
+
+<P>
+Quadtrees operate by means of <B>recursively decomposing space</B>.
+<A NAME="452">&#160;</A>
+While several specialized types of quadtrees exist, the most common
+type are known as <B>region quadtrees</B>.
+<A NAME="454">&#160;</A>
+In such trees the image to be encoded and stored is partitioned into
+four quadrants.  Each quadrent is then represented by a node in the
+tree.  The root of the quadtree represents the entire stored image
+while each of it's four children represent a different fourth of the
+image.  This process continues; each of the quadrants represented by
+the children of the root is again partitioned into four sub-quadrants
+and represented by the root's grandchildren nodes.  This process
+continues until a region being stored is sufficiently simple that it
+can be wholly encoded in one node.  Sometimes this means that we
+continue breaking the image down until every individual pixel is
+stored at some leaf node.  Other times a region larger than a pixel is
+sufficiently homogeneous that it can be represented at a leaf node and
+requires no further decomposition.  For example, if an entire quadrent
+is one color it does not make sense to continue to decompose it.
+
+<P>
+The regions represented by nodes in a quadtree are sometimes named
+after map directions (northwest, northeast, southwest, southeast).
+
+<P>
+An octree is essentially the same thing as a quadtree however each
+node in an octree has eight children instead of four.  This makes
+octrees good candidates for representing three-dimensional objects in
+memory because instead of breaking the image into four quadrants the
+octree breaks the image into eight blocks.  These blocks are then
+recursively decomposed into eight sub-blocks.  This process, as in the
+quadtree, continues until a blocks is sufficiently homogenous that it
+can be represented by one node.
+
+<P>
+An interesting property of both quadtrees and octrees is that they
+support a form of data compression.  By never traversing below a
+certain level of the tree structure it is possible to filter out the
+"details" of the image opting, instead, for a less-precise but smaller
+version of the data.  Such a compression could be accomplished by
+means of a breadth-first traversal of the tree data structure.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html821"
+ HREF="node41.html">0.2.10.1 Octree Source Code</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

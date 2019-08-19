@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.2 The Mergesort</TITLE>
+<META NAME="description" CONTENT="0.3.2 The Mergesort">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node55.html">
+<LINK REL="previous" HREF="node43.html">
+<LINK REL="up" HREF="node42.html">
+<LINK REL="next" HREF="node51.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html979"
+ HREF="node51.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html975"
+ HREF="node42.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html969"
+ HREF="node49.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html977"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html978"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html980"
+ HREF="node51.html">0.3.2.1 Analysis</A>
+<B> Up:</B> <A NAME="tex2html976"
+ HREF="node42.html">0.3 Sorting Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html970"
+ HREF="node49.html">0.3.1.6 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00042000000000000000">&#160;</A>
+<A NAME="1253">&#160;</A>
+<A NAME="1254">&#160;</A>
+<BR>
+0.3.2 The Mergesort
+</H2>
+
+<P>
+This algorithm is very easy to understand and exhibits good runtime
+speed for most data sets.  Like the previously analyzed Quicksort, the
+Mergesort reiterates on the dataset, dividing it into ever smaller
+portions and sorting each subdivision.  The Mergesort chops partitions
+in half by using the formula:
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+m = \frac{l + r}{2}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="85" HEIGHT="50"
+ SRC="img20.gif"
+ ALT="\begin{displaymath}m = \frac{l + r}{2}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Next, the Mergesort reiterates on both of the newly formed partitions,
+chopping them in half and continuing the process.  This subdivision
+stops when the partition size reaches one item.
+
+<P>
+At this point the algorithm has created many one-item data sets.  Any
+one-item set is in ``sorted'' order by definition.  The next step in
+the process is to merge these data sets together thus creating ever
+larger sorted sets.
+
+<P>
+To combine two sorted lists the Mergesort compares successive pairs of
+elements, one from each list.  If the one from list ``A'' has a
+smaller key, it it chosen to be appended to the aggregate list.  Of
+course the opposite applies if the element we are examining from list
+``B'' proves to have a smaller key value.  In the event that either
+input list is exhausted, all the remaining elements on the other list
+are appended to the aggregate list.  While this merging algorithm will
+work with two sorted input lists of unequal size, in order to minimize
+the number of calls to the routine, Mergesort tries to combine lists
+with the same (or close to the same) number of elements.  This merging
+process takes at least 
+<!-- MATH: $\frac{n}{2}$ -->
+<IMG
+ WIDTH="18" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.gif"
+ ALT="$\frac{n}{2}$">
+comparisons and no more than
+(<I>n</I>-1) comparisons.
+
+<P>
+Mergesort repeats the process of combining sorted sublists into
+ever larger aggregate lists until all have been successfully
+integrated back into a single, sorted list.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html981"
+ HREF="node51.html">0.3.2.1 Analysis</A>
+<LI><A NAME="tex2html982"
+ HREF="node52.html">0.3.2.2 Improvements</A>
+<LI><A NAME="tex2html983"
+ HREF="node53.html">0.3.2.3 Source Code</A>
+<LI><A NAME="tex2html984"
+ HREF="node54.html">0.3.2.4 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

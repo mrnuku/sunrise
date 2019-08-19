@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.5.1 Analysis</TITLE>
+<META NAME="description" CONTENT="0.3.5.1 Analysis">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node65.html">
+<LINK REL="previous" HREF="node63.html">
+<LINK REL="up" HREF="node63.html">
+<LINK REL="next" HREF="node65.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1156"
+ HREF="node65.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1152"
+ HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1146"
+ HREF="node63.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1154"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1155"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1157"
+ HREF="node65.html">0.3.5.2 Improvements</A>
+<B> Up:</B> <A NAME="tex2html1153"
+ HREF="node63.html">0.3.5 Insertion Sort</A>
+<B> Previous:</B> <A NAME="tex2html1147"
+ HREF="node63.html">0.3.5 Insertion Sort</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00045100000000000000">
+0.3.5.1 Analysis</A>
+</H3>
+
+<P>
+In the worst case each item inserted will be compared to the previous
+<I>n</I>-1 sorted items.  This means the overall time complexity of the
+algorithm is:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+1 + 2 + 3 + 4 + 5 + 6 ... + (n - 2) + (n - 1)
+\end{displaymath} -->
+
+
+1 + 2 + 3 + 4 + 5 + 6 ... + (<I>n</I> - 2) + (<I>n</I> - 1)
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Rewritten as a sum this is:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+\sum_{i=1}^{n-1} i
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="34" HEIGHT="62"
+ SRC="img25.gif"
+ ALT="\begin{displaymath}\sum_{i=1}^{n-1} i
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Which is a variant of the arithmetic series and reduces to:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+\frac{1}{2} (n - 1)(n - 2)
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="133" HEIGHT="49"
+ SRC="img26.gif"
+ ALT="\begin{displaymath}\frac{1}{2} (n - 1)(n - 2)
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+By multiplying the above out it becomes clear that this is a <I>O</I>(<I>n</I><SUP>2</SUP>)algorithm.
+
+<P>
+For best case data, sets that are already sorted, the Insertion
+sort runs in linear time.  However for average data sets the
+efficiency is <I>n</I><SUP>2</SUP>.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

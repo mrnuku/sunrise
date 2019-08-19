@@ -1,0 +1,450 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.4 Benchmarking the Quicksort and the Heapsort</TITLE>
+<META NAME="description" CONTENT="0.3.4 Benchmarking the Quicksort and the Heapsort">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node63.html">
+<LINK REL="previous" HREF="node55.html">
+<LINK REL="up" HREF="node42.html">
+<LINK REL="next" HREF="node63.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1129"
+ HREF="node63.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1125"
+ HREF="node42.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1119"
+ HREF="node61.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1127"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1128"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1130"
+ HREF="node63.html">0.3.5 Insertion Sort</A>
+<B> Up:</B> <A NAME="tex2html1126"
+ HREF="node42.html">0.3 Sorting Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html1120"
+ HREF="node61.html">0.3.3.6 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00044000000000000000">
+0.3.4 Benchmarking the Quicksort and the Heapsort</A>
+</H2>
+
+<P>
+The Quicksort and the Heapsort are two <I>n log</I><SUB>2</SUB> <I>n</I> algorithms for
+sorting data.  One way to more empirically measure the performance of
+these two algorithms is to write a benchmarking program and count the
+number of comparisons each uses in order to sort a random data set.
+Another total that may be of interest is the number of swaps a given
+algorithm uses in the sorting process.  Below is a benchmarking
+program that does just that.
+<A NAME="1361">&#160;</A>
+
+<P>
+<HR><PRE>
+/*************************************************************************
+**                                                                      **
+**  Sorting Benchmark                                                   **
+**                                                                      **
+**  Data and Algorithm Analysis                                         **
+**                                                                      **
+**  Assignment #6                                                       **
+**                                                                      **
+**  Due Dec 1, 1997                                                     **
+**                                                                      **
+**  Scott Gasch                                                         **
+**                                                                      **
+**  available online at http://wannabe.guru.org/alg/alg.html            **
+**                                                                      **
+*************************************************************************/
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/*
+ *  We need math.h for the log stuff in the table
+ *
+ */
+
+#include &lt;math.h&gt;
+
+/* 
+ *  We need time.h in order to seed the random number generator based on the
+ *  value of the system clock...
+ *
+ */
+
+#include &lt;time.h&gt;
+
+/*
+ *  This is the index number of the top item in the data set to be sorted...
+ *
+ */
+
+int TOPITEM = 100;
+
+/*
+ *  The random value generator will fill the data set with values between
+ *  zero and RANGE, inclusive.
+ *
+ */
+
+int RANGE = 10000;
+
+/*
+ *  The array itself is global to memory and me the headache of passing it
+ *  all around the place.
+ *
+ */
+
+int data[1000];
+
+/*
+ *  To keep track of number of swaps and comparisons each alg uses
+ *
+ */
+
+int num_swaps, num_comps;
+
+
+/*
+ *  Function protos
+ *
+ */
+
+void swap (int *a, int *b);
+void q_sort (int low, int hi);
+void show_array(void);
+void fill_array(void);
+int get_pivot (int low, int hi);
+void pushdown(int which, int limit);
+void heapify(int low, int hi);
+void h_sort(int low, int hi);
+
+
+/* ------------------------------------------------------------------------- */
+/*   show_array - dump the contents of the data set to stdout
+ */
+void show_array(void) {
+  int i;
+
+  for (i = 1; i &lt; TOPITEM; i++) {
+    printf("%d: %d\n", i, data[i]);
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/*   fill_array - place random numbers between 
+ *   0..RANGE (inclusive) in data[]
+ */
+void fill_array(void) {
+  int i;
+  float r;
+
+  /* clean slate */
+  num_comps = num_swaps = 0;
+
+  /* [re]randomize */
+  srand(time(NULL));
+
+  for (i = 1; i &lt; TOPITEM; i++) {
+    r = (float) rand() / (float) RAND_MAX;
+    data[i] = r * RANGE + 1;
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/*   get_pivot - return the index of the selected pivot value
+ */
+
+int get_pivot (int low, int hi) {
+
+  /* safety net, this should not happen */
+  if (low == hi) return(data[low]);
+
+     /* return the greater of the first two items in the range 
+      *
+      * return( (data[low] &gt; data[low+1]) ? low : (low+1) );
+      *
+      */
+
+  /* return the midpoint as the pivot element */
+  return( (low + hi) / 2 );
+}
+
+/* ------------------------------------------------------------------------- */
+/*   swap - given two pointers to integers, swap their contents
+ */
+
+void swap (int *a, int *b) {
+  int temp = *a;
+  *a = *b;
+  *b = temp;
+  num_swaps++;
+}
+
+/* ------------------------------------------------------------------------- */
+/*   q_sort - Quicksort a data range
+ */
+
+void q_sort (int low, int hi) {
+  int pivot_index;                /* index in the data set of the pivot */
+  int pivot_value;                /* the value of the pivot element     */
+  int left, right;
+
+  /* select the pivot element and remember its value */
+  pivot_index = get_pivot(low, hi);
+  pivot_value = data[pivot_index];
+
+  /* do the partitioning */
+  left = low; right = hi;
+  do {
+
+    /* move left to the right bypassing elements already on the correct side */
+    while ((left &lt;= hi) &amp;&amp; (data[left] &lt; pivot_value)) {
+      num_comps++;
+      left++;
+    }
+    num_comps++;
+
+    /* move right to the left bypassing elements already on the correct side */
+    while ((right &gt;= low) &amp;&amp; (pivot_value &lt; data[right])) {
+      num_comps++;
+      right--;
+    }
+    num_comps++;
+
+    /* 
+     *  if the pointers are in the correct order then they are pointing to two
+     *  items that are on the wrong side of the pivot value, swap them...
+     */
+    if (left &lt;= right) {
+      swap(&amp;data[left], &amp;data[right]);
+      left++;
+      right--;
+    }
+    
+  } while (left &lt;= right);
+
+  /* now recurse on both partitions as long as they are large enough */
+  if (low &lt; right) q_sort(low, right);
+  if (left &lt; hi) q_sort(left, hi);
+}
+
+
+
+
+
+
+
+
+
+/* ------------------------------------------------------------------------- */
+/*   pushdown - push a data item down the heap until in the proper place
+ */
+
+void pushdown(int which, int limit) {
+
+  /* we will determine the node's max child */
+  int max_child = which * 2;
+
+  /* if this is a leaf node (i.e. it has no children) then we're done */
+  if (max_child &gt; limit) return;
+
+  /* if it has a second child, make max_child the index of the greater kid */
+  if (((which * 2) + 1) &lt;= limit) {
+    num_comps++;
+    if (data[max_child] &lt; data[(which * 2) + 1]) max_child = (which * 2) + 1;
+  }
+
+  /* now see if the node in question if greater than its max child... */  
+  num_comps++;
+  if (data[which] &lt; data[max_child]) {
+
+    /* if it's not, swap them and keep going with the push down */
+    swap (&amp;data[which], &amp;data[max_child]);
+    pushdown(max_child, limit);
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/*   heapify - given a data range, make it into a heap
+ */
+
+void heapify(int low, int hi) {
+
+  /* we only have to start at the first node with children */
+  int mid = (low + hi) / 2;
+  int i;
+
+  /* work backwards to the top of the heap calling pushdown */
+  for (i = mid; i &gt; 0; i--) pushdown(i, TOPITEM-1);
+}
+
+/* ------------------------------------------------------------------------- */
+/*   h_sort - perform a heap sort on a range of data items
+ */
+
+void h_sort(int low, int hi) {
+  int i;
+
+  /* heapify the data set */
+  heapify(low, hi);
+
+  /* repeatedly swap top and last then pushdown the promoted last */
+  for (i = TOPITEM - 1; i &gt; 1; i--) {
+    swap(&amp;data[1], &amp;data[i]);
+    pushdown(1, i - 1);
+  }
+}
+
+
+/* ------------------------------------------------------------------------- */
+/*   main - the driver
+ */
+
+int main(void) {
+  int save_array[1000];       /* used to store/reset the global array */
+  int tab[6][4];              /* tabular values for #comps, #swaps    */
+  int i, j;                   /* loop control                         */
+  int n;
+
+  /* 
+   * requirements:
+   * 
+   *  1) see above
+   *
+   *  2) Check your code works by comparing to answers for hw 4, #2
+   *
+   */
+
+  init_data();
+  q_sort(1, 10);
+  printf("homework data, quicksort:"
+	 "%d comparisons, %d swaps\n", num_comps, num_swaps);
+
+  hwdata();
+  h_sort(1, 10);
+  printf("homework data, heapsort:"
+	 "%d comparisons, %d swaps\n", num_comps, num_swaps);
+
+
+  /*
+   *
+   * (footnote: my version of quicksort works better)
+   *
+   *
+   * 3) Use a random number generator to generate ints from 1 to 10000
+   *    (see fill_array())
+   *
+   * 4) Take 100 random numbers and demonstrate your code works...
+   *
+   */
+
+  TOPITEM=101; RANGE=10000;
+  printf("creating an array of 100 random numbers... here it is:\n");
+  fill_array();
+  show_array();
+
+  /* save this untarnished list so heapsort can sort later */
+  for (i = 0; i&lt;1000; i++) save_array[i] = data[i];
+
+  /* run a qsort and show the nice people */
+  printf("quick sorting...\n");
+  q_sort(1, TOPITEM-1);
+  show_array();
+
+  /* restore the list to its unsorted splendor */
+  for (i = 0; i&lt;1000; i++) data[i] = save_array[i];  
+
+  /* heap sort */
+  printf("heap sorting...\n");
+  h_sort(1, TOPITEM);
+  show_array();
+
+
+  /*
+   *
+   * 5) Take N random numbers (500&lt;N&lt;1000 by 100 steps) and make a
+   *    nice table.
+   *
+   */
+
+  for (i = 500; i&lt;=1000; i+=100) {
+
+    TOPITEM = i+1;
+    num_swaps = num_comps = 0;
+    
+    fill_array();
+    
+    /* store data set */
+    for (j = 0; j&lt;1000; j++) save_array[j] = data[j];
+
+    /* quicksort */
+    q_sort(1, TOPITEM);
+
+    /* save the results */
+    tab[(i - 500) / 100][0] = num_comps;
+    tab[(i - 500) / 100][1] = num_swaps;
+
+    /* get ready to heapsort */
+    num_swaps = num_comps = 0;
+
+    /* restore the data set and doit */
+    for (j = 0; j&lt;1000; j++) data[j] = save_array[j];  
+    h_sort(1, TOPITEM);
+
+    /* save results */
+    tab[(i - 500) / 100][2] = num_comps;
+    tab[(i - 500) / 100][3] = num_swaps;
+  }
+
+
+  /* now show them the table */
+
+  printf("                     Quicksort           Heapsort\n"
+         "  N     NlogN     #comps   #swaps     #comps   #swaps\n"
+	 "-------------------------------------------------------\n");
+  for (i = 0; i&lt;6; i++) {
+    n = (i * 100) + 500;
+    printf(" %4d   %4d      %5d   %5d       %5d   %5d\n",
+	   n,
+	   n * (int)(log(n) / log(2)),
+	   tab[i][0], 
+	   tab[i][1], 
+	   tab[i][2], 
+	   tab[i][3]);
+  }
+}
+</PRE> 
+<HR>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

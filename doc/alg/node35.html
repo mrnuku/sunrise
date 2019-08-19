@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.8 Skip lists</TITLE>
+<META NAME="description" CONTENT="0.2.8 Skip lists">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node38.html">
+<LINK REL="previous" HREF="node28.html">
+<LINK REL="up" HREF="node7.html">
+<LINK REL="next" HREF="node36.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html762"
+ HREF="node36.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html758"
+ HREF="node7.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html752"
+ HREF="node34.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html760"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html761"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html763"
+ HREF="node36.html">0.2.8.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html759"
+ HREF="node7.html">0.2 Data Searching and</A>
+<B> Previous:</B> <A NAME="tex2html753"
+ HREF="node34.html">0.2.7.6 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00038000000000000000">&#160;</A>
+<A NAME="407">&#160;</A>
+<BR>
+0.2.8 Skip lists
+</H2>
+
+<P>
+In a paper entitled <EM>Skip Lists: A Probabilistic Alternative to
+Balanced Trees</EM> William Pugh at the University of Maryland proposed a
+linked-list like data structure with some additional features which
+improved traversal speed.  Binary trees work well when the elements
+which they are to contain are inserted in a random order.  As we have
+seen in the previous sections, BSTs perform very poorly when data is
+inserted in order.  Red-Black trees, which do not suffer from
+<A NAME="409">&#160;</A>
+<A NAME="410">&#160;</A>
+degenerate performance manifested by BSTs, must constantly rotate and
+re-balance as data is inserted in order.  A skip list is an ordered
+linked list in which every node contains a variable number of links to 
+other nodes.  The nth link of a given node points to subsequent nodes
+in the list skipping over some number of intermediary nodes.  These
+skipped nodes are common in that they have fewer than n links
+associated with them.
+
+<P>
+Because most nodes have a variable number of links, a skip list is
+really a collection of linked lists of different levels.  In order to
+quickly traverse the structure looking for some target key we search
+on the upper level list until either the target data is encountered or 
+we find a node with a key smaller than the target which links to a
+subsequent node with a larget value than the target.  In the second
+case we continue by repeating the same procedure beginning at the node 
+with the smaller value than the target and continuing on the list one
+level down.
+
+<P>
+In the following quotation William Pugh describes the performance of
+his skip list data structure:
+
+<P>
+<BLOCKQUOTE>
+Skip lists are a probabilistic alternative to balanced trees. Skip
+lists are balanced by consulting a random number generator.  Although
+skip lists have bad worst-case performance, no input sequence
+consistently produces the worst-case performance (much like quicksort
+when the pivot element is chosen randomly).  It is very unlikely a
+skip list data structure will be significantly unbalanced (e.g., for a
+dictionary of more than 250 elements, the chance that a search will
+take more than 3 times the expected time is less than one in a
+million). Skip lists have balance properties similar to that of search
+trees built by random insertions, yet do not require insertions to be
+random.
+
+<P>
+Balancing a data structure probabilistically is easier than 
+explicitly maintaining the balance. For many applications, skip lists 
+are a more natural representation than trees, also leading to simpler 
+algorithms. The simplicity of skip list algorithms makes them easier to 
+implement and provides significant constant factor speed improvements 
+over balanced tree and self-adjusting tree algorithms. Skip lists are 
+also very space efficient. They can easily be configured to require an 
+average of 1 1/3 pointers per element (or even less) and do not require 
+balance or priority information to be stored with each node. 
+</BLOCKQUOTE>
+<P>
+The above article appeared in the June 1990 issue of the
+Communications of the ACM. A Postscript format version is available
+for anonymous ftp from <A NAME="tex2html12"
+ HREF="ftp://ftp.cs.umd.edu">ftp.cs.umd.edu</A>.  The author, William Pugh,
+can be contacted at <A NAME="tex2html13"
+ HREF="mailto:pugh@cs.umd.edu">pugh@cs.umd.edu</A>.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html764"
+ HREF="node36.html">0.2.8.1 Source Code</A>
+<LI><A NAME="tex2html765"
+ HREF="node37.html">0.2.8.2 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

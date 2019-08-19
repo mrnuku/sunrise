@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.9 Tries</TITLE>
+<META NAME="description" CONTENT="0.2.9 Tries">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node40.html">
+<LINK REL="previous" HREF="node35.html">
+<LINK REL="up" HREF="node7.html">
+<LINK REL="next" HREF="node39.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html798"
+ HREF="node39.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html794"
+ HREF="node7.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html788"
+ HREF="node37.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html796"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html797"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html799"
+ HREF="node39.html">0.2.9.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html795"
+ HREF="node7.html">0.2 Data Searching and</A>
+<B> Previous:</B> <A NAME="tex2html789"
+ HREF="node37.html">0.2.8.2 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00039000000000000000">
+0.2.9 Tries</A>
+</H2>
+
+<P>
+A <B>trie</B>
+<A NAME="430">&#160;</A>
+is a special kind of tree data structure in which items are stored and
+accessed based upon their key value alone, not based upon their key
+value in relation to others in the tree.  In contrast, recall that a
+<B>binary search tree</B>
+<A NAME="432">&#160;</A>
+uses a greater-than or less-than relationship between keys in the tree
+to determine where a new insertion would be placed.  In tries, the new
+insertion's place is predetermined based on its key value.  For this
+reason a trie is somewhat of a cross between a tree and a <B>hash table</B>.
+<A NAME="434">&#160;</A>
+
+<P>
+Tries can only be used when the range of valid keys to be stored is
+known up-front.  To store a new item in a trie, that item's key value
+is somehow broken down into components.  If, for example, the item to
+be stored is a string, a logical way to break its value down is by
+letter.  For a number, perhaps a good way to break down the key value
+is by digits in its binary representation.  Every internal node in a
+trie can have as many child nodes as the number of items in the
+alphabet you are storing.  That is, if you are traversing on English
+letters each node can have up to 26 children.  If you are traversing
+on binary digits, each node can have two children, 0 or 1.
+
+<P>
+Imagine we have a trie in which we are storing strings.  We wish to
+store the new item ``dog'' in the trie.  From the root node we follow
+the ``d'' edge and arrive at a child node.  The only data stored in
+leaves under this child node are words that begin with the letter
+``d.''
+
+<P>
+Next, we traverse along the ``o'' link from the ``d'' node.  We reach
+yet another internal node under which only words which start with the
+prefix ``do'' are stored.  Finally suppose we find that there is no
+``g'' link off the ``do'' node.  We create one and store ``dog'' at this
+new leaf node.
+
+<P>
+Likewise, if we want to store the number six (6) in a numeric trie, we
+might convert six to it's binary representation (110).  From the first
+node we follow the ``1'' edge.  Next we traverse down the ``1'' edge
+again.  And finally we store the value six in a leaf node that is lies
+along the ``110'' edges from the root node.
+
+<P>
+Any path from the root to a leaf in a trie corresponds to the value of
+the item stored at the leaf node reached.
+
+<P>
+<B>Huffman trees</B>,
+<A NAME="436">&#160;</A>
+<A NAME="437">&#160;</A>
+<A NAME="438">&#160;</A>
+the data structures behind Huffman data compression algorithms, are a
+popular use of tries.  <B>Huffman coding</B>
+<A NAME="440">&#160;</A>
+is discussed in the data compression section of this document.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html800"
+ HREF="node39.html">0.2.9.1 Source Code</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

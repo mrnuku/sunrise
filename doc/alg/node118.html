@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.5.7 Addition Chaining</TITLE>
+<META NAME="description" CONTENT="0.5.7 Addition Chaining">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node122.html">
+<LINK REL="previous" HREF="node116.html">
+<LINK REL="up" HREF="node98.html">
+<LINK REL="next" HREF="node119.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1862"
+ HREF="node119.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1858"
+ HREF="node98.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1852"
+ HREF="node117.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1860"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1861"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1863"
+ HREF="node119.html">0.5.7.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html1859"
+ HREF="node98.html">0.5 Miscellaneous Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html1853"
+ HREF="node117.html">0.5.6.1 Source Code</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00067000000000000000">
+0.5.7 Addition Chaining</A>
+</H2>
+
+<P>
+<B>Addition chaining</B> is a method of computing <I>a</I><SUP><I>x</I></SUP> mod <I>n</I><A NAME="2625">&#160;</A>
+<A NAME="2626">&#160;</A>
+efficiently that is sometimes used in cryptographic systems.  Instead
+of performing a series of multiplications followed by a large
+division, there are ways to minimize the size and number of
+multiplications.  Because the operations of multiplication and modulo
+division are distributive, it is faster to take the modulus between
+successive multiplications thus limiting the size of the operands
+being multiplied.  For instance,
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+a^8 mod n = ((a^2 mod n)^2 mod n)^2 mod n
+\end{displaymath} -->
+
+
+<I>a</I><SUP>8</SUP> <I>mod n</I> = ((<I>a</I><SUP>2</SUP> <I>mod n</I>)<SUP>2</SUP> <I>mod n</I>)<SUP>2</SUP> <I>mod n</I>
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+<P>
+If <I>x</I> in <I>a</I><SUP><I>x</I></SUP> mod <I>n</I> is not a power of two then the binary
+representation of <I>x</I> can be used.  
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+a^{25} mod n = (a * a^{24}) mod n
+\end{displaymath} -->
+
+
+<I>a</I><SUP>25</SUP> <I>mod n</I> = (<I>a</I> * <I>a</I><SUP>24</SUP>) <I>mod n</I>
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+<P>
+But we also know that 
+<!-- MATH: $a^{24} mod n = (a^{8} * a^{16}) mod n$ -->
+<I>a</I><SUP>24</SUP> <I>mod n</I> = (<I>a</I><SUP>8</SUP> * <I>a</I><SUP>16</SUP>) <I>mod n</I>.  <I>a</I><SUP>8</SUP>is 
+<!-- MATH: $((a^2)^2)^2$ -->
+((<I>a</I><SUP>2</SUP>)<SUP>2</SUP>)<SUP>2</SUP> (<I>a</I><SUP>(2<SUP>3</SUP>)</SUP>).  Likewise 
+<!-- MATH: $a^{16} = a^{(2^4)}$ -->
+<I>a</I><SUP>16</SUP> = <I>a</I><SUP>(2<SUP>4</SUP>)</SUP>.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html1864"
+ HREF="node119.html">0.5.7.1 Source Code</A>
+<LI><A NAME="tex2html1865"
+ HREF="node120.html">0.5.7.2 Source Code</A>
+<LI><A NAME="tex2html1866"
+ HREF="node121.html">0.5.7.3 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

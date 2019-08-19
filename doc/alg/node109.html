@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.5.3.1 Source Code</TITLE>
+<META NAME="description" CONTENT="0.5.3.1 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node110.html">
+<LINK REL="previous" HREF="node108.html">
+<LINK REL="up" HREF="node108.html">
+<LINK REL="next" HREF="node110.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1756"
+ HREF="node110.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1752"
+ HREF="node108.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1746"
+ HREF="node108.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1754"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1755"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1757"
+ HREF="node110.html">0.5.3.2 References</A>
+<B> Up:</B> <A NAME="tex2html1753"
+ HREF="node108.html">0.5.3 Combinations</A>
+<B> Previous:</B> <A NAME="tex2html1747"
+ HREF="node108.html">0.5.3 Combinations</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00063100000000000000">
+0.5.3.1 Source Code</A>
+</H3>
+<PRE>
+int *r, n, k;
+
+int main (void) {
+  printf(``Please enter n and k (0 &lt; k &lt;= n): ``);
+  scanf(``%d %d'', &amp;n, &amp;k);
+  r = (int *) malloc(k+1 * sizeof(int));
+  r[0] = 0;
+  combin(1);
+}
+
+void combin (int m) {
+  int i;
+
+  if (m &lt;= k) {
+    for (r[m] = r[m-1] + 1; r[m] &lt;= n-k-m; r[m]++)
+      combin(m + 1);
+  } else {
+    for (i = 1; i &lt;= k; i++)
+      printf(``%d ``, r[i]);
+    printf(``\n'');
+  }
+}
+</PRE>
+<P>
+Here is a non-recursive implementation written by Jock Cooper that,
+given the number of items and the number of items in a set, computes
+the sets.
+
+<P>
+<HR>
+<DIV><TT>
+<BR>/* -- combin.c -- */
+<BR>
+<BR><HR>
+<BR><PRE>#include <stdio.h>
+ #include <stdlib.h>
+ 
+ int increment(int numcnt, int setcnt, int counter[]);
+ int addup(int setcnt, int counter[]);
+ int initcounter(int setcnt, int counter[]);
+ int combinations(int numcnt, int setcnt, int items[], int counter[], int results[]);
+ 
+ main(int c,char *v[])
+ {
+   int numitems, numcomb;
+   int *array, *results;
+   int *counter;
+   int idx;
+      
+   if (c != 3)
+   {
+     fprintf(stderr,"usage: %s numitems numcomb\n", v[0]);
+     exit(1);
+   }
+   numitems= atoi(v[1]);
+   numcomb = atoi(v[2]);
+      
+   array = calloc(numitems, sizeof(int));
+   counter = calloc(numcomb, sizeof(int));
+   results = calloc(numcomb, sizeof(int));
+      
+   for (idx=0; idx< numitems; ++idx)
+   {
+     array[idx] = rand() % 5000;
+     printf("%d ", array[idx]);
+   }
+   printf("\n");
+   initcounter(numcomb, counter);
+   while (combinations(numitems, numcomb, array, counter, results))
+   {
+     for (idx=0; idx<numcomb; ++idx)
+     {
+       printf("%d ", results[idx]);
+     }
+     printf("\n");
+   }
+ }
+ 
+ int initcounter(int setcnt, int counter[])
+ {
+   int idx;
+    
+   for (idx=0; idx<setcnt; ++idx)
+   {
+     counter[idx]=1;
+   }
+   counter[--idx]=0;
+ }
+ 
+ 
+ int combinations(int numcnt, int setcnt, int items[], int counter[], int results[])
+ {
+   int idx, iidx;
+ 
+   if (increment(numcnt,setcnt,counter) == 0)
+   {
+     return 0;
+   }
+ 
+   for (iidx=idx=0; idx<setcnt; ++idx)
+   {
+     iidx+=counter[idx];
+     results[idx] = items[iidx-1];
+   }
+   return 1;
+ }
+ 
+ int increment(int numcnt, int setcnt, int counter[])
+ {
+   int digit=setcnt-1;
+   int digit2;
+   int overflow;
+      
+   do
+   {
+     counter[digit]++;
+     if (addup(setcnt,counter) > numcnt)
+     {
+       overflow=1;
+        
+       digit2=digit;
+       --digit;
+       if (digit <0) 
+       {
+         return 0;
+       }
+ 
+       while (digit2 < setcnt) counter[digit2++]=1;
+     }
+     else
+     {
+       overflow=0;
+     }
+   }
+   while (overflow==1);
+   return 1;
+ }
+ 
+ 
+ int addup(int setcnt, int counter[])
+ {
+   int result=0;
+   int idx;
+      
+   for (idx=0; idx<setcnt; ++idx)
+   {
+     result+=counter[idx];
+   }
+   return result;
+ }
+ 
+</PRE>
+<BR><HR>
+<BR></TT></DIV><HR>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,386 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.5.11.1 Source Code</TITLE>
+<META NAME="description" CONTENT="0.5.11.1 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node133.html">
+<LINK REL="previous" HREF="node131.html">
+<LINK REL="up" HREF="node131.html">
+<LINK REL="next" HREF="node133.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2033"
+ HREF="node133.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2029"
+ HREF="node131.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2023"
+ HREF="node131.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2031"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2032"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2034"
+ HREF="node133.html">0.5.11.2 References</A>
+<B> Up:</B> <A NAME="tex2html2030"
+ HREF="node131.html">0.5.11 Metaphone Algorithm</A>
+<B> Previous:</B> <A NAME="tex2html2024"
+ HREF="node131.html">0.5.11 Metaphone Algorithm</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000611100000000000000">
+0.5.11.1 Source Code</A>
+</H3>
+
+<P>
+<PRE>
+//
+// Metaphone.cc
+//
+// Implementation of Metaphone Algorithm
+//
+
+
+//*****************************************************************************
+//
+// Metaphone::Metaphone()
+//
+Metaphone::Metaphone()
+{
+	name = "metaphone";
+}
+
+
+//*****************************************************************************
+// Metaphone::~Metaphone()
+//
+Metaphone::~Metaphone() 
+{
+}
+
+
+//*****************************************************************************
+//
+// Metaphone invented by Lawrence Philips
+// Metaphone implementation copied from C Gazette, June/July 1991, pp 56-57,
+// author Gary A. Parker, with changes by Bernard Tiffany of the
+// University of Michigan, and more changes by Tim Howes of the
+// University of Michigan.
+//
+
+/* Character coding array */
+static char     vsvfn[26] = {
+	1, 16, 4, 16, 9, 2, 4, 16, 9, 2, 0, 2, 2,
+	/* A   B  C   D  E  F  G   H  I  J  K  L  M  */
+	2, 1, 4, 0, 2, 4, 4, 1, 0, 0, 0, 8, 0 };
+/* N  O  P  Q  R  S  T  U  V  W  X  Y  Z  */
+
+/* Macros to access character coding array */
+#define vowel(x)  ((x) != 0 &amp;&amp; vsvfn[(x) - 'A'] &amp; 1)   /* AEIOU */
+#define same(x)   ((x) != 0 &amp;&amp; vsvfn[(x) - 'A'] &amp; 2)   /* FJLMNR */
+#define varson(x) ((x) != 0 &amp;&amp; vsvfn[(x) - 'A'] &amp; 4)   /* CGPST */
+#define frontv(x) ((x) != 0 &amp;&amp; vsvfn[(x) - 'A'] &amp; 8)   /* EIY */
+#define noghf(x)  ((x) != 0 &amp;&amp; vsvfn[(x) - 'A'] &amp; 16)  /* BDH */
+
+#define MAXPHONEMELEN   6
+
+void
+Metaphone::generateKey(char *word, String &amp;key)
+{
+	char *n;
+	String ntrans;
+        
+	/*
+	 * Copy Word to internal buffer, dropping non-alphabetic characters
+	 * and converting to upper case
+	 */
+
+	ntrans &lt;&lt; "0000";
+        
+	for (; *word; word++)
+	{
+		if (isalpha(*word)) ntrans &lt;&lt; *word;
+	}
+	ntrans.uppercase();
+        
+	/* ntrans[0] will always be == 0 */
+	n = ntrans.get();
+
+	/* Pad with nulls */
+	*n++ = 0;
+	*n++ = 0;
+	*n++ = 0;
+	*n = 0;
+
+	/* Assign pointer to start */
+	n = ntrans.get() + 4;
+	ntrans &lt;&lt; '\0';
+	ntrans &lt;&lt; '\0';
+	ntrans &lt;&lt; '\0';
+
+	/* Check for PN, KN, GN, AE, WR, WH, and X at start */
+	switch (*n)
+	{
+
+		case 'P':
+		case 'K':
+		case 'G':
+
+			/* 'PN', 'KN', 'GN' becomes 'N' */
+			if (*(n + 1) == 'N')
+				*n++ = 0;
+			break;
+
+		case 'A':
+			/* 'AE' becomes 'E' */
+			if (*(n + 1) == 'E')
+				*n++ = 0;
+			break;
+
+		case 'W':
+			/* 'WR' becomes 'R', and 'WH' to 'H' */
+			if (*(n + 1) == 'R')
+				*n++ = 0;
+			else if (*(n + 1) == 'H') 
+			{
+				*(n + 1) = *n;
+				*n++ = 0;
+			}
+			break;
+
+		case 'X':
+			/* 'X' becomes 'S' */
+			*n = 'S';
+			break;
+	}
+
+	//
+	// Now, loop step through string, stopping at end of string or when
+	// the computed 'metaph' is MAXPHONEMELEN characters long
+	//
+
+	for (; *n &amp;&amp; key.length() &lt; MAXPHONEMELEN; n++)
+	{
+
+		/* Drop duplicates except for CC */
+		if (*(n - 1) == *n &amp;&amp; *n != 'C') continue;
+
+		/* Check for F J L M N R or first letter vowel */
+		if (same(*n) || (*(n - 1) == 0 &amp;&amp; vowel(*n)))
+			key &lt;&lt; *n;
+
+		else 
+		{
+			switch (*n)
+			{
+				case 'B':
+					// B unless in -MB
+					if (*(n + 1) || *(n - 1) != 'M')
+						key &lt;&lt; *n;
+					break;
+				case 'C':
+					/*
+					 * X if in -CIA-, -CH- else S if in
+					 * -CI-, -CE-, -CY- else dropped if
+					 * in -SCI-, -SCE-, -SCY- else K
+					 */
+					if (*(n - 1) != 'S' || !frontv(*(n + 1)))
+					{
+						if (*(n + 1) == 'I' &amp;&amp; *(n + 2) == 'A')
+							key &lt;&lt; 'X';
+						else if (frontv(*(n + 1)))
+							key &lt;&lt; 'S';
+						else if (*(n + 1) == 'H')
+							key &lt;&lt; (((*(n - 1) == '\0' &amp;&amp; (!vowel(*(n + 2))) 
+									  || *(n - 1) == 'S')) ? 
+									      (char) 'K' : (char) 'X');
+						else
+							key &lt;&lt; 'K';
+					}
+					break;
+				case 'D':
+
+					/*
+					 * J if in DGE or DGI or DGY else T
+					 */
+					key &lt;&lt; ((*(n + 1) == 'G' &amp;&amp; frontv(*(n + 2)))
+							? (char) 'J' : (char) 'T');
+					break;
+				case 'G':
+
+					/*
+					 * F if in -GH and not B--GH, D--GH,
+					 * -H--GH, -H---GH else dropped if
+					 * -GNED, -GN, -DGE-, -DGI-, -DGY-
+					 * else J if in -GE-, -GI-, -GY- and
+					 * not GG else K
+					 */
+					if ((*(n + 1) != 'J' || vowel(*(n + 2))) &amp;&amp;
+						(*(n + 1) != 'N' || (*(n + 1) &amp;&amp;
+											 (*(n + 2) != 'E' || 
+                                            *(n + 3) != 'D'))) &amp;&amp;
+						(*(n - 1) != 'D' || !frontv(*(n + 1))))
+						key &lt;&lt; (frontv(*(n + 1)) &amp;&amp;
+								*(n + 2) != 'G') ? (char) 'G' : (char) 'K';
+					else if (*(n + 1) == 'H' &amp;&amp; !noghf(*(n - 3)) &amp;&amp;
+							 *(n - 4) != 'H')
+						key &lt;&lt; 'F';
+					break;
+				case 'H':
+
+					/*
+					 * H if before a vowel and not after
+					 * C, G, P, S, T else dropped
+					 */
+					if (!varson(*(n - 1)) &amp;&amp; (!vowel(*(n - 1
+						)) ||
+											  vowel(*(n + 1))))
+						key &lt;&lt; 'H';
+					break;
+				case 'K':
+
+					/*
+					 * dropped if after C else K
+					 */
+					if (*(n - 1) != 'C')
+						key &lt;&lt; 'K';
+					break;
+				case 'P':
+
+					/*
+					 * F if before H, else P
+					 */
+					key &lt;&lt; (*(n + 1) == 'H' ?
+							(char) 'F' : (char) 'P');
+					break;
+				case 'Q':
+
+					/*
+					 * K
+					 */
+					key &lt;&lt; 'K';
+					break;
+				case 'S':
+
+					/*
+					 * X in -SH-, -SIO- or -SIA- else S
+					 */
+					key &lt;&lt; ((*(n + 1) == 'H' ||
+							 (*(n + 1) == 'I' &amp;&amp; (*(n + 2) == 'O' ||
+												  *(n + 2) == 'A')))
+							? (char) 'X' : (char) 'S');
+					break;
+				case 'T':
+
+					/*
+					 * X in -TIA- or -TIO- else 0 (zero)
+					 * before H else dropped if in -TCH-
+					 * else T
+					 */
+					if (*(n + 1) == 'I' &amp;&amp; (*(n + 2) == 'O' ||
+											*(n + 2) == 'A'))
+						key &lt;&lt; 'X';
+					else if (*(n + 1) == 'H')
+						key &lt;&lt; '0';
+					else if (*(n + 1) != 'C' || *(n + 2) != 'H')
+						key &lt;&lt; 'T';
+					break;
+				case 'V':
+
+					/*
+					 * F
+					 */
+					key &lt;&lt; 'F';
+					break;
+				case 'W':
+
+					/*
+					 * W after a vowel, else dropped
+					 */
+				case 'Y':
+
+					/*
+					 * Y unless followed by a vowel
+					 */
+					if (vowel(*(n + 1)))
+						key &lt;&lt; *n;
+					break;
+				case 'X':
+
+					/*
+					 * KS
+					 */
+					if (*(n - 1) == '\0')
+						key &lt;&lt; 'S';
+					else
+						key &lt;&lt; "KS";        /* Insert K, then S */
+					break;
+				case 'Z':
+
+					/*
+					 * S
+					 */
+					key &lt;&lt; 'S';
+					break;
+			}
+		}
+	}
+}
+
+
+//*****************************************************************************
+// void Metaphone::addWord(char *word)
+//
+void
+Metaphone::addWord(char *word)
+{
+	if (!dict)
+	{
+		dict = new Dictionary;
+	}
+
+	String  key;
+	generateKey(word, key);
+
+	if (key.length() == 0)
+		return;
+	String  *s = (String *) dict-&gt;Find(key);
+	if (s)
+	{
+		if (mystrcasestr(s-&gt;get(), word) != 0)
+			(*s) &lt;&lt; ' ' &lt;&lt; word;
+	}
+	else
+	{
+		dict-&gt;Add(key, new String(word));
+	}
+}
+</PRE>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

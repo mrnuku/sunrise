@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.10.1 Octree Source Code</TITLE>
+<META NAME="description" CONTENT="0.2.10.1 Octree Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="previous" HREF="node40.html">
+<LINK REL="up" HREF="node40.html">
+<LINK REL="next" HREF="node42.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html830"
+ HREF="node42.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html826"
+ HREF="node40.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html822"
+ HREF="node40.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html828"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html829"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html831"
+ HREF="node42.html">0.3 Sorting Algorithms</A>
+<B> Up:</B> <A NAME="tex2html827"
+ HREF="node40.html">0.2.10 Quadtrees and Octrees</A>
+<B> Previous:</B> <A NAME="tex2html823"
+ HREF="node40.html">0.2.10 Quadtrees and Octrees</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000310100000000000000">
+0.2.10.1 Octree Source Code</A>
+</H3>
+
+<P>
+Many thanks to Lynn Jones for donating octree code to this collection.
+The following implementation was written in C++ by <A NAME="tex2html15"
+ HREF="mailto:lwjones@acm.vt.edu">Lynn Jones</A>
+in a research project at the
+University of South Carolina.
+
+<P>
+<HR>
+<DIV><TT>
+<BR><HR>
+<BR><PRE>// Octree Program -- dataarray.h
+ // Lynn Jones, Virginia Tech, lwjones@vt.edu
+ 
+ #ifndef D_ARRAY
+ #define D_ARRAY
+ 
+ #include <stdio.h>
+ #include "constants.h"
+ #include "octreeNode.h"
+ 
+ class DataArray {
+ public:
+   uchar data[xVal][yVal][zVal];
+ 
+   DataArray(){}
+   ~DataArray(){}
+   
+   void ReadData() {
+     for (int i=0; i<zVal; i++)
+       for (int j=0; j<yVal; j++)
+ 	for (int k=0; k<xVal; k++) {
+ 	  cin >> data[k][j][i];
+ 	}
+   }
+   
+   void WriteData() {
+     for (int i=0; i<xVal; i++)
+       for (int j=0; j<yVal; j++)
+ 	for (int k=0; k<zVal; k++) 
+ 	  cout << (short)data[i][j][k]; 
+   } 
+   
+   OctreeNode *BuildTree
+     (int fromX =0, int fromY =0, int fromZ =0, int length = xVal)
+       /*
+ 	 Octree subdivides in this order:
+ 	 
+ 	 1---5
+         /|  /|
+        0---4 |
+        | 3-|-7
+        |/  |/
+        2---6
+ 
+        */
+   {
+     OctreeNode *parent;
+     
+     if (length == 1) {
+       parent = new OctreeNode(LEAF);
+       parent->value = data[fromX][fromY][fromZ];
+       return parent;
+     }
+     //else
+     parent = new OctreeNode(INTERNAL);  
+     parent->children[0] = BuildTree(fromX, fromY, fromZ, length/2);
+     parent->children[1] = BuildTree(fromX, fromY, fromZ+length/2, length/2);
+     parent->children[2] = BuildTree(fromX, fromY+length/2,fromZ, length/2);
+     parent->children[3] = BuildTree(fromX, fromY+length/2, fromZ+length/2, length/2);
+     parent->children[4] = BuildTree(fromX+length/2, fromY, fromZ, length/2);
+     parent->children[5] = BuildTree(fromX+length/2, fromY, fromZ+length/2, length/2);
+     parent->children[6] = BuildTree(fromX+length/2, fromY+length/2, fromZ, length/2);
+     parent->children[7] = BuildTree(fromX+length/2, fromY+length/2, fromZ+length/2, length/2);
+     parent->value = parent->AverageChildren();
+     return parent;
+   }
+ };
+ #endif
+ 
+ 
+ // Octtree Program -- octreenode.h
+ // Lynn Jones, Virginia Tech, lwjones@vt.edu
+ 
+ #ifndef OCTNODE
+</PRE>
+<BR><HR>
+<BR></TT></DIV> 
+<HR><P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.8.4 Knapsack Problem</TITLE>
+<META NAME="description" CONTENT="0.8.4 Knapsack Problem">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="previous" HREF="node158.html">
+<LINK REL="up" HREF="node153.html">
+<LINK REL="next" HREF="node161.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2374"
+ HREF="node161.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2370"
+ HREF="node153.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2366"
+ HREF="node159.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2372"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2373"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2375"
+ HREF="node161.html">0.8.4.1 References</A>
+<B> Up:</B> <A NAME="tex2html2371"
+ HREF="node153.html">0.8 Geometric Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html2367"
+ HREF="node159.html">0.8.3.1 Source Code</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00094000000000000000">&#160;</A>
+<A NAME="3396">&#160;</A>
+<A NAME="3397">&#160;</A>
+<A NAME="3398">&#160;</A>
+<A NAME="3399">&#160;</A>
+<BR>
+0.8.4 Knapsack Problem
+</H2>
+
+<P>
+The knapsack problem deals with packing known size objects into a
+space such that the value of these items is maximized.  The objects
+and the space can be x-dimensional.  The number of objects is
+unlimited but there are <I>n</I> classes of objects.  All members of one
+class are the same size.  All classes are different sizes.
+
+<P>
+In most versions of the knapsack problem the value of the classes is
+variable and we must maximize the value of the objects in the space.
+
+<P>
+Packing <I>n</I> types of objects into a fixed space <I>s</I> can be solved by a
+recursive algorithm.
+
+<P>
+<HR><PRE>
+int knap(int cap) 
+{
+  int i, space, max, t;
+
+  /* N is the number of item classes */
+  for (i = 0, max = 0; i &lt; N; i++) 
+  { 
+
+    /* 
+     * ... figure out how much space would be left if we packed this
+     * class of item (current free space minus this item requirement)
+     */
+    space = cap - items[i].size;
+
+    /* if the space is still positive (i.e. we can pack it legally)... */
+    if (space &gt;= 0)
+    {
+
+      /* ... then do it and recurse on the new (less) amount of free space */
+      t = knap(space) + items[i].val;
+
+      if (t &gt; max) 
+      {
+        max = t;
+      }
+    }
+  }
+
+  /*
+   * if we did not pack anything (i.e. nothing will fit) max = 0 and
+   * return zero.  Else max is the ``most valuable'' way we can pack
+   * at this point and we return its value to the previous layer.  If
+   * the USING_ITEM_VALUES macro is not defined, all items are worth
+   * one and we are trying to maximize the number of items we can fit,
+   * not the value of items we can fit.
+   */
+  return(max);
+}
+</PRE><HR>
+<P>
+The problem is that this solution is inefficient.  Tracing the
+execution of the recursive solution you will notice that much of the
+algorithms time is spent recomputing the answer to a subproblem that
+it has seen in the past.  For instance, if we have already discovered
+the best way to pack a space of size 14 once, why should we go
+though the process of computing it all over again?  Yet the above
+solution does just that.  Imagine we have a starting knapsack size of
+twenty-five.  We pack an item value <I>v</I><SUB>1</SUB> of size ten into the sack.
+Then we pack another item of value <I>v</I><SUB>2</SUB> and size one into the sack.
+We now have fourteen free space in the knapsack and want to maximize
+the value we can fit into this space.  Assume we do so.
+
+<P>
+Now we recurse out to the first instance of knap in the call stack and
+proceed to change the first item.  We now pack an item of value <I>v</I><SUB>3</SUB>and size six as the first thing in the sack.  In the following call to
+knap's loop, at some point, we pack a second item into the sack with a
+value of <I>v</I><SUB>4</SUB> and a size of five.  We now are facing the same exact
+problem we solved before: how to pack a free space of size fourteen
+and maximize the value.  Because we have solved this problem, it would
+make sense to simply reuse the solution and avoid the recomputation.
+The recursive solution to the knapsack problem does not do this,
+though; rather it dumbly recomputes.  In fact, because of the massive
+amounts of recumputation involved, an analysis of this recursive
+solution will discover that it takes exponential time.  This is
+unacceptable for anything but the smallest problems.
+
+<P>
+Enter <B>dynamic programming</B>.  This is an often-misunderstood
+concept; all it means is that if you have one large problem made up of
+many subproblems, the first time you tackle a subproblem save its
+result so that if you must handle the same subproblem again at some
+point you can skip the computation and just use the old result.
+Here's how we can use this technique to make the recursive example
+previously shown linear in complexity:
+
+<P>
+<HR><PRE>
+int knap(int cap) {
+  int i, space, max, maxi, t;
+
+  /* the first thing we do is see if we have an answer to how to pack
+   * items into cap space maximizing the value of the items.  If so we
+   * do not need to do anything but return!
+   */
+
+  if (max_known[cap] != UNKNOWN) 
+  {
+    return(max_known[M]);
+  }
+
+  /* if we got here we have not yet solved this problem, so lets do
+   * it!
+   */
+  for (i = 0, max = 0; i &lt; N; i++) 
+  {
+
+    /* see comments on recursive solution -- understand it before you
+     * read this 
+     */
+
+    space = cap - items[i].size;
+    if (space &gt;= 0) 
+    {
+      t = knap(space) + items[i].val;
+      if (t &gt; max) 
+      {
+        max = t;
+        maxi = i;
+      }
+    }
+  }
+
+  /* now that we have packed the required space as well as we can,
+   * remember how well we could do it.  Thus, if we are ever required to
+   * do it again we can just use this saved value...
+   */
+
+  max_known[cap] = max;
+  item_known[cap] = items[maxi];
+
+  return(max);
+}
+</PRE><HR>
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html2376"
+ HREF="node161.html">0.8.4.1 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

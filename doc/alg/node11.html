@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.2.1 Analysis</TITLE>
+<META NAME="description" CONTENT="0.2.2.1 Analysis">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node12.html">
+<LINK REL="previous" HREF="node10.html">
+<LINK REL="up" HREF="node10.html">
+<LINK REL="next" HREF="node12.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html470"
+ HREF="node12.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html466"
+ HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html460"
+ HREF="node10.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html468"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html469"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html471"
+ HREF="node12.html">0.2.2.2 Source Code</A>
+<B> Up:</B> <A NAME="tex2html467"
+ HREF="node10.html">0.2.2 Binary Search</A>
+<B> Previous:</B> <A NAME="tex2html461"
+ HREF="node10.html">0.2.2 Binary Search</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00032100000000000000">
+0.2.2.1 Analysis</A>
+</H3>
+
+<P>
+A binary search on an array is 
+<!-- MATH: $O(log_2 n)$ -->
+<I>O</I>(<I>log</I><SUB>2</SUB> <I>n</I>) because at each test you
+can ``throw out'' one half of the search space.  If we assume <I>n</I>, the
+number of items to search, is a power of two (i.e. <I>n</I> = 2<SUP><I>x</I></SUP>) then,
+given that <I>n</I> is cut in half at each comparison, the most comparisons
+needed to find a single item in <I>n</I> is <I>x</I>.  It is noteworthy that for
+very small arrays a <B>linear search</B>
+<A NAME="148">&#160;</A>
+<A NAME="149">&#160;</A>
+can prove faster than a binary search.  However as the size of the
+array to be searched increases the binary search is the clear victor
+in terms of number of comparisons and therefore overall speed.
+
+<P>
+Still, the binary search has some drawbacks.  First of all, it
+requires that the data to be searched be in sorted order.  If there is
+even one element out of order in the data being searched it can throw
+off the entire process.  When presented with a set of unsorted data
+the efficient programmer must decide whether to sort the data and
+apply a binary search or simply apply the less-efficient linear
+search.  Even the best sorting algorithm is a complicated process.  Is
+the cost of sorting the data is worth the increase in search speed
+gained with the binary search?  If you are searching only once, it is
+probably better to do a linear search in most cases.
+
+<P>
+Once the data is sorted it can also prove very expensive to add or
+delete items.  In a sorted array, for instance, such operations
+require a <B>ripple-shift</B>
+<A NAME="151">&#160;</A>
+of array elements to open or close a ``hole'' in the array.  This is
+an expensive operation as it requires, in worst case, <I>log</I><SUB>2</SUB> <I>n</I>comparisons and <I>n</I> item moves.
+
+<P>
+The binary search assumes easy random-access to the data space it is
+searching.  An array is the data structure that is most often used
+because it is easy to jump from one index to another in an array.  It
+is difficult, on the other hand, to efficiently compute the midpoint
+of a <B>linked list</B>
+<A NAME="153">&#160;</A>
+<A NAME="154">&#160;</A>
+and then traverse there inexpensively.  The <B>binary search tree</B>
+data structure and algorithm, which we discussed later,
+<A NAME="156">&#160;</A>
+<A NAME="157">&#160;</A>
+attempt to solve these array-based binary search weaknesses.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

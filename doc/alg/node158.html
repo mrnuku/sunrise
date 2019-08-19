@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.8.3 Determining Whether a Point is Inside a Polygon</TITLE>
+<META NAME="description" CONTENT="0.8.3 Determining Whether a Point is Inside a Polygon">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node160.html">
+<LINK REL="previous" HREF="node157.html">
+<LINK REL="up" HREF="node153.html">
+<LINK REL="next" HREF="node159.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2353"
+ HREF="node159.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2349"
+ HREF="node153.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2343"
+ HREF="node157.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2351"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2352"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2354"
+ HREF="node159.html">0.8.3.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html2350"
+ HREF="node153.html">0.8 Geometric Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html2344"
+ HREF="node157.html">0.8.2 Closest Pair Problem</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00093000000000000000">
+0.8.3 Determining Whether a Point is Inside a Polygon</A>
+</H2>
+
+<P>
+The following algorithm was sent to me by Romano Giannetti who got it
+from the comp.graphics.algorithms FAQ where it was originally written
+by Wm. Randolph Franklin.  It works on convex or concave algorithms,
+simple and complex.
+
+<P>
+It works by the <B>ray tracing</B> method.   Starting at the
+coordinates of the point in question draw a straight line in any
+direction.  If the number of times it intersects the polygon border is 
+odd the starting point is inside the polygon.  If it is even the
+starting point is outside the polygon.
+
+<P>
+Another good polygon algorithm page is <A NAME="tex2html18"
+ HREF="mailto:smokin@pdq.net">Darel
+Finley's</A>.  Check it out at
+<A NAME="tex2html19"
+ HREF="http://freeweb.pdq.net/smokin/polygon">http://freeweb.pdq.net/smokin/polygon</A>.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html2355"
+ HREF="node159.html">0.8.3.1 Source Code</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.3.1 Building a Max-Heap</TITLE>
+<META NAME="description" CONTENT="0.3.3.1 Building a Max-Heap">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node57.html">
+<LINK REL="previous" HREF="node55.html">
+<LINK REL="up" HREF="node55.html">
+<LINK REL="next" HREF="node57.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1059"
+ HREF="node57.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1055"
+ HREF="node55.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1049"
+ HREF="node55.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1057"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1058"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1060"
+ HREF="node57.html">0.3.3.2 Analysis</A>
+<B> Up:</B> <A NAME="tex2html1056"
+ HREF="node55.html">0.3.3 Heapsort</A>
+<B> Previous:</B> <A NAME="tex2html1050"
+ HREF="node55.html">0.3.3 Heapsort</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00043100000000000000">
+0.3.3.1 Building a Max-Heap</A>
+</H3>
+
+<P>
+The first step in a Heapsort algorithm is to build a max-heap!  Any
+array can be ``heap shaped'' if we look at it the right way; place the
+root of the heap at element one (or zero) in the array.  Further, let
+any node's two children in the heap reside at indexes (2<I>n</I>) and (2<I>n</I>
++ 1) in the array.  Our heap-shaped array, then, would look something
+like this:
+
+<P>
+<PRE>
+                1
+               / \
+              2   3
+             /\   /\
+            4  5 6  7
+           / \
+          8   9
+</PRE>
+<P>
+Note that each level of the heap is <B>full</B>.  If we were to add an
+element to this heap we would add at the end of the array, at position
+ten.  Position ten, by the above formula, is the left child of node
+five.
+
+<P>
+However, in a max-heap every element has to have a greater key value
+than either of its children.  Clearly, then, the root node, or
+position one in our array, must be the data item with the greatest key
+value in the set to be sorted.
+
+<P>
+We can build this heap by putting our data items into the array in any
+order and then ``heapifying'' the array.  Examine the first <B>non-leaf</B> node in the heap-array and compare its key value against
+<A NAME="1342">&#160;</A>
+<A NAME="1343">&#160;</A>
+that of its greatest child.  If it is greater than its greater
+children, proceed to the next non-leaf node and repeat this process.
+However, if it is not greater than its greater children then swap
+these elements.  Before continuing to the next non-leaf node and
+repeating the process the algorithm must be certain that the newly
+demoted value is in the correct spot.  Thus the process must recurse
+on this demoted value before it can continue with the next leaf on its
+way to the root.  By moving up the whole heap-array in this manner all
+nodes will end up being greater than their children.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.5.2.1 Source Code</TITLE>
+<META NAME="description" CONTENT="0.5.2.1 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node107.html">
+<LINK REL="previous" HREF="node105.html">
+<LINK REL="up" HREF="node105.html">
+<LINK REL="next" HREF="node107.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1720"
+ HREF="node107.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1716"
+ HREF="node105.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1710"
+ HREF="node105.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1718"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1719"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1721"
+ HREF="node107.html">0.5.2.2 References</A>
+<B> Up:</B> <A NAME="tex2html1717"
+ HREF="node105.html">0.5.2 Permutations</A>
+<B> Previous:</B> <A NAME="tex2html1711"
+ HREF="node105.html">0.5.2 Permutations</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00062100000000000000">
+0.5.2.1 Source Code</A>
+</H3>
+
+<P>
+<PRE>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define MAX_NUM 100
+
+//
+//  A single call to permut(k, n) will produce (n - k + 1)!
+//  permutations consisting of the integers:
+//
+//               r[1] ... r[k-1] ... r[k] ... r[n]
+//  
+//  In the output, the first r[1]...r[k-1] numbers will not
+//  change.  The r[k]...r[n] numbers will be permiated.  An
+//  initial call of permut(1, n) will produce the full n!
+//  permutations of these n numbers.
+//
+//
+
+void permut(int k, int n, int *nums)
+{
+  int i, j, tmp;
+
+  /* when k &gt; n we are done and should print */
+  if (k &lt;= n) 
+  {
+
+    for (i = k; i &lt;= n; i++) 
+    {
+
+      /** 
+        *  each element i is promoted to the kth place while the rest
+        *  of the items from k to i-1 are shifted to make room with
+        *  a ripple-shift operation.
+        *
+        **/
+      tmp = nums[i];
+      for (j = i; j &gt; k; j--) 
+      {
+	nums[j] = nums[j-1];
+      }
+      nums[k] = tmp;
+
+      /* recurse on k+1 to n */
+      permut(k + 1, n, &amp;(nums[0]));
+
+      for (j = k; j &lt; i; j++) 
+      {
+        nums[j] = nums[j+1];
+      }
+      nums[i] = tmp;
+    }
+  } 
+  else 
+  {
+    for (i = 1; i &lt;= n; i++) 
+    {
+      printf("%d ", nums[i]);
+    }
+    printf("\n");
+  }
+}
+
+int main(void) 
+{
+  int iCount;
+  int rgNums[MAX_NUM];
+  int i;
+
+  printf("Enter n: ");
+  scanf("%d", &amp;iCount);
+
+
+  /* create a workspace of numbers in their respective places */
+  for (i = 1; i &lt;= iCount; i++)
+  {
+    rgNum[i] = i;
+  }
+
+  printf("Permutations:\n");
+  permut(1, iCount, rgNum);
+}
+</PRE>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

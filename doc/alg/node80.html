@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.4 Graph Algorithms</TITLE>
+<META NAME="description" CONTENT="0.4 Graph Algorithms">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node98.html">
+<LINK REL="previous" HREF="node42.html">
+<LINK REL="up" HREF="alg.html">
+<LINK REL="next" HREF="node81.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1344"
+ HREF="node81.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1340"
+ HREF="alg.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1334"
+ HREF="node79.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1342"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1343"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1345"
+ HREF="node81.html">0.4.1 Graph Representation</A>
+<B> Up:</B> <A NAME="tex2html1341"
+ HREF="alg.html">Algorithm Archive (Work in</A>
+<B> Previous:</B> <A NAME="tex2html1335"
+ HREF="node79.html">0.3.10.3 Source Code</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00050000000000000000">&#160;</A>
+<A NAME="2156">&#160;</A>
+<A NAME="2157">&#160;</A>
+<A NAME="2158">&#160;</A>
+<A NAME="2159">&#160;</A>
+<A NAME="2160">&#160;</A>
+<A NAME="2161">&#160;</A>
+<A NAME="2162">&#160;</A>
+<BR>
+0.4 Graph Algorithms
+</H1>
+
+<P>
+A graph is a finite set of <B>vertices</B> and <B>edges</B>.  Each edge
+in a graph must begin and end at a different vertex (and, thus, no
+edges can "loop" joining one vertex to itself).  Moreover between any
+pair of vertices there can be only one edge.  Vertices are sometimes
+also called <B>nodes</B>.  Nodes joined by an edge are said to be <B>adjacent</B>.
+<A NAME="2167">&#160;</A>
+<A NAME="2168">&#160;</A>
+
+<P>
+We call moving between vertices along edges <B>traversing</B> a graph.
+<A NAME="2170">&#160;</A>
+
+<P>
+In <B>directed graphs</B>, or <B>di-graphs</B>, every edge has
+orientation.
+<A NAME="2173">&#160;</A>
+<A NAME="2174">&#160;</A>
+<A NAME="2175">&#160;</A>
+It is only possible to traverse a given edge in one direction.
+All edges are like one-way streets; traffic can only flow in
+a single direction.
+
+<P>
+In <B>weighted graphs</B>, each edge has a <B>cost</B>
+associated with
+<A NAME="2178">&#160;</A>
+<A NAME="2179">&#160;</A>
+it.  To move from a pair of vertices with an edge joining them
+you have to pay a toll - the price of that edge.  It is often
+possible, however, to circumvent expensive edges by finding a
+less expensive, more indirect route, between an edge's endpoints.
+In the following section we will explore several algorithms designed
+to find the shortest path between two vertices.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html1346"
+ HREF="node81.html">0.4.1 Graph Representation</A>
+<LI><A NAME="tex2html1347"
+ HREF="node82.html">0.4.2 Graph Traversal</A>
+<UL>
+<LI><A NAME="tex2html1348"
+ HREF="node83.html">0.4.2.1 Depth-first traversal</A>
+<UL>
+<LI><A NAME="tex2html1349"
+ HREF="node84.html">0.4.2.1.1 References</A>
+</UL>
+<LI><A NAME="tex2html1350"
+ HREF="node85.html">0.4.2.2 Breadth-first traversal</A>
+<LI><A NAME="tex2html1351"
+ HREF="node86.html">0.4.2.3 Euler Cycles</A>
+<LI><A NAME="tex2html1352"
+ HREF="node87.html">0.4.2.4 Hamilton Circuits</A>
+</UL>
+<LI><A NAME="tex2html1353"
+ HREF="node88.html">0.4.3 Floyd's Algorithm - Shortest Paths</A>
+<LI><A NAME="tex2html1354"
+ HREF="node89.html">0.4.4 Dijkstra's Algorithm - Shortest Path</A>
+<UL>
+<LI><A NAME="tex2html1355"
+ HREF="node90.html">0.4.4.1 Analysis</A>
+<LI><A NAME="tex2html1356"
+ HREF="node91.html">0.4.4.2 Source Code</A>
+</UL>
+<LI><A NAME="tex2html1357"
+ HREF="node92.html">0.4.5 Spanning Trees</A>
+<UL>
+<LI><A NAME="tex2html1358"
+ HREF="node93.html">0.4.5.1 Prim's Algorithm</A>
+<UL>
+<LI><A NAME="tex2html1359"
+ HREF="node94.html">0.4.5.1.1 Source Code</A>
+</UL>
+<LI><A NAME="tex2html1360"
+ HREF="node95.html">0.4.5.2 Kruskal's Algorithm</A>
+<UL>
+<LI><A NAME="tex2html1361"
+ HREF="node96.html">0.4.5.2.1 Source Code</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html1362"
+ HREF="node97.html">0.4.6 Transitive Closure</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

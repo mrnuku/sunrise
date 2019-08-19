@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.5.5.1 A Brief History of the Julian Calendar</TITLE>
+<META NAME="description" CONTENT="0.5.5.1 A Brief History of the Julian Calendar">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node114.html">
+<LINK REL="previous" HREF="node112.html">
+<LINK REL="up" HREF="node112.html">
+<LINK REL="next" HREF="node114.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1805"
+ HREF="node114.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1801"
+ HREF="node112.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1795"
+ HREF="node112.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1803"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1804"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1806"
+ HREF="node114.html">0.5.5.2 Source Code</A>
+<B> Up:</B> <A NAME="tex2html1802"
+ HREF="node112.html">0.5.5 Julian Calendar Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html1796"
+ HREF="node112.html">0.5.5 Julian Calendar Algorithms</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00065100000000000000">&#160;</A>
+<A NAME="2591">&#160;</A>
+<A NAME="2592">&#160;</A>
+<BR>
+0.5.5.1 A Brief History of the Julian Calendar
+</H3>
+The original Julian Calendar was introduced by Julius Caesar (thus the
+name) in 44 B.C.  The length of a single year was to be equal to the
+time time it takes for the earth to orbit the sun once.  This amount
+was estimated to be 365 days and 6 hours.  Every fourth year the extra
+six hours were collected and added as an extra day to the year,
+creating a leap year of 366 days.
+<A NAME="2593">&#160;</A>
+<A NAME="2594">&#160;</A>
+
+<P>
+Because of a slight inaccuracy in estimation of a year's length under
+the original Julian Calendar (The true amount of time it takes for the
+Earth to complete one solar orbit is closer to 365 days, 5 hours, 49
+minutes and 12 seconds), over a long period of time the extra minutes
+and seconds began to accumulate and things began to go wrong.  Most
+notably the Spring Equinox, which occurs at a measurable fixed point
+in the Earth's orbit, began not to fall on the same date.
+
+<P>
+The ``new style'' Julian Calendar, upon which the algorithm presented
+here is based, dates from the year 1582.  That is when Pope Gergory
+XIII decided to fix the messed up Julian calendar.  To do so he
+skipped the date forward from October 5th to October 14th to trim time
+added due to the inaccuracy of the Julian calendar.  He also redefined
+which years would be counter as leap years.  Before, every year evenly
+divisible by four was leap; Pope Gregory changed the rules so that:
+All years evenly divisible by four were leap years <I>except</I> those
+evenly divisible by 100 <I>and</I> not also evenly divisible by 400.
+For instance, 1700, 1800, and 1900 are not leap years.  They are
+evenly divisible by four but are also divisible by 100.  The year 2000
+is a leap year because it is evenly divisible by four and, even though
+it is also divisible by 100, it is also divisible by 400.  The
+Gregorian calendar also set New Year's day to January first.  The
+``new style'' Julian Calendar is popularly called the Gregorian
+Calendar in honor of Pope Gregory.
+<A NAME="2597">&#160;</A>
+<A NAME="2598">&#160;</A>
+
+<P>
+Interestingly, only Catholic countries used this better calendar right 
+away.  Many Protestent countries, however, adopted it over the next
+two centuries.  Most did so around 1700.  England held out until
+1752.  Others waited until the early 1900s.  Some Greek Orthadox
+countries opted to create their own calendar (a modified version of
+the Gregorian system) and use it instead today.
+
+<P>
+<A NAME="2599">&#160;</A>
+<A NAME="2600">&#160;</A>
+The ``new style'' (Gregorian) calendar should accurately model the
+Earth's movement around the sun for some 40,000 more years.
+
+<P>
+A mistake commonly made is to confuse ``Julian day numbers'' with the
+``Julian calendar.''  The Julian calendar is the system implemented in
+44 A.D. by Caesar.  Julian day numbers (which are based on the
+calendar and are calculated by the code in the following section) were
+proposed by a monk and named ``Julian'' after his father (not Caesar).
+Day numbers are simply the number of days elapsed since a fixed
+starting date.  That date is arbitrary but often set to January 1st,
+4713 B.C. (which the monk thought was pretty darn close to when the
+biblical creation story in Genesis must have taken place).  Other
+day numbering routines use different days as ``day zero.''
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

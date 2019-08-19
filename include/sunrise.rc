@@ -1,0 +1,28 @@
+#include <Winver.h>
+
+2 ICON "icon2.ico"
+
+1 VERSIONINFO
+FILEVERSION		0,0,2,7
+PRODUCTVERSION	0,0,2,7
+FILEFLAGSMASK	VS_FFI_FILEFLAGSMASK
+FILEFLAGS		VS_FF_SPECIALBUILD
+FILEOS			VOS__WINDOWS32
+FILETYPE		VFT_APP
+FILESUBTYPE		VFT2_UNKNOWN
+BEGIN
+	BLOCK "StringFileInfo"
+	BEGIN
+		BLOCK "040904E4"
+		BEGIN
+			VALUE "LegalCopyright",		"Copyright (C) 2010-2012 mrnuku\000"
+			VALUE "OriginalFilename",	"sr.exe\000"
+			VALUE "ProductName",		"SunRise Engine\000"
+			VALUE "ProductVersion",		"$Rev: 27 $\000"
+		END
+	END
+	BLOCK "VarFileInfo"
+	BEGIN
+		VALUE "Translation", 0x409, 1252
+	END
+END

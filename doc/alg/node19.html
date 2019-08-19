@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.4.1 Insertion Operation</TITLE>
+<META NAME="description" CONTENT="0.2.4.1 Insertion Operation">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node20.html">
+<LINK REL="previous" HREF="node18.html">
+<LINK REL="up" HREF="node18.html">
+<LINK REL="next" HREF="node20.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html569"
+ HREF="node20.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html565"
+ HREF="node18.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html559"
+ HREF="node18.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html567"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html568"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html570"
+ HREF="node20.html">0.2.4.2 Deletion</A>
+<B> Up:</B> <A NAME="tex2html566"
+ HREF="node18.html">0.2.4 Red-Black Trees</A>
+<B> Previous:</B> <A NAME="tex2html560"
+ HREF="node18.html">0.2.4 Red-Black Trees</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00034100000000000000">
+0.2.4.1 Insertion Operation</A>
+</H3>
+
+<P>
+The insertion of a new node into a red-black tree can be a complicated
+procedure.
+
+<P>
+In order to insert a new element it is mandatory to first determine
+the point of insertion.  To do this we traverse the tree as if it were
+a binary search tree.  Nodes less than or equal to the current node 
+in value cause us to traverse to the left child (whereas nodes greater
+than the current node in value cause us to traverse right).  As we move
+down the tree we perform what is known as a <B>color flip</B>
+<A NAME="245">&#160;</A>
+operation.  Every time a black node with two red children is
+encountered we make the parent node red and the two children black.
+This operation does not change the black height of the tree and helps
+ensure easier insertion in most cases.  Such a color flip, however,
+can produce two red nodes in a row.  Recall that two consecutive red
+nodes on any path from root to leaf is not allowed in this structure.
+If two consecutive red nodes are produced a tree-rebalancing operation
+must ensue.
+
+<P>
+In order to eliminate pairs of consecutive red nodes from a red-black
+tree a rotation operation is used.  A rotation operation is performed
+in a series of steps:
+<A NAME="246">&#160;</A>
+<A NAME="247">&#160;</A>
+<A NAME="248">&#160;</A>
+
+<P>
+<DL COMPACT>
+<DT>1.
+<DD>Make the current node's right child equal to the current node's
+right child's left child.
+<DT>2.
+<DD>Make the current node's right child's parent the current node's
+  parent.
+<DT>3.
+<DD>Make the current node's right child's left child the current node.
+</DL>
+<P>
+That's a mouthful.  Here's the source code to a rotate left function;
+you may find it easier to read:
+
+<P>
+<PRE>
+void rotate_left(node *current_node) 
+{
+    node *child = current_node-&gt;right;
+
+    /* establish current_node-&gt;right link */
+    current_node-&gt;right = child-&gt;left;
+    child-&gt;left-&gt;parent = current_node;
+
+    /* establish child-&gt;parent link */
+    child-&gt;parent = current_node-&gt;parent;
+    if (current_node-&gt;parent) 
+    {
+        if (current_node == current_node-&gt;parent-&gt;left)
+            current_node-&gt;parent-&gt;left = child;
+        else
+            current_node-&gt;parent-&gt;right = child;
+    } 
+    else 
+    {
+        root = child;
+    }
+
+    /* link child and current_node */
+    child-&gt;left = current_node;
+    current_node-&gt;parent = child;
+}
+</PRE>
+<P>
+The code for a <TT>rotate_right</TT> operation is what you would expect and
+is given in the full red-black source code in the ensuing section.  There
+are only a few cases in which two red nodes exist on a path from root to
+leaf after a color flip operation.  See the code for <TT>insert_fix</TT> for
+a case-by-case study.
+
+<P>
+When inserting a node in a leaf-with-black-parent situation simply create
+a new red node between the parent and leaf.  The leaf is now a child of
+this new red node and the node you wanted to insert is the other child.
+
+<P>
+It is not always possible to arrive at a black-leaf, black-parent situation,
+though.  In this case the node insertion happens the same way (i.e. create
+a new red node between the leaf and its parent; insert as children of this
+new red node) but the insertion process is followed by an immediate tree
+re-balancing as it created two red nodes in a row.
+
+<P>
+Insertion is a difficult operation to verbalize; the best way to get a
+handle on what is going on is to make sure you understand the rules of
+a red-black tree, make sure you understand the rotation operation, and
+look at the source code below.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

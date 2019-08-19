@@ -1,0 +1,396 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.1.3 Analysis</TITLE>
+<META NAME="description" CONTENT="0.3.1.3 Analysis">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node47.html">
+<LINK REL="previous" HREF="node45.html">
+<LINK REL="up" HREF="node43.html">
+<LINK REL="next" HREF="node47.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html933"
+ HREF="node47.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html929"
+ HREF="node43.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html923"
+ HREF="node45.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html931"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html932"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html934"
+ HREF="node47.html">0.3.1.4 Improvement Strategies</A>
+<B> Up:</B> <A NAME="tex2html930"
+ HREF="node43.html">0.3.1 The Quicksort</A>
+<B> Previous:</B> <A NAME="tex2html924"
+ HREF="node45.html">0.3.1.2 Partitioning</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00041300000000000000">
+0.3.1.3 Analysis</A>
+</H3>
+
+<P>
+The performance of the whole Quicksort algorithm depends on how well
+<TT>selectpivot</TT> does at picking a good pivot point.  The worst case
+for the given <TT>selectpivot</TT> procedure is when the data is already
+sorted.  The higher of the first two elements in a data partition will
+simply divide the range into an one-element left side and an (<I>x</I>-1)element right side.  This causes the Quicksort to run in quadratic
+time, <I>n</I><SUP>2</SUP> to be precise.
+
+<P>
+Another limitation of the Quicksort is that it tends to be an
+excellent choice for large arrays but performs badly with very small
+ones.
+
+<P>
+The best and average case running efficiency of a Quicksort is
+
+<!-- MATH: $\Theta(n log_2 n)$ -->
+<IMG
+ WIDTH="92" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.gif"
+ ALT="$\Theta(n log_2 n)$">.
+
+<P>
+In order to Quicksort one element takes no comparisons.  That is:
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(1) = 0
+\end{displaymath} -->
+
+
+<I>T</I>(1) = 0
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Now, in order to Quicksort <I>n</I> elements we have to select a pivot
+point, partition the <I>n</I> elements, and recurse on the two partitions.
+Assume the <I>i</I> element is chosen to be the pivot point (where <IMG
+ WIDTH="48" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.gif"
+ ALT="$i \in
+n$">).  In order to partition the <I>n</I> elements will take, at most,
+(<I>n</I>-1) comparisons at which point the quicksort will recurse on both
+of the two partitions.  One partition will consist of the first <I>i</I>-1elements and the other will be the contain <I>n</I>-<I>i</I> elements (assuming
+the pivot value itself goes with the right partition).  Thus, to sort
+<I>n</I> items we need, at most, (<I>n</I>-1) comparisons in the partitioning
+phase plus however long it takes to sort each resulting partition:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = (n-1) + T(i-1) + T(n-i)
+\end{displaymath} -->
+
+
+<I>T</I>(<I>n</I>) = (<I>n</I>-1) + <I>T</I>(<I>i</I>-1) + <I>T</I>(<I>n</I>-<I>i</I>)
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+However, the above recurrence relation cannot be simplified in the
+stated form; to continue more information about the selection of a
+pivot point is needed.  Assume that any value of the <I>n</I> range is
+equally likely to become the pivot value. The above expression can be
+rewritten in the form below.  Note that the terms <I>T</I>(<I>i</I>-1) and
+<I>T</I>(<I>n</I>-<I>i</I>) have been summed for all <I>n</I> possible values of <I>i</I> and then
+divided by <I>n</I>:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = (n-1) + \frac{1}{n}\sum_{i=1}^{n} (T(i-1) + T(n-i))
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="376" HEIGHT="59"
+ SRC="img7.gif"
+ ALT="\begin{displaymath}T(n) = (n-1) + \frac{1}{n}\sum_{i=1}^{n} (T(i-1) + T(n-i))
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+The summation in the above expression can be distributed to both
+<I>T</I>(<I>x</I>) terms giving:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = (n-1) + \frac{1}{n}\sum_{i=1}^{n} T(i-1) + \frac{1}{n}\sum_{i=1}^{n} T(n-i)
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="411" HEIGHT="59"
+ SRC="img8.gif"
+ ALT="\begin{displaymath}T(n) = (n-1) + \frac{1}{n}\sum_{i=1}^{n} T(i-1) + \frac{1}{n}\sum_{i=1}^{n} T(n-i)
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Or...
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = (n-1) + \frac{2}{n}\sum_{i=0}^{n-1} T(i)
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="237" HEIGHT="62"
+ SRC="img9.gif"
+ ALT="\begin{displaymath}T(n) = (n-1) + \frac{2}{n}\sum_{i=0}^{n-1} T(i)
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+This is a full-history recurrence relation and is solved by
+subtracting <I>T</I>(<I>n</I>) from <I>T</I>(<I>n</I>+1).  First, calculate <I>T</I>(<I>n</I>+1) by 
+substituting an (<I>n</I>+1) for every <I>n</I> in the above equation:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n+1) = ((n+1)-1) + \frac{2}{n+1} \sum_{i=1}^{(n+1)-1} T(i)
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="382" HEIGHT="65"
+ SRC="img10.gif"
+ ALT="\begin{displaymath}T(n+1) = ((n+1)-1) + \frac{2}{n+1} \sum_{i=1}^{(n+1)-1} T(i)
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+These summations cannot be subtracted because of each ones the leading
+fraction.  To proceed, multiply each formula by the denominator of
+its fraction and get:
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+\begin{array}{l}
+(n+1) T(n+1) = n(n+1) + 2 \sum_{i=1}^{n} T(i)\\
+(n) T(n) = n(n-1) + 2 \sum_{i=1}^{n-1} T(i)
+\end{array}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="350" HEIGHT="57"
+ SRC="img11.gif"
+ ALT="\begin{displaymath}\begin{array}{l}
+(n+1) T(n+1) = n(n+1) + 2 \sum_{i=1}^{n} T(i)\\
+(n) T(n) = n(n-1) + 2 \sum_{i=1}^{n-1} T(i)
+\end{array}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Now subtract the latter from the former:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+(n+1)T(n+1) - (n)T(n) = (n+1)n - n(n-1) + 2T(n) = 2n + 2T(n)
+\end{displaymath} -->
+
+
+(<I>n</I>+1)<I>T</I>(<I>n</I>+1) - (<I>n</I>)<I>T</I>(<I>n</I>) = (<I>n</I>+1)<I>n</I> - <I>n</I>(<I>n</I>-1) + 2<I>T</I>(<I>n</I>) = 2<I>n</I> + 2<I>T</I>(<I>n</I>)
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+This implies that:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n+1) = \frac{n+2}{n+1} T(n) + \frac{2n}{n+1}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="264" HEIGHT="50"
+ SRC="img12.gif"
+ ALT="\begin{displaymath}T(n+1) = \frac{n+2}{n+1} T(n) + \frac{2n}{n+1}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+This relation is still tricky to solve.  To proceed substitute a value
+of 2 for the fraction 
+<!-- MATH: $\frac{2n}{n+1}$ -->
+<IMG
+ WIDTH="36" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.gif"
+ ALT="$\frac{2n}{n+1}$">
+- a pretty close
+approximation.  Also reverse the terms being added.
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n+1) = 2 + \frac{n+2}{n+1}T(n)
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="225" HEIGHT="50"
+ SRC="img14.gif"
+ ALT="\begin{displaymath}T(n+1) = 2 + \frac{n+2}{n+1}T(n)
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+So expanding this relation:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = 2 + \frac{n+1}{n} ( 2 + \frac{n}{n-1} + ( 2 + \frac{n-1}{n-2} (... \frac{4}{3} ) ... ) )
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="432" HEIGHT="50"
+ SRC="img15.gif"
+ ALT="\begin{displaymath}T(n) = 2 + \frac{n+1}{n} ( 2 + \frac{n}{n-1} + ( 2 + \frac{n-1}{n-2} (... \frac{4}{3} ) ... ) )
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+That is:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = 2 ( 1 + \frac{n+1}{n} + \frac{n+1}{n-1} + ... \frac{n+1}{3}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="328" HEIGHT="50"
+ SRC="img16.gif"
+ ALT="\begin{displaymath}T(n) = 2 ( 1 + \frac{n+1}{n} + \frac{n+1}{n-1} + ... \frac{n+1}{3}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Or:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) = 2(n+1) (H(n+1)-1.5)
+\end{displaymath} -->
+
+
+<I>T</I>(<I>n</I>) = 2(<I>n</I>+1) (<I>H</I>(<I>n</I>+1)-1.5)
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Where <I>H</I> above is the harmonic series 
+<!-- MATH: $(1+1/2+1/3+1/4...+1/n)$ -->
+(1+1/2+1/3+1/4...+1/<I>n</I>).  The
+harmonic series of <I>n</I> can be approximated as:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+H(n) = ln(n) + O(1/n) + \gamma
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="236" HEIGHT="36"
+ SRC="img17.gif"
+ ALT="\begin{displaymath}H(n) = ln(n) + O(1/n) + \gamma
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Where 
+<!-- MATH: $\gamma = 0.577...$ -->
+<IMG
+ WIDTH="104" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img18.gif"
+ ALT="$\gamma = 0.577...$">
+is <B>Euler's constant</B>.  The approximate
+solution to the average case complexity of the Quicksort is:
+<A NAME="1238">&#160;</A>
+<A NAME="1239">&#160;</A>
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+T(n) \leq 2(n+1)(ln(n) + \gamma - 1.5) + O(1)
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="348" HEIGHT="36"
+ SRC="img19.gif"
+ ALT="\begin{displaymath}T(n) \leq 2(n+1)(ln(n) + \gamma - 1.5) + O(1)
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+This is an 
+<!-- MATH: $O(n log_2 n)$ -->
+<I>O</I>(<I>n log</I><SUB>2</SUB> <I>n</I>) solution.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

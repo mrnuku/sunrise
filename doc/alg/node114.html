@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.5.5.2 Source Code</TITLE>
+<META NAME="description" CONTENT="0.5.5.2 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node115.html">
+<LINK REL="previous" HREF="node113.html">
+<LINK REL="up" HREF="node112.html">
+<LINK REL="next" HREF="node115.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1817"
+ HREF="node115.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1813"
+ HREF="node112.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1807"
+ HREF="node113.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1815"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1816"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1818"
+ HREF="node115.html">0.5.5.3 References</A>
+<B> Up:</B> <A NAME="tex2html1814"
+ HREF="node112.html">0.5.5 Julian Calendar Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html1808"
+ HREF="node113.html">0.5.5.1 A Brief History</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00065200000000000000">
+0.5.5.2 Source Code</A>
+</H3>
+
+<P>
+Below are routines to convert from mon, day, year dates
+into julian dates and the reverse.
+
+<P>
+<HR><PRE>
+#include &lt;math.h&gt;
+#include &lt;stdio.h&gt;
+
+/* Oct. 15, 1582 */
+#declare IGREG (15+31L*(10+12L*1582))
+
+long date_to_julian (int mon, int day, int year) {
+
+  long jul;
+  int ja;
+  int jy = year;
+  int jm;
+
+  if (jy == 0) return(0);
+  if (jy &lt; 0) jy++;
+
+  if (mon &gt; 2)
+    jm = mon + 1;
+  else {
+    jy--;
+    jm = mon + 13;
+  }
+
+  jul = (long) (floor(365.25 * jy) + floor(30.6001 * jm) + day + 1720995);
+
+  if (day + 31L * (mon + 12L * year) &gt;= IGREG) {
+    ja = (int)(0.01 * jy);
+    jul += 2 - ja + (int) (0.25 * ja);
+  }
+
+  return(jul);
+}
+
+
+void julian_to_date(long julian, int *mon, int *day, int *year) {
+
+  long ja, jalpha, jb, jc, jd, je;
+
+  if (julian &gt;= IGREG) {
+    jalpha = (long) (((float) (julian - 1867216) - 0.25) / 36524.25);
+    ja = julian + 1 + jalpha - (long) (0.25 * jalpha);
+  } else
+    ja = julian;
+
+  jb = ja + 1524;
+  jc = (long) (6680.0 + ((float) (jb - 2439870) - 122.1) / 365.25);
+  jd = (long) (365 * jc + (0.25 * jc));
+  je = (long) ((jb - jd) / 30.6001);
+  *day = jb - jd - (long) (30.6001 * je);
+  *mon = je - 1;
+  if (*mon &gt; 12) *mon -= 12;
+  *year = jc - 4715;
+  if (*mon &gt; 2) (*year)--;
+  if (*year &lt;= 0) (*year)--;
+}
+</PRE> 
+<HR>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

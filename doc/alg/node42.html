@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3 Sorting Algorithms</TITLE>
+<META NAME="description" CONTENT="0.3 Sorting Algorithms">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node80.html">
+<LINK REL="previous" HREF="node7.html">
+<LINK REL="up" HREF="alg.html">
+<LINK REL="next" HREF="node43.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html842"
+ HREF="node43.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html838"
+ HREF="alg.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html832"
+ HREF="node41.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html840"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html841"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html843"
+ HREF="node43.html">0.3.1 The Quicksort</A>
+<B> Up:</B> <A NAME="tex2html839"
+ HREF="alg.html">Algorithm Archive (Work in</A>
+<B> Previous:</B> <A NAME="tex2html833"
+ HREF="node41.html">0.2.10.1 Octree Source Code</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00040000000000000000">&#160;</A>
+<A NAME="1146">&#160;</A>
+<BR>
+0.3 Sorting Algorithms
+</H1>
+Several common sorting algorithms are discussed in the following
+section along with a careful examination of the strengths and
+weaknesses of each.
+
+<P>
+Before any discussion of sorting, however, it is useful to define some
+terms which will be used in describing the process or sorting.  A <B>sorting algorithm</B> is one orders a data set based on some <B>key
+value</B>.  A particular data set comprised of <I>n</I> items can have
+anywhere between one and <I>n</I> distinct (or ``unique'') keys.  For
+example, a set in which all the items are identical would only have
+one key and is said to be a <B>homogeneous set</B>.  A set with a few
+identical items might have (<I>n</I> - <I>x</I>) keys where <I>x</I> is the number of
+identical items in said set.
+<A NAME="1150">&#160;</A>
+<A NAME="1151">&#160;</A>
+<A NAME="1152">&#160;</A>
+
+<P>
+All sorting algorithms can be divided into one of two categories:
+those which are <B>comparison based</B>
+<A NAME="1154">&#160;</A>
+<A NAME="1155">&#160;</A>
+and those which are not.  A comparison based algorithm is one that
+orders the data set by weighing the key value of one element against
+that of one or many other elements.  Conversely a <B>non comparison
+based</B>
+<A NAME="1157">&#160;</A>
+<A NAME="1158">&#160;</A>
+sort puts the target data set into order without consideration of two
+or more data items.
+
+<P>
+The efficiency of each presented algorithm is discussed in detail.
+When considering the efficiency of a given algorithm it is useful to
+examine its performance in several cases.  These include sorting data
+sets of various sizes, data sets already in sorted order, data sets in
+reverse sorted order, and data sets in random order.  Sometimes the
+number of comparisons performed by a particular algorithm does not
+matter but the number of swaps must be minimized because swapping
+records is <B>expensive</B>.  Other we need not worry about space but
+want an algorithm that sorts as quickly as possible.  It is <I>vital</I> to know something about the data which you are sorting in order
+to choose the algorithm that best matches your needs.
+
+<P>
+In the following sections we explore the following algorithms in
+detail:
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html844"
+ HREF="node43.html">0.3.1 The Quicksort</A>
+<UL>
+<LI><A NAME="tex2html845"
+ HREF="node44.html">0.3.1.1 Picking a Pivot Value</A>
+<LI><A NAME="tex2html846"
+ HREF="node45.html">0.3.1.2 Partitioning</A>
+<LI><A NAME="tex2html847"
+ HREF="node46.html">0.3.1.3 Analysis</A>
+<LI><A NAME="tex2html848"
+ HREF="node47.html">0.3.1.4 Improvement Strategies</A>
+<LI><A NAME="tex2html849"
+ HREF="node48.html">0.3.1.5 Source Code</A>
+<LI><A NAME="tex2html850"
+ HREF="node49.html">0.3.1.6 References</A>
+</UL>
+<LI><A NAME="tex2html851"
+ HREF="node50.html">0.3.2 The Mergesort</A>
+<UL>
+<LI><A NAME="tex2html852"
+ HREF="node51.html">0.3.2.1 Analysis</A>
+<LI><A NAME="tex2html853"
+ HREF="node52.html">0.3.2.2 Improvements</A>
+<LI><A NAME="tex2html854"
+ HREF="node53.html">0.3.2.3 Source Code</A>
+<LI><A NAME="tex2html855"
+ HREF="node54.html">0.3.2.4 References</A>
+</UL>
+<LI><A NAME="tex2html856"
+ HREF="node55.html">0.3.3 Heapsort</A>
+<UL>
+<LI><A NAME="tex2html857"
+ HREF="node56.html">0.3.3.1 Building a Max-Heap</A>
+<LI><A NAME="tex2html858"
+ HREF="node57.html">0.3.3.2 Analysis</A>
+<LI><A NAME="tex2html859"
+ HREF="node58.html">0.3.3.3 Operations on a Max-Heap</A>
+<LI><A NAME="tex2html860"
+ HREF="node59.html">0.3.3.4 Analysis</A>
+<LI><A NAME="tex2html861"
+ HREF="node60.html">0.3.3.5 Source Code</A>
+<LI><A NAME="tex2html862"
+ HREF="node61.html">0.3.3.6 References</A>
+</UL>
+<LI><A NAME="tex2html863"
+ HREF="node62.html">0.3.4 Benchmarking the Quicksort and the Heapsort</A>
+<LI><A NAME="tex2html864"
+ HREF="node63.html">0.3.5 Insertion Sort</A>
+<UL>
+<LI><A NAME="tex2html865"
+ HREF="node64.html">0.3.5.1 Analysis</A>
+<LI><A NAME="tex2html866"
+ HREF="node65.html">0.3.5.2 Improvements</A>
+<LI><A NAME="tex2html867"
+ HREF="node66.html">0.3.5.3 Source Code</A>
+</UL>
+<LI><A NAME="tex2html868"
+ HREF="node67.html">0.3.6 Shellsort</A>
+<UL>
+<LI><A NAME="tex2html869"
+ HREF="node68.html">0.3.6.1 Analysis</A>
+<LI><A NAME="tex2html870"
+ HREF="node69.html">0.3.6.2 Source Code</A>
+</UL>
+<LI><A NAME="tex2html871"
+ HREF="node70.html">0.3.7 Selection Sort</A>
+<UL>
+<LI><A NAME="tex2html872"
+ HREF="node71.html">0.3.7.1 Analysis</A>
+<LI><A NAME="tex2html873"
+ HREF="node72.html">0.3.7.2 Source Code</A>
+</UL>
+<LI><A NAME="tex2html874"
+ HREF="node73.html">0.3.8 Bubble Sort</A>
+<LI><A NAME="tex2html875"
+ HREF="node74.html">0.3.9 Bucket and Radix Sorting</A>
+<UL>
+<LI><A NAME="tex2html876"
+ HREF="node75.html">0.3.9.1 Analysis</A>
+</UL>
+<LI><A NAME="tex2html877"
+ HREF="node76.html">0.3.10 The nth Largest</A>
+<UL>
+<LI><A NAME="tex2html878"
+ HREF="node77.html">0.3.10.1 Modified Radix Sort</A>
+<LI><A NAME="tex2html879"
+ HREF="node78.html">0.3.10.2 Modified Quicksort</A>
+<LI><A NAME="tex2html880"
+ HREF="node79.html">0.3.10.3 Source Code</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

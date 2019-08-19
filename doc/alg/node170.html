@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.10.3 Huffman Compression</TITLE>
+<META NAME="description" CONTENT="0.10.3 Huffman Compression">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node173.html">
+<LINK REL="previous" HREF="node167.html">
+<LINK REL="up" HREF="node163.html">
+<LINK REL="next" HREF="node171.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2509"
+ HREF="node171.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2505"
+ HREF="node163.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2499"
+ HREF="node169.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2507"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2508"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2510"
+ HREF="node171.html">0.10.3.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html2506"
+ HREF="node163.html">0.10 Data Compression Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html2500"
+ HREF="node169.html">0.10.2.2 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000113000000000000000">&#160;</A>
+<A NAME="3596">&#160;</A>
+<A NAME="3597">&#160;</A>
+<A NAME="3598">&#160;</A>
+<A NAME="3599">&#160;</A>
+<BR>
+0.10.3 Huffman Compression
+</H2>
+
+<P>
+Huffman compression was first proposed in a paper by D. A. Huffman in
+the early 1950's.  Huffman coding is used in the <TT>pack</TT>
+compression program and a varient called dynamic huffman coding is
+used (along with LZ) in <TT>freeze</TT>.
+
+<P>
+Before compressing data, Huffman encoders first carefully analize the
+input stream.  In the analysis, Huffman routines carefully tally
+character frequency data.  That is, for each distinct character in the
+input (up to 256 character byte values) a count is stored.
+
+<P>
+<PRE>
+void count_bytes(FILE *pfInput, unsigned long *puCounts)
+{
+  long lInputMarker;
+  int c;
+
+  //
+  // Preconditions
+  //
+  ASSERT(pfInput);
+  ASSERT(puCounts);
+
+  //
+  // Remember where the file pointer is now.
+  //
+  lInputMarker = ftell(pfInput);
+  ASSERT(lInputMarker &gt;= 0);
+  
+  //
+  // Tally the characters from here to EOF
+  //
+  while ((c = getc(pfInput)) != EOF)
+    counts[c]++;
+  
+  //
+  // Put the pointer back where it was.
+  //
+  fseek(pfInput, lInputMarker, SEEK_SET );
+  ASSERT(ftell(pfInput) == lInputMarker);
+}
+</PRE>
+<P>
+In an effort to keep counts to a reasonable size, the character
+frequency values are often scaled.  For instance, it is often
+desireable to have counts fit in one byte of data.  So, by searching
+for the highest count value, <I>h</I> and assigning it the value 0<I>xFF</I>then scaling the rest of the counts by <I>h</I> / 0<I>xFF</I> all count values
+should fit in one byte.  In the source code I refer to scaled counts
+as ``weights.''
+
+<P>
+Next Huffman algorithms build a full binary tree which will be used to
+determine the codewords used to compress frequently encountered
+characters.  To construct the tree, first the routine creates <I>n</I>small, one-node trees (where <I>n</I> is the number of distinct characters
+in the input stream).  Each of these <I>n</I> trees represent a distinct
+input character and have a weight cooresponding to their count tallied
+in the analysis step.
+
+<P>
+The tree building process begins by selecting two nodes from the field
+of candidates.  The two nodes selected are the ones with the lowest
+weights.  These nodes are then joined into one tree.  Each node
+becomes a leaf off of a newly created root node.  The letter values
+and weights of the two nodes remain the same.  The weight of the root
+node is set to the sum of the weights of its two leaves.  This weight
+is the new weight of this three-node tree.
+
+<P>
+This process continues - the tree building process loops selecting
+the two trees (with anywhere from 1 to (<I>n</I> - 1) nodes) with lowest
+weight.  The two trees selected are joined by a new root node, the
+root node's weight is set, and the new tree is placed back into the
+pool.  The process repeats until one tree encompassing all the input
+weights has been constructed.  If at any point there is more than one
+way to choose the two trees of smallest weight the algorithm chooses
+arbitrarily.  This large tree is called a Huffman tree.
+
+<P>
+Once the Huffman tree has been constructed each letter can be assigned
+a codeword.  The unique codeword for a given letter is computed by
+traversing the Huffman tree from the root node down to the leaf
+containing the letter and its weight.  Because the Huffman tree is a
+binary tree, each node has, at most, two children.  In the path from
+the root to a given leaf node, anytime the algorithm traverses to a
+left child a "0" is added to the codeword while the choice of a right
+child appends a "1" to the codeword.  Due to the special nature of the
+Huffman tree, no codeword produced will every be the prefix of
+another.  Also, letters appearing frequently in the input stream will
+be represented by small codewords such as 01, 11, 001 (etc...) while
+those that do not appear frequently will be represented by longer
+codewords.
+
+<P>
+Once a mapping has been created the encoding process can begin.
+During this operation the input stream is again scanned character by
+character.  For each character read, the equivalent codeword is
+computed and appended to the output stream.  In practice, a mapping
+between all characters and their codewords is usually computed before
+any encoding takes place.  This can be accomplished recursively:
+
+<P>
+<PRE>
+BOOL convert_tree_to_code(NODE *pnNodes, CODE *pcCodes, 
+			  unsigned int iCodeSoFar, int iBits, int iNode)
+{
+  ASSERT(pnNodes);
+  ASSERT(pcCodes);
+
+  //
+  // If this is a leaf node we are done recursing, assign code and pop stack
+  //
+  if (iNode &lt;= END_OF_STREAM) 
+  {
+    ASSERT(iBits);
+    ASSERT(iCodeSoFar);
+
+    //
+    // Code
+    //
+    pcCodes[iNode].uCode = iCodeSoFar;
+
+    //
+    // Length of code
+    //
+    codes[iNode].iCodeBits = iBits;
+    return;
+  }
+
+  //
+  // Otherwise we are on an internal node and need to keep going
+  //
+  iCodeSoFar &lt;&lt;= 1;
+  ASSERT((iCodeSoFar | 0) == iCodeSoFar);
+
+  //
+  // One more bit about to be added
+  //
+  iBits++;
+
+  //
+  // When going right, add a zero to the code so far..
+  //
+  convert_tree_to_code(pnNodes, pcCodes, iCodeSoFar, iBits,
+		       pnNodes[iNode].iLeftChild);
+
+  //
+  // When going left add a one..
+  //
+  convert_tree_to_code(pnNodes, pcCodes, iCodeSoFar | 1, iBits, 
+		       pnNodes[iNode].iRightChild);
+}
+</PRE>
+<P>
+Because the process of computing codewords for each input character is
+slow, pre-computing helps speed up the algorithm.  Since frequently
+used characters tend to be represented in less than 8 bits, the
+compressed output file tends to be smaller than the input.
+
+<P>
+In order to decode a Huffman compressed message the Huffman tree used
+to generate the codewords must be available to the decoding process.
+For this reason the encoding process often includes a representation
+of the Huffman tree its output.  Because the message is usually long,
+such overhead may be acceptable.  However, an alternative is for
+encoder and decoder to agree on a preset encoding scheme based on
+average frequencies of material to be transmitted.  This, however,
+will almost certainly lead to a less than optimal compression rate.
+
+<P>
+Because the Huffman algorithm must rescan the input stream twice it is
+usually slower than alternative algorithms.  The process of scanning
+the input stream is an <I>O</I>(<I>n</I>) operation (where <I>n</I> the input size).
+This occurs twice: once to create the frequency tables and once to
+encode the data.
+
+<P>
+The process of constructing a Huffman tree (which occurs between the
+two listed above) has a complexity based on the number of distinct
+characters in the input.  To build one tree from <I>c</I> one-node trees,
+the selection process must execute (<I>c</I> - 1) times.  This process must
+search the entire pool for a tree - which is an 
+<!-- MATH: $\Theta(n/2)$ -->
+<IMG
+ WIDTH="67" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.gif"
+ ALT="$\Theta(n/2)$">operation.  However, pre-sorting the pool and inserting aggregate
+trees at the right place in the pool speeds up the selection process
+as it need only select the first two trees in the list - an <I>O</I>(1)process.
+
+<P>
+Each time two trees are joined the node-creation routine must execute
+in order to create the root node joining the two trees.  Therefore, it
+also executes (<I>c</I> - 1) times.  The average number of nodes in a
+Huffman tree is approximately the number in a full binary tree with
+<I>c</I> leaves - 2<SUP><I>c</I></SUP> - 1.
+
+<P>
+In practice, Huffman encoding yields good compression results.
+However, it does not do as good a job as sliding window routines
+(based on LZ algorithms) for average input data.  It also does not
+execute as quickly as LZ routines.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html2511"
+ HREF="node171.html">0.10.3.1 Source Code</A>
+<LI><A NAME="tex2html2512"
+ HREF="node172.html">0.10.3.2 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

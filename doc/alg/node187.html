@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.12.2 Weighted Checksums</TITLE>
+<META NAME="description" CONTENT="0.12.2 Weighted Checksums">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node189.html">
+<LINK REL="previous" HREF="node184.html">
+<LINK REL="up" HREF="node183.html">
+<LINK REL="next" HREF="node188.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2720"
+ HREF="node188.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2716"
+ HREF="node183.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2710"
+ HREF="node186.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2718"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2719"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2721"
+ HREF="node188.html">0.12.2.1 References</A>
+<B> Up:</B> <A NAME="tex2html2717"
+ HREF="node183.html">0.12 Data Integrity</A>
+<B> Previous:</B> <A NAME="tex2html2711"
+ HREF="node186.html">0.12.1.2 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000132000000000000000">
+0.12.2 Weighted Checksums</A>
+</H2>
+
+<P>
+A weighted checksum works in nearly the same way as a normal checksum.
+Where a normal checksum is based on the summation of the values in a
+data range, however, a weighted checksum takes both data value and
+position into consideration.  To do this, each distinct position in
+the data range is assigned a weight.  Each position's weight is
+multiplied by the value at the position in question to achieve the
+final terms in the sum.  These terms are added and the weighted
+checksum value is determined based on this summation.
+
+<P>
+For instance, imagine creating a weighted checksum for telephone
+numbers in the format 123-456-7890.  If we remove the dashes from the
+numbers we get something that looks like 1234567890.  There are ten
+places in a number of this format.  A typical way to assign weights to 
+places is to give the nth place the weight of 7<SUP><I>n</I></SUP>.  Other values,
+such as powers of nine or powers of four are also used.
+
+<P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT"><B> place</B></TD>
+<TD ALIGN="RIGHT"><B> value</B></TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">0</TD>
+<TD ALIGN="RIGHT">1</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">1</TD>
+<TD ALIGN="RIGHT">7</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">2</TD>
+<TD ALIGN="RIGHT">49</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">3</TD>
+<TD ALIGN="RIGHT">343</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">4</TD>
+<TD ALIGN="RIGHT">2401</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">5</TD>
+<TD ALIGN="RIGHT">16807</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">6</TD>
+<TD ALIGN="RIGHT">117649</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">7</TD>
+<TD ALIGN="RIGHT">823543</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">8</TD>
+<TD ALIGN="RIGHT">5764801</TD>
+</TR>
+<TR VALIGN="BASELINE"><TD ALIGN="LEFT">9</TD>
+<TD ALIGN="RIGHT">40353607</TD>
+</TR>
+</TABLE></DIV>
+<P>
+Using such a scheme, the phone number 1234567890 would result in the
+sum:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+S = 1*1 + 2*7 + 3*49 + 4*343 + ... + 0*40353607
+\end{displaymath} -->
+
+
+<I>S</I> = 1*1 + 2*7 + 3*49 + 4*343 + ... + 0*40353607
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+The weighted checksum would then be calculated in such a way as to
+yield a meaningful result when added to the weighted sum calculated in 
+the manner described above.  Perhaps the summation added to the
+checksum would have to yield a number evenly divisible by some large
+prime.  Or perhaps the checksum would negate the summation and their
+combination would result in zero.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html2722"
+ HREF="node188.html">0.12.2.1 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

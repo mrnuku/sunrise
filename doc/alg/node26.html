@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.6.1 Source Code</TITLE>
+<META NAME="description" CONTENT="0.2.6.1 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node27.html">
+<LINK REL="previous" HREF="node25.html">
+<LINK REL="up" HREF="node25.html">
+<LINK REL="next" HREF="node27.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html652"
+ HREF="node27.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html648"
+ HREF="node25.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html642"
+ HREF="node25.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html650"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html651"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html653"
+ HREF="node27.html">0.2.6.2 References</A>
+<B> Up:</B> <A NAME="tex2html649"
+ HREF="node25.html">0.2.6 Boyer-Moore String Searching</A>
+<B> Previous:</B> <A NAME="tex2html643"
+ HREF="node25.html">0.2.6 Boyer-Moore String Searching</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00036100000000000000">
+0.2.6.1 Source Code</A>
+</H3>
+
+<P>
+<DIV><TT>
+<BR><HR>
+<BR><PRE>#include <stdio.h>
+ #include <limits.h>
+ #include <stdlib.h>
+ #include <string.h>
+ 
+ #define alphabet_size (UCHAR_MAX + 1)
+ 
+ #ifndef max
+   #define max(a,b)	((a) > (b) ? (a) : (b))
+ #endif
+ 
+ char *boyer_moore_search (char *target, char *text, size_t length) {
+   unsigned char_jump[alphabet_size];
+   unsigned *match_jump;
+   unsigned *backup;
+   size_t pat_len;
+   unsigned u, u_text, u_pat, ua, ub;
+ 
+   pat_len = strlen(target);
+   match_jump = (unsigned *) malloc (2 * sizeof(unsigned) * (pat_len + 1));
+   backup = match_jump + pat_len + 1;
+ 
+   /* heuristic #1 setup, simple text search */
+ 
+   memset (char_jump, 0, alphabet_size * sizeof(unsigned));
+   for (u = 0; u < pat_len; u++)
+     char_jump[((unsigned char) target[u])] = pat_len - u - 1;
+ 
+ 
+ 
+   /* heuristic #2 setup, repeating pattern search */
+ 
+   for (u = 1; u <= pat_len; u++)
+     match_jump[u] = 2 * pat_len - u;
+ 
+   u = pat_len;
+   ua = pat_len + 1;
+   while (u > 0) {
+     backup[u] = ua;
+     while (ua <= pat_len && target[u - 1] != target[ua - 1]) {
+       if (match_jump[ua] > pat_len - u) match_jump[ua] = pat_len - u;
+       ua = backup[ua];
+     }
+     u--; ua--;
+   }
+ 
+   for (u - 1; u <= ua; u++)
+     if (match_jump[u] > pat_len + ua - u) match_jump[u] = pat_len + ua - u;
+ 
+   ub = backup[ua];
+   while (ua <= pat_len) {
+     while (ua <= ub) {
+       if (match_jump[ua] > ub - ua + pat_len)
+ 	match_jump[ua] = ub - ua + pat_len;
+       ua++;
+     }
+     ub = backup[ub];
+   }
+ 
+ 
+   /* perform search */
+   u_pat = pat_len;
+   u_text = pat_len - 1;
+   while (u_text < text_len && u_pat != 0) {
+     if (text[u_text] == target[u_pat - 1]) {
+       u_text--;
+       u_pat--;
+     } else {
+       ua = char_jump[((unsigned char) text[u_text])];
+       ub = match_jump[u_pat];
+       u_text += max(ua, ub);
+       u_pat = pat_len;
+     }
+   }
+ 
+   if (u_pat == 0) {
+     return((char *) (text + (u_text + 1)));
+   } else {
+     return(NULL);
+   }
+ }
+</PRE>
+<BR><HR>
+<BR></TT></DIV>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

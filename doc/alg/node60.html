@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.3.5 Source Code</TITLE>
+<META NAME="description" CONTENT="0.3.3.5 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node61.html">
+<LINK REL="previous" HREF="node59.html">
+<LINK REL="up" HREF="node55.html">
+<LINK REL="next" HREF="node61.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1107"
+ HREF="node61.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1103"
+ HREF="node55.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1097"
+ HREF="node59.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1105"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1106"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1108"
+ HREF="node61.html">0.3.3.6 References</A>
+<B> Up:</B> <A NAME="tex2html1104"
+ HREF="node55.html">0.3.3 Heapsort</A>
+<B> Previous:</B> <A NAME="tex2html1098"
+ HREF="node59.html">0.3.3.4 Analysis</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00043500000000000000">
+0.3.3.5 Source Code</A>
+</H3>
+
+<P>
+Below is an implementation of a Heapsort in C:
+
+<P>
+<HR><PRE>
+/* ------------------------------------------------------------------------- */
+/*   h_sort - perform a heap sort on a range of data items
+ */
+
+void h_sort(int low, int hi) {
+  int i;
+
+  /* heapify the data set */
+  heapify(low, hi);
+
+  /* repeatedly swap top and last then pushdown the promoted last */
+  for (i = TOPITEM - 1; i &gt; 1; i--) {
+    swap(&amp;data[1], &amp;data[i]);
+    pushdown(1, i - 1);
+  }
+}
+</PRE> 
+<HR>
+<P>
+As you can see, the real trick is taking the input data set
+and making it into a max-heap.  The support routine to push down the
+root node in a heap to its proper place is used both to put the data
+into a heap initially and at each step in the sort process.
+
+<P>
+<HR><PRE>
+/* ------------------------------------------------------------------------- */
+/*   pushdown - push a data item down the heap until in the proper place
+ */
+
+void pushdown(int which, int limit) {
+
+  /* we will determine the node's max child */
+  int max_child = which * 2;
+
+  /* if this is a leaf node (i.e. it has no children) then we're done */
+  if (max_child &gt; limit) return;
+
+  /* if it has a second child, make max_child the index of the greater kid */
+  if (((which * 2) + 1) &lt;= limit)
+    if (data[max_child] &lt; data[(which * 2) + 1]) max_child = (which * 2) + 1;
+ 
+  /* now see if the node in question if greater than its max child... */  
+  if (data[which] &lt; data[max_child]) {
+
+    /* if it's not, swap them and keep going with the push down */
+    swap (&amp;data[which], &amp;data[max_child]);
+    pushdown(max_child, limit);
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/*   heapify - given a data range, make it into a heap
+ */
+
+void heapify(int low, int hi) {
+
+  /* we only have to start at the first node with children */
+  int mid = (low + hi) / 2;
+  int i;
+
+  /* work backwards to the top of the heap calling pushdown */
+  for (i = mid; i &gt; 0; i--) pushdown(i, TOPITEM-1);
+}
+</PRE> 
+<HR>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

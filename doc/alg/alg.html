@@ -1,0 +1,576 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Algorithm Archive (Work in progress)</TITLE>
+<META NAME="description" CONTENT="Algorithm Archive (Work in progress)">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node1.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html23"
+ HREF="node1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif_gr.gif"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif_gr.gif"> 
+<A NAME="tex2html21"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html22"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html24"
+ HREF="node1.html">Contents</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<P>
+<H1 ALIGN="CENTER">Algorithm Archive
+<BR>
+<FONT SIZE="+1">(Work in progress)</FONT></H1>
+<P ALIGN="CENTER"><STRONG>Scott Gasch, <A NAME="tex2html1"
+ HREF="mailto:scott@wannabe.guru.org">scott@wannabe.guru.org</A></STRONG></P>
+<P ALIGN="CENTER"><STRONG> 
+<!-- MATH: $Id: alg.tex,v 1.9 1999/01/03 00:54:49 scott Exp scott$ -->
+<I>Id</I>: <I>alg</I>.<I>tex</I>,<I>v</I> 1.9 1999/01/03 00:54:49 <I>scott Exp scott</I> </STRONG></P>
+<P ALIGN="LEFT"></P>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html25"
+ HREF="node1.html">Contents</A>
+<LI><A NAME="tex2html26"
+ HREF="node2.html">0.1 Introduction</A>
+<UL>
+<LI><A NAME="tex2html27"
+ HREF="node3.html">0.1.1 What's New</A>
+<LI><A NAME="tex2html28"
+ HREF="node4.html">0.1.2 What needs work</A>
+<LI><A NAME="tex2html29"
+ HREF="node5.html">0.1.3 Conventions</A>
+<LI><A NAME="tex2html30"
+ HREF="node6.html">0.1.4 Example Code</A>
+</UL>
+<LI><A NAME="tex2html31"
+ HREF="node7.html">0.2 Data Searching and Storage</A>
+<UL>
+<LI><A NAME="tex2html32"
+ HREF="node8.html">0.2.1 Linear Search</A>
+<UL>
+<LI><A NAME="tex2html33"
+ HREF="node9.html">0.2.1.1 Source Code</A>
+</UL>
+<LI><A NAME="tex2html34"
+ HREF="node10.html">0.2.2 Binary Search</A>
+<UL>
+<LI><A NAME="tex2html35"
+ HREF="node11.html">0.2.2.1 Analysis</A>
+<LI><A NAME="tex2html36"
+ HREF="node12.html">0.2.2.2 Source Code</A>
+<LI><A NAME="tex2html37"
+ HREF="node13.html">0.2.2.3 References</A>
+</UL>
+<LI><A NAME="tex2html38"
+ HREF="node14.html">0.2.3 Binary Search Trees</A>
+<UL>
+<LI><A NAME="tex2html39"
+ HREF="node15.html">0.2.3.1 Inserting and Deleting Nodes</A>
+<LI><A NAME="tex2html40"
+ HREF="node16.html">0.2.3.2 Source Code</A>
+<LI><A NAME="tex2html41"
+ HREF="node17.html">0.2.3.3 References</A>
+</UL>
+<LI><A NAME="tex2html42"
+ HREF="node18.html">0.2.4 Red-Black Trees</A>
+<UL>
+<LI><A NAME="tex2html43"
+ HREF="node19.html">0.2.4.1 Insertion Operation</A>
+<LI><A NAME="tex2html44"
+ HREF="node20.html">0.2.4.2 Deletion</A>
+<LI><A NAME="tex2html45"
+ HREF="node21.html">0.2.4.3 Source Code</A>
+<LI><A NAME="tex2html46"
+ HREF="node22.html">0.2.4.4 References</A>
+</UL>
+<LI><A NAME="tex2html47"
+ HREF="node23.html">0.2.5 B+-Trees</A>
+<UL>
+<LI><A NAME="tex2html48"
+ HREF="node24.html">0.2.5.1 Source Code</A>
+</UL>
+<LI><A NAME="tex2html49"
+ HREF="node25.html">0.2.6 Boyer-Moore String Searching</A>
+<UL>
+<LI><A NAME="tex2html50"
+ HREF="node26.html">0.2.6.1 Source Code</A>
+<LI><A NAME="tex2html51"
+ HREF="node27.html">0.2.6.2 References</A>
+</UL>
+<LI><A NAME="tex2html52"
+ HREF="node28.html">0.2.7 Hashing</A>
+<UL>
+<LI><A NAME="tex2html53"
+ HREF="node29.html">0.2.7.1 Selecting a Hash Function</A>
+<LI><A NAME="tex2html54"
+ HREF="node30.html">0.2.7.2 Dealing with Collisions</A>
+<LI><A NAME="tex2html55"
+ HREF="node31.html">0.2.7.3 Choosing a Table Size</A>
+<LI><A NAME="tex2html56"
+ HREF="node32.html">0.2.7.4 Source Code</A>
+<LI><A NAME="tex2html57"
+ HREF="node33.html">0.2.7.5 One-way hashing</A>
+<LI><A NAME="tex2html58"
+ HREF="node34.html">0.2.7.6 References</A>
+</UL>
+<LI><A NAME="tex2html59"
+ HREF="node35.html">0.2.8 Skip lists</A>
+<UL>
+<LI><A NAME="tex2html60"
+ HREF="node36.html">0.2.8.1 Source Code</A>
+<LI><A NAME="tex2html61"
+ HREF="node37.html">0.2.8.2 References</A>
+</UL>
+<LI><A NAME="tex2html62"
+ HREF="node38.html">0.2.9 Tries</A>
+<UL>
+<LI><A NAME="tex2html63"
+ HREF="node39.html">0.2.9.1 Source Code</A>
+</UL>
+<LI><A NAME="tex2html64"
+ HREF="node40.html">0.2.10 Quadtrees and Octrees</A>
+<UL>
+<LI><A NAME="tex2html65"
+ HREF="node41.html">0.2.10.1 Octree Source Code</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html66"
+ HREF="node42.html">0.3 Sorting Algorithms</A>
+<UL>
+<LI><A NAME="tex2html67"
+ HREF="node43.html">0.3.1 The Quicksort</A>
+<UL>
+<LI><A NAME="tex2html68"
+ HREF="node44.html">0.3.1.1 Picking a Pivot Value</A>
+<LI><A NAME="tex2html69"
+ HREF="node45.html">0.3.1.2 Partitioning</A>
+<LI><A NAME="tex2html70"
+ HREF="node46.html">0.3.1.3 Analysis</A>
+<LI><A NAME="tex2html71"
+ HREF="node47.html">0.3.1.4 Improvement Strategies</A>
+<LI><A NAME="tex2html72"
+ HREF="node48.html">0.3.1.5 Source Code</A>
+<LI><A NAME="tex2html73"
+ HREF="node49.html">0.3.1.6 References</A>
+</UL>
+<LI><A NAME="tex2html74"
+ HREF="node50.html">0.3.2 The Mergesort</A>
+<UL>
+<LI><A NAME="tex2html75"
+ HREF="node51.html">0.3.2.1 Analysis</A>
+<LI><A NAME="tex2html76"
+ HREF="node52.html">0.3.2.2 Improvements</A>
+<LI><A NAME="tex2html77"
+ HREF="node53.html">0.3.2.3 Source Code</A>
+<LI><A NAME="tex2html78"
+ HREF="node54.html">0.3.2.4 References</A>
+</UL>
+<LI><A NAME="tex2html79"
+ HREF="node55.html">0.3.3 Heapsort</A>
+<UL>
+<LI><A NAME="tex2html80"
+ HREF="node56.html">0.3.3.1 Building a Max-Heap</A>
+<LI><A NAME="tex2html81"
+ HREF="node57.html">0.3.3.2 Analysis</A>
+<LI><A NAME="tex2html82"
+ HREF="node58.html">0.3.3.3 Operations on a Max-Heap</A>
+<LI><A NAME="tex2html83"
+ HREF="node59.html">0.3.3.4 Analysis</A>
+<LI><A NAME="tex2html84"
+ HREF="node60.html">0.3.3.5 Source Code</A>
+<LI><A NAME="tex2html85"
+ HREF="node61.html">0.3.3.6 References</A>
+</UL>
+<LI><A NAME="tex2html86"
+ HREF="node62.html">0.3.4 Benchmarking the Quicksort and the Heapsort</A>
+<LI><A NAME="tex2html87"
+ HREF="node63.html">0.3.5 Insertion Sort</A>
+<UL>
+<LI><A NAME="tex2html88"
+ HREF="node64.html">0.3.5.1 Analysis</A>
+<LI><A NAME="tex2html89"
+ HREF="node65.html">0.3.5.2 Improvements</A>
+<LI><A NAME="tex2html90"
+ HREF="node66.html">0.3.5.3 Source Code</A>
+</UL>
+<LI><A NAME="tex2html91"
+ HREF="node67.html">0.3.6 Shellsort</A>
+<UL>
+<LI><A NAME="tex2html92"
+ HREF="node68.html">0.3.6.1 Analysis</A>
+<LI><A NAME="tex2html93"
+ HREF="node69.html">0.3.6.2 Source Code</A>
+</UL>
+<LI><A NAME="tex2html94"
+ HREF="node70.html">0.3.7 Selection Sort</A>
+<UL>
+<LI><A NAME="tex2html95"
+ HREF="node71.html">0.3.7.1 Analysis</A>
+<LI><A NAME="tex2html96"
+ HREF="node72.html">0.3.7.2 Source Code</A>
+</UL>
+<LI><A NAME="tex2html97"
+ HREF="node73.html">0.3.8 Bubble Sort</A>
+<LI><A NAME="tex2html98"
+ HREF="node74.html">0.3.9 Bucket and Radix Sorting</A>
+<UL>
+<LI><A NAME="tex2html99"
+ HREF="node75.html">0.3.9.1 Analysis</A>
+</UL>
+<LI><A NAME="tex2html100"
+ HREF="node76.html">0.3.10 The nth Largest</A>
+<UL>
+<LI><A NAME="tex2html101"
+ HREF="node77.html">0.3.10.1 Modified Radix Sort</A>
+<LI><A NAME="tex2html102"
+ HREF="node78.html">0.3.10.2 Modified Quicksort</A>
+<LI><A NAME="tex2html103"
+ HREF="node79.html">0.3.10.3 Source Code</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html104"
+ HREF="node80.html">0.4 Graph Algorithms</A>
+<UL>
+<LI><A NAME="tex2html105"
+ HREF="node81.html">0.4.1 Graph Representation</A>
+<LI><A NAME="tex2html106"
+ HREF="node82.html">0.4.2 Graph Traversal</A>
+<UL>
+<LI><A NAME="tex2html107"
+ HREF="node83.html">0.4.2.1 Depth-first traversal</A>
+<UL>
+<LI><A NAME="tex2html108"
+ HREF="node84.html">0.4.2.1.1 References</A>
+</UL>
+<LI><A NAME="tex2html109"
+ HREF="node85.html">0.4.2.2 Breadth-first traversal</A>
+<LI><A NAME="tex2html110"
+ HREF="node86.html">0.4.2.3 Euler Cycles</A>
+<LI><A NAME="tex2html111"
+ HREF="node87.html">0.4.2.4 Hamilton Circuits</A>
+</UL>
+<LI><A NAME="tex2html112"
+ HREF="node88.html">0.4.3 Floyd's Algorithm - Shortest Paths</A>
+<LI><A NAME="tex2html113"
+ HREF="node89.html">0.4.4 Dijkstra's Algorithm - Shortest Path</A>
+<UL>
+<LI><A NAME="tex2html114"
+ HREF="node90.html">0.4.4.1 Analysis</A>
+<LI><A NAME="tex2html115"
+ HREF="node91.html">0.4.4.2 Source Code</A>
+</UL>
+<LI><A NAME="tex2html116"
+ HREF="node92.html">0.4.5 Spanning Trees</A>
+<UL>
+<LI><A NAME="tex2html117"
+ HREF="node93.html">0.4.5.1 Prim's Algorithm</A>
+<UL>
+<LI><A NAME="tex2html118"
+ HREF="node94.html">0.4.5.1.1 Source Code</A>
+</UL>
+<LI><A NAME="tex2html119"
+ HREF="node95.html">0.4.5.2 Kruskal's Algorithm</A>
+<UL>
+<LI><A NAME="tex2html120"
+ HREF="node96.html">0.4.5.2.1 Source Code</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html121"
+ HREF="node97.html">0.4.6 Transitive Closure</A>
+</UL>
+<LI><A NAME="tex2html122"
+ HREF="node98.html">0.5 Miscellaneous Algorithms</A>
+<UL>
+<LI><A NAME="tex2html123"
+ HREF="node99.html">0.5.1 Maximum Consecutive Subsequence</A>
+<UL>
+<LI><A NAME="tex2html124"
+ HREF="node100.html">0.5.1.1 Divide and Conquer Solution</A>
+<UL>
+<LI><A NAME="tex2html125"
+ HREF="node101.html">0.5.1.1.1 Analysis</A>
+<LI><A NAME="tex2html126"
+ HREF="node102.html">0.5.1.1.2 Source Code</A>
+</UL>
+<LI><A NAME="tex2html127"
+ HREF="node103.html">0.5.1.2 Linear Solution</A>
+<UL>
+<LI><A NAME="tex2html128"
+ HREF="node104.html">0.5.1.2.1 Source Code</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html129"
+ HREF="node105.html">0.5.2 Permutations</A>
+<UL>
+<LI><A NAME="tex2html130"
+ HREF="node106.html">0.5.2.1 Source Code</A>
+<LI><A NAME="tex2html131"
+ HREF="node107.html">0.5.2.2 References</A>
+</UL>
+<LI><A NAME="tex2html132"
+ HREF="node108.html">0.5.3 Combinations</A>
+<UL>
+<LI><A NAME="tex2html133"
+ HREF="node109.html">0.5.3.1 Source Code</A>
+<LI><A NAME="tex2html134"
+ HREF="node110.html">0.5.3.2 References</A>
+</UL>
+<LI><A NAME="tex2html135"
+ HREF="node111.html">0.5.4 Exponentiation</A>
+<LI><A NAME="tex2html136"
+ HREF="node112.html">0.5.5 Julian Calendar Algorithms</A>
+<UL>
+<LI><A NAME="tex2html137"
+ HREF="node113.html">0.5.5.1 A Brief History of the Julian Calendar</A>
+<LI><A NAME="tex2html138"
+ HREF="node114.html">0.5.5.2 Source Code</A>
+<LI><A NAME="tex2html139"
+ HREF="node115.html">0.5.5.3 References</A>
+</UL>
+<LI><A NAME="tex2html140"
+ HREF="node116.html">0.5.6 Greatest Common Divisor, Least Common Multiple</A>
+<UL>
+<LI><A NAME="tex2html141"
+ HREF="node117.html">0.5.6.1 Source Code</A>
+</UL>
+<LI><A NAME="tex2html142"
+ HREF="node118.html">0.5.7 Addition Chaining</A>
+<UL>
+<LI><A NAME="tex2html143"
+ HREF="node119.html">0.5.7.1 Source Code</A>
+<LI><A NAME="tex2html144"
+ HREF="node120.html">0.5.7.2 Source Code</A>
+<LI><A NAME="tex2html145"
+ HREF="node121.html">0.5.7.3 References</A>
+</UL>
+<LI><A NAME="tex2html146"
+ HREF="node122.html">0.5.8 Fibonacci Calculation</A>
+<UL>
+<LI><A NAME="tex2html147"
+ HREF="node123.html">0.5.8.1 Source Code</A>
+<LI><A NAME="tex2html148"
+ HREF="node124.html">0.5.8.2 Source Code</A>
+<LI><A NAME="tex2html149"
+ HREF="node125.html">0.5.8.3 References</A>
+</UL>
+<LI><A NAME="tex2html150"
+ HREF="node126.html">0.5.9 Cartesian and Polar Coordinates</A>
+<UL>
+<LI><A NAME="tex2html151"
+ HREF="node127.html">0.5.9.1 Source Code</A>
+</UL>
+<LI><A NAME="tex2html152"
+ HREF="node128.html">0.5.10 Soundex English word-sounding Algorithm</A>
+<UL>
+<LI><A NAME="tex2html153"
+ HREF="node129.html">0.5.10.1 Source Code</A>
+<LI><A NAME="tex2html154"
+ HREF="node130.html">0.5.10.2 References</A>
+</UL>
+<LI><A NAME="tex2html155"
+ HREF="node131.html">0.5.11 Metaphone Algorithm</A>
+<UL>
+<LI><A NAME="tex2html156"
+ HREF="node132.html">0.5.11.1 Source Code</A>
+<LI><A NAME="tex2html157"
+ HREF="node133.html">0.5.11.2 References</A>
+</UL>
+<LI><A NAME="tex2html158"
+ HREF="node134.html">0.5.12 A Pseudo-Random Number Generator</A>
+<UL>
+<LI><A NAME="tex2html159"
+ HREF="node135.html">0.5.12.1 Analysis</A>
+<LI><A NAME="tex2html160"
+ HREF="node136.html">0.5.12.2 Source Code</A>
+<LI><A NAME="tex2html161"
+ HREF="node137.html">0.5.12.3 References</A>
+</UL>
+<LI><A NAME="tex2html162"
+ HREF="node138.html">0.5.13 Horner's Rule</A>
+<LI><A NAME="tex2html163"
+ HREF="node139.html">0.5.14 Chinese Remainder Theorem</A>
+<LI><A NAME="tex2html164"
+ HREF="node140.html">0.5.15 Large Prime Number Generation</A>
+<LI><A NAME="tex2html165"
+ HREF="node141.html">0.5.16 Fast Fourier Transform</A>
+</UL>
+<LI><A NAME="tex2html166"
+ HREF="node142.html">0.6 Formal Language Parsing Algorithms</A>
+<UL>
+<LI><A NAME="tex2html167"
+ HREF="node143.html">0.6.1 Recursive Descent Parsing</A>
+<LI><A NAME="tex2html168"
+ HREF="node144.html">0.6.2 Cheatham Sattley Method</A>
+<LI><A NAME="tex2html169"
+ HREF="node145.html">0.6.3 Samuelson-Bauer xpression analysis</A>
+<UL>
+<LI><A NAME="tex2html170"
+ HREF="node146.html">0.6.3.1 Source Code</A>
+</UL>
+<LI><A NAME="tex2html171"
+ HREF="node147.html">0.6.4 Shift-reduce bottom-up parsing</A>
+</UL>
+<LI><A NAME="tex2html172"
+ HREF="node148.html">0.7 Operating Systems Algorithms</A>
+<UL>
+<LI><A NAME="tex2html173"
+ HREF="node149.html">0.7.1 Dijkstra's Banker's Algorithm for Deadlock Prevention</A>
+<UL>
+<LI><A NAME="tex2html174"
+ HREF="node150.html">0.7.1.1 Source Code</A>
+</UL>
+<LI><A NAME="tex2html175"
+ HREF="node151.html">0.7.2 Dekker's Algorithm for Mutual Exclusion</A>
+<LI><A NAME="tex2html176"
+ HREF="node152.html">0.7.3 Peterson's Algorithm for Mutual Exclusion</A>
+</UL>
+<LI><A NAME="tex2html177"
+ HREF="node153.html">0.8 Geometric Algorithms</A>
+<UL>
+<LI><A NAME="tex2html178"
+ HREF="node154.html">0.8.1 Convex Hull Problem</A>
+<UL>
+<LI><A NAME="tex2html179"
+ HREF="node155.html">0.8.1.1 Gift Wrapping</A>
+<LI><A NAME="tex2html180"
+ HREF="node156.html">0.8.1.2 Graham's Scan</A>
+</UL>
+<LI><A NAME="tex2html181"
+ HREF="node157.html">0.8.2 Closest Pair Problem</A>
+<LI><A NAME="tex2html182"
+ HREF="node158.html">0.8.3 Determining Whether a Point is Inside a Polygon</A>
+<UL>
+<LI><A NAME="tex2html183"
+ HREF="node159.html">0.8.3.1 Source Code</A>
+</UL>
+<LI><A NAME="tex2html184"
+ HREF="node160.html">0.8.4 Knapsack Problem</A>
+<UL>
+<LI><A NAME="tex2html185"
+ HREF="node161.html">0.8.4.1 References</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html186"
+ HREF="node162.html">0.9 Data Encryption Algorithms</A>
+<LI><A NAME="tex2html187"
+ HREF="node163.html">0.10 Data Compression Algorithms</A>
+<UL>
+<LI><A NAME="tex2html188"
+ HREF="node164.html">0.10.1 Run-Length Encoding</A>
+<UL>
+<LI><A NAME="tex2html189"
+ HREF="node165.html">0.10.1.1 Source Code</A>
+<LI><A NAME="tex2html190"
+ HREF="node166.html">0.10.1.2 References</A>
+</UL>
+<LI><A NAME="tex2html191"
+ HREF="node167.html">0.10.2 Integer Coding</A>
+<UL>
+<LI><A NAME="tex2html192"
+ HREF="node168.html">0.10.2.1 Source Code</A>
+<LI><A NAME="tex2html193"
+ HREF="node169.html">0.10.2.2 References</A>
+</UL>
+<LI><A NAME="tex2html194"
+ HREF="node170.html">0.10.3 Huffman Compression</A>
+<UL>
+<LI><A NAME="tex2html195"
+ HREF="node171.html">0.10.3.1 Source Code</A>
+<LI><A NAME="tex2html196"
+ HREF="node172.html">0.10.3.2 References</A>
+</UL>
+<LI><A NAME="tex2html197"
+ HREF="node173.html">0.10.4 Adaptive Huffman Compression</A>
+<UL>
+<LI><A NAME="tex2html198"
+ HREF="node174.html">0.10.4.1 References</A>
+</UL>
+<LI><A NAME="tex2html199"
+ HREF="node175.html">0.10.5 Sliding Window Compression</A>
+<UL>
+<LI><A NAME="tex2html200"
+ HREF="node176.html">0.10.5.1 Source Code</A>
+<LI><A NAME="tex2html201"
+ HREF="node177.html">0.10.5.2 References</A>
+</UL>
+<LI><A NAME="tex2html202"
+ HREF="node178.html">0.10.6 Lempel-Ziv-Walsh Compression</A>
+<LI><A NAME="tex2html203"
+ HREF="node179.html">0.10.7 Arithmetic Compression</A>
+</UL>
+<LI><A NAME="tex2html204"
+ HREF="node180.html">0.11 Game-Playing Algorithms</A>
+<UL>
+<LI><A NAME="tex2html205"
+ HREF="node181.html">0.11.1 Minimax Search</A>
+<LI><A NAME="tex2html206"
+ HREF="node182.html">0.11.2 Alpha-Beta pruning</A>
+</UL>
+<LI><A NAME="tex2html207"
+ HREF="node183.html">0.12 Data Integrity</A>
+<UL>
+<LI><A NAME="tex2html208"
+ HREF="node184.html">0.12.1 Checksums</A>
+<UL>
+<LI><A NAME="tex2html209"
+ HREF="node185.html">0.12.1.1 Source Code</A>
+<LI><A NAME="tex2html210"
+ HREF="node186.html">0.12.1.2 References</A>
+</UL>
+<LI><A NAME="tex2html211"
+ HREF="node187.html">0.12.2 Weighted Checksums</A>
+<UL>
+<LI><A NAME="tex2html212"
+ HREF="node188.html">0.12.2.1 References</A>
+</UL>
+<LI><A NAME="tex2html213"
+ HREF="node189.html">0.12.3 Cyclic Redundancy Checks</A>
+<UL>
+<LI><A NAME="tex2html214"
+ HREF="node190.html">0.12.3.1 CRC-CCIT</A>
+<LI><A NAME="tex2html215"
+ HREF="node191.html">0.12.3.2 CRC-16</A>
+<LI><A NAME="tex2html216"
+ HREF="node192.html">0.12.3.3 CRC-32</A>
+<LI><A NAME="tex2html217"
+ HREF="node193.html">0.12.3.4 References</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html218"
+ HREF="node194.html">Index</A>
+<LI><A NAME="tex2html219"
+ HREF="node195.html">About this document ... </A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

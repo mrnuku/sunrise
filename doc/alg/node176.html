@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.10.5.1 Source Code</TITLE>
+<META NAME="description" CONTENT="0.10.5.1 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node177.html">
+<LINK REL="previous" HREF="node175.html">
+<LINK REL="up" HREF="node175.html">
+<LINK REL="next" HREF="node177.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2582"
+ HREF="node177.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2578"
+ HREF="node175.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2572"
+ HREF="node175.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2580"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2581"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2583"
+ HREF="node177.html">0.10.5.2 References</A>
+<B> Up:</B> <A NAME="tex2html2579"
+ HREF="node175.html">0.10.5 Sliding Window Compression</A>
+<B> Previous:</B> <A NAME="tex2html2573"
+ HREF="node175.html">0.10.5 Sliding Window Compression</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000115100000000000000">
+0.10.5.1 Source Code</A>
+</H3>
+
+<P>
+Below is an implementation of a program to decompress Microsoft style
+sliding window compression files (program.ex_).  I do not have the
+complimentary sliding window compression program - if you do, please
+send it.
+
+<P>
+<HR>
+<DIV><TT>
+<BR>/*-- slide.h --*/
+<BR>
+<BR><HR>
+<BR><PRE>#ifndef _SLIDE_
+ #define _SLIDE_
+ 
+ //
+ // Compressed file header
+ //
+ typedef struct _HEADER
+ {
+   DWORD dwMagic1;
+   DWORD dwMagic2;
+   BYTE bIs41;
+   CHAR chFileFix;
+   DWORD dwUnCompSize;
+ } HEADER;
+ 
+ //
+ // Microsoft's magic numbers for compressed file headers
+ //
+ #define MAGIC1 0x44445A53
+ #define MAGIC2 0x3327F088
+ 
+ //
+ // Misc other
+ //
+ 
+ //
+ // 2^12 -> 12 bit offset size
+ //
+ #define WINSIZE 4096 
+ 
+ //
+ // Compression code:
+ //
+ //      bByte1:           bByte2:
+ // 0 1 2 3 4 5 6 7 | 0 1 2 3 4 5 6 7
+ // [       OFFSET DATA      ][LENGTH]
+ //          (12 bits)        (4 bits)
+ //
+ 
+ // 
+ // How to extract the 4-bit length code from the 2-byte compression code
+ // the +3 part makes 0, 1 and 2 byte lengths impossible (since we won't ever
+ // use them) and allows 16, 17 and 18 byte values from a 4 bit width field.
+ // Pass only the second byte since it's all in there...
+ //
+ #define LENGTH(x) ((((x) & 0x0F)) + 3)
+ 
+ //
+ // How to extract the 12-bit offset code from the 2-byte compression code
+ // Pass both bytes.
+ //
+ #define OFFSET(x1, x2) ((((x2 & 0xF0) << 4) + (x1) + 0x0010) & 0x0FFF)
+ 
+ //
+ // Given a position in the file, xlate it into a position in the window.
+ //
+ #define WRAPFIX(x) ((x) & (WINSIZE - 1))
+ 
+ //
+ // Is a certain bit set in a byte.
+ //
+ #define BITSET(byte, bit) (((byte) & (1<<(bit))) > 0)
+ 
+ #endif
+</PRE>
+<BR><HR>
+<BR></TT></DIV>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.5.3 Combinations</TITLE>
+<META NAME="description" CONTENT="0.5.3 Combinations">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node111.html">
+<LINK REL="previous" HREF="node105.html">
+<LINK REL="up" HREF="node98.html">
+<LINK REL="next" HREF="node109.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1742"
+ HREF="node109.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1738"
+ HREF="node98.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1732"
+ HREF="node107.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1740"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1741"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1743"
+ HREF="node109.html">0.5.3.1 Source Code</A>
+<B> Up:</B> <A NAME="tex2html1739"
+ HREF="node98.html">0.5 Miscellaneous Algorithms</A>
+<B> Previous:</B> <A NAME="tex2html1733"
+ HREF="node107.html">0.5.2.2 References</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00063000000000000000">
+0.5.3 Combinations</A>
+</H2>
+
+<P>
+Given a set of <I>n</I> distinct items, a <I>k</I> combination of these items is 
+any subset of the original set with exactly <I>k</I> members (where
+0&lt;<I>k</I>&lt;=<I>n</I>).  There is a formula for determining exactly how many <I>k</I>combinations (subsets of size <I>k</I>) exist for a given set of size <I>n</I>:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+\left( \begin{array}{c}
+n \\
+         k
+       \end{array} \right) = \frac{n!}{k!(n-k)!}
+\end{displaymath} -->
+
+
+<IMG
+ WIDTH="162" HEIGHT="59"
+ SRC="img33.gif"
+ ALT="\begin{displaymath}\left( \begin{array}{c}
+n \\
+k
+\end{array} \right) = \frac{n!}{k!(n-k)!}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+The notation 
+<!-- MATH: $\left( \begin{array}{c}n \\k\end{array} \right)$ -->
+<IMG
+ WIDTH="60" HEIGHT="70" ALIGN="MIDDLE" BORDER="0"
+ SRC="img34.gif"
+ ALT="$\left( \begin{array}{c}n \\ k\end{array} \right)$">
+is
+often read ``the number of n items taken k at a time.''
+
+<P>
+However sometimes it is not enough to know how many combinations exist 
+for a given set but rather we are interested in determining what those 
+combinations are.  That is to say, what, exactly, are the subsets of
+size <I>k</I>.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html1744"
+ HREF="node109.html">0.5.3.1 Source Code</A>
+<LI><A NAME="tex2html1745"
+ HREF="node110.html">0.5.3.2 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

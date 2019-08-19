@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.12.3 Cyclic Redundancy Checks</TITLE>
+<META NAME="description" CONTENT="0.12.3 Cyclic Redundancy Checks">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="previous" HREF="node194.html">
+<LINK REL="up" HREF="node190.html">
+<LINK REL="next" HREF="node197.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2842"
+ HREF="node197.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2838"
+ HREF="node190.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2834"
+ HREF="node195.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2840"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2841"
+ HREF="node201.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2843"
+ HREF="node197.html">0.12.3.1 CRC-CCIT</A>
+<B> Up:</B> <A NAME="tex2html2839"
+ HREF="node190.html">0.12 Data Integrity</A>
+<B> Previous:</B> <A NAME="tex2html2835"
+ HREF="node195.html">0.12.2.1 References</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION000133000000000000000">&#160;</A>
+<A NAME="4328">&#160;</A>
+<BR>
+0.12.3 Cyclic Redundancy Checks
+</H2>
+<P>
+<B>While checksums are good at detecting errors in data they can be
+<A NAME="4329">&#160;</A>
+<A NAME="4330">&#160;</A>
+fooled by transposition or complimenting changes.  Weighted checksums 
+do a better job of detecting transposition but are limited by the
+size of the data which they are being used to verify.  For numbers
+<A NAME="4331">&#160;</A>
+longer than about fifteen digits, the powers used to generate the
+positional values become too large to handle with C's basic types.
+While writing an extended number representation is one option to
+rectify this shortcoming, another method called a cyclical redundancy
+check (CRC) is another.
+<A NAME="4332">&#160;</A>
+</B>
+<P>
+<B>A CRC computes a result based on both the value and position of
+individual bits in a block of data.  To do so it uses individual bit
+values as exponents in a special polynomial:
+<A NAME="4333">&#160;</A>
+</B>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+bit_{n-1} * x^{n-1} + bit_{n-1} * x^{n-2} + ... + bit_{0} * x^0
+\end{displaymath} -->
+
+
+<I>bit</I><SUB><I>n</I>-1</SUB> * <I>x</I><SUP><I>n</I>-1</SUP> + <I>bit</I><SUB><I>n</I>-1</SUB> * <I>x</I><SUP><I>n</I>-2</SUP> + ... + <I>bit</I><SUB>0</SUB> * <I>x</I><SUP>0</SUP>
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+<P>
+<B>For example, for the sixteen bit number </B>
+<!-- MATH: $10011011 00100001$ -->
+10011011 00100001<B> the
+polynomial (leaving out zero valued terms) would be:
+</B>
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+x^{15} + x^{12} + x^{11} + x^9 + x^8 + x^5 + x^0
+\end{displaymath} -->
+
+
+<I>x</I><SUP>15</SUP> + <I>x</I><SUP>12</SUP> + <I>x</I><SUP>11</SUP> + <I>x</I><SUP>9</SUP> + <I>x</I><SUP>8</SUP> + <I>x</I><SUP>5</SUP> + <I>x</I><SUP>0</SUP>
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+<P>
+<B>This polynomial is calculated and then divided by another.  The value
+of this divisor polynomial is based on the type of CRC implemented.
+<A NAME="4342">&#160;</A>
+</B>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS">&#160;</A>
+<UL>
+<LI><A NAME="tex2html2844"
+ HREF="node197.html">0.12.3.1 CRC-CCIT</A>
+<LI><A NAME="tex2html2845"
+ HREF="node198.html">0.12.3.2 CRC-16</A>
+<LI><A NAME="tex2html2846"
+ HREF="node199.html">0.12.3.3 CRC-32</A>
+<LI><A NAME="tex2html2847"
+ HREF="node200.html">0.12.3.4 References</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2842"
+ HREF="node197.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2838"
+ HREF="node190.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2834"
+ HREF="node195.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2840"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2841"
+ HREF="node201.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2843"
+ HREF="node197.html">0.12.3.1 CRC-CCIT</A>
+<B> Up:</B> <A NAME="tex2html2839"
+ HREF="node190.html">0.12 Data Integrity</A>
+<B> Previous:</B> <A NAME="tex2html2835"
+ HREF="node195.html">0.12.2.1 References</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-05-28</I>
+</ADDRESS>
+</BODY>
+</HTML>

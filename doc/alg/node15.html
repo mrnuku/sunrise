@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.3.1 Inserting and Deleting Nodes</TITLE>
+<META NAME="description" CONTENT="0.2.3.1 Inserting and Deleting Nodes">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node16.html">
+<LINK REL="previous" HREF="node14.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node16.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html519"
+ HREF="node16.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html515"
+ HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html509"
+ HREF="node14.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html517"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html518"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html520"
+ HREF="node16.html">0.2.3.2 Source Code</A>
+<B> Up:</B> <A NAME="tex2html516"
+ HREF="node14.html">0.2.3 Binary Search Trees</A>
+<B> Previous:</B> <A NAME="tex2html510"
+ HREF="node14.html">0.2.3 Binary Search Trees</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00033100000000000000">
+0.2.3.1 Inserting and Deleting Nodes</A>
+</H3>
+
+<P>
+To create a BST begin with a null pointer to the non-existent <B>root node</B>.  Insert data values by examining the value of the root
+node and moving left or right down the tree until you have reached the
+proper insertion point.  If there is no root node, (i.e. the tree is
+empty) the very first node inserted becomes the new root node.
+Ideally this first value should be the median value in the data set as
+this will cause the number of nodes on each side of the root to be
+equal.
+
+<P>
+If, however, the root node turns out to be the lowest or highest item
+in the data set a degenerate tree will result.  A careful programmer
+should take steps to ensure that the root of a BST is not an extreme
+value.  This can be accomplished by examining the values in the data
+set before building the tree.  Robust execution time can be maintained
+by examining only two or three items and selecting the larger of two
+or the middle of three as the root.
+
+<P>
+To delete a node from a BST you must not only find the node in the
+tree by traversing in the usual manner, but also ensure that the BST
+retains the ``binary search tree property.''  If the node to be
+deleted, node <I>d</I>, has no children, it can be deleted outright.  If
+node <I>d</I> has only one child, promote the child and use it to overwrite 
+the contents of node <I>d</I>.  If node <I>d</I> has two children, however,
+things get a bit tricky.
+
+<P>
+Deleting a node, <I>d</I>, that has two children requires that we find the
+node, <I>e</I>, in the tree with the next higher or lower value.  To do so, 
+traverse in one direction to one of <I>d</I>'s children and then
+continually traverse in the opposite direction until you can go no
+further.  For example, traverse to <I>d</I>'s left child and then continue
+to traverse to right children as far as possible.  Swap the last node
+with <I>d</I> then delete <I>d</I>.  In essence, make <I>d</I>'s value that of the
+last node and then delete the last node.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

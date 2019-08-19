@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.3.3.2 Analysis</TITLE>
+<META NAME="description" CONTENT="0.3.3.2 Analysis">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node58.html">
+<LINK REL="previous" HREF="node56.html">
+<LINK REL="up" HREF="node55.html">
+<LINK REL="next" HREF="node58.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html1071"
+ HREF="node58.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html1067"
+ HREF="node55.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html1061"
+ HREF="node56.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html1069"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html1070"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html1072"
+ HREF="node58.html">0.3.3.3 Operations on a</A>
+<B> Up:</B> <A NAME="tex2html1068"
+ HREF="node55.html">0.3.3 Heapsort</A>
+<B> Previous:</B> <A NAME="tex2html1062"
+ HREF="node56.html">0.3.3.1 Building a Max-Heap</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00043200000000000000">
+0.3.3.2 Analysis</A>
+</H3>
+
+<P>
+Imagine the distance from a given node down to the most distant leaf
+node below it is represented by <I>d</I>.  In the process of
+``heapification,'' the number of comparisons needed to process a given
+node is, at most, 2<I>d</I>.  This is because, in the worst case, when the
+value at said node is compared to it's two children it will have to be
+demoted.  To determine that the node must be demoted two comparisons
+are needed: one to compute the greatest child and one to compare the
+parent node value with the greatest child.  Once the values have been
+swapped it becomes necessary to continue this two-comparison cost
+process until we reach a leaf node, in the worst case.
+
+<P>
+Thus the total complexity of the entire ``heapify'' process is, at
+most, two times the sum of the heights of all nodes in the heap.  The
+goal now is to evaluate this sum.
+
+<P>
+Consider complete trees (where all nodes have either two children or
+none).  Let <I>H</I>(<I>i</I>) denote the sum of the heights of all nodes a
+complete tree of height <I>i</I>.  A tree of height one has one node with
+height one.  A tree of height <I>i</I> consists of two trees of height
+(<I>i</I>-1) plus one root node.  Hence, 
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+H(i) = 2H(i - 1) + i
+\end{displaymath} -->
+
+
+<I>H</I>(<I>i</I>) = 2<I>H</I>(<I>i</I> - 1) + <I>i</I>
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Of course <I>H</I>(1) = 1. 
+
+<P>
+The closed form solution of this recurrence relation is:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH: \begin{displaymath}
+H(i) = 2^{i+1} - (i + 2)
+\end{displaymath} -->
+
+
+<I>H</I>(<I>i</I>) = 2<SUP><I>i</I>+1</SUP> - (<I>i</I> + 2)
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Since a complete binary tree has more nodes than an incomplete one,
+the total of all node heights in any tree of height <I>i</I> will be
+less-than or equal to the total node height of the complete binary
+tree with height <I>i</I>.
+
+<P>
+Thus the total number of comparisons needed to ``heapify'' a tree of
+height <I>i</I> will be, at most, 
+<!-- MATH: $O(2(2^{i+1} - (i + 2)))$ -->
+<I>O</I>(2(2<SUP><I>i</I>+1</SUP> - (<I>i</I> + 2))).  This linear
+complexity can be simplified to <I>O</I>(<I>i</I>) where <I>i</I> is the tree height.
+Thus, heapification is a linear process.
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

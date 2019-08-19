@@ -1,0 +1,1918 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\client">
+      <UniqueIdentifier>{ad2b60bb-73fe-45e7-ad00-7f174fd885e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\server">
+      <UniqueIdentifier>{d1319bec-ad9b-4cf0-92dd-2843db203368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\renderer">
+      <UniqueIdentifier>{a87d39ec-9010-47e8-ab02-07436b07d002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{16ef58fb-5aa7-4f8b-b585-a6e642d053f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game\monsters">
+      <UniqueIdentifier>{9f763577-a8ef-44be-af1a-6969adc1f7e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\monster">
+      <UniqueIdentifier>{4ab2bcdd-8c01-46c0-9bcc-4eeb0249e918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\systems">
+      <UniqueIdentifier>{3865e6aa-5d81-4dcf-8d09-2702d715c492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\q2">
+      <UniqueIdentifier>{95ee960a-c1b7-472c-9a38-990eea706110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sound">
+      <UniqueIdentifier>{593b196d-3375-4ea8-b42d-36c06b86e341}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{773176b9-703b-4f11-9f63-4978247fc636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\os_specific">
+      <UniqueIdentifier>{f7324728-0d92-4c1e-aabb-457ab0960455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\modules">
+      <UniqueIdentifier>{ab40e299-d6bb-4e03-b966-7e8425fcdfcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\map">
+      <UniqueIdentifier>{228495d8-6f61-4496-810e-6347e080f76b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\thread">
+      <UniqueIdentifier>{e8925f15-7762-45ff-a8b8-3b7d0b64f75e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\thread">
+      <UniqueIdentifier>{b0f86812-8221-4724-a185-33231014ae62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\geom">
+      <UniqueIdentifier>{2d4d61c2-b6f1-4d87-88ad-77d7f72db19c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{f54d3008-1c89-494e-9747-f2431bcc66af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\string">
+      <UniqueIdentifier>{139f5e41-694b-4952-9eae-44fa71ac0280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{578b198c-f607-463a-b459-9d21936e4772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math">
+      <UniqueIdentifier>{d34feca8-da9a-4a8b-9b10-9d4676966887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\geom">
+      <UniqueIdentifier>{dfdf0eb0-6841-4e45-b350-a9d636de40b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\util">
+      <UniqueIdentifier>{4f0710e9-7f7b-46f7-ba26-21e358aca997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib">
+      <UniqueIdentifier>{b91401e3-2db3-45c6-8cea-926e84d54e3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\expat">
+      <UniqueIdentifier>{3fd50ce2-2346-4457-9390-2b86d01185f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib">
+      <UniqueIdentifier>{858224b0-9cce-41aa-b0b1-e176008cfb0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\expat">
+      <UniqueIdentifier>{3bf5c4dd-47ce-4f40-9baf-3a975b961b3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\cegui">
+      <UniqueIdentifier>{e34be943-7492-4848-b110-f84008eac180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\cegui\elements">
+      <UniqueIdentifier>{ea82d97f-658c-4425-92f5-a99e8027aede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\cegui\falagard">
+      <UniqueIdentifier>{2ed99fe5-7065-4870-a364-bcbfbdf4a4eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\cegui\ImageCodecModules">
+      <UniqueIdentifier>{238203c3-3488-4e53-a710-58df79c3a608}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\cegui\WindowRendererSets">
+      <UniqueIdentifier>{a1087fff-79f6-4b5f-8c8a-f0951002b0bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\cegui\XMLParserModules">
+      <UniqueIdentifier>{10d83f78-328b-42bf-aa1b-a3368f8740e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\ode">
+      <UniqueIdentifier>{2dc7c11f-ab6a-4580-beaf-50e7fcd7592d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\zlib">
+      <UniqueIdentifier>{b5225fbf-0d31-4c1d-af61-6af3ca7d3b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\stlport">
+      <UniqueIdentifier>{f30a54fe-224c-496f-a76a-0ae791bd8a0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\lua52">
+      <UniqueIdentifier>{2e8f6c8d-fc88-43a5-8a67-814a1222e041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\lua52\core">
+      <UniqueIdentifier>{2c4ca336-bb98-4785-8d00-9595245b5083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\lua52\lib">
+      <UniqueIdentifier>{92afa50a-4005-4ca8-8a88-9a1592a3711f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\client\cl_view.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\cl_ents.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\cl_fx.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\cl_input.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\cl_inv.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\cl_main.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\cl_newfx.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\cl_parse.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\cl_pred.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\cl_scrn.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\cl_tent.cpp">
+      <Filter>Source Files\client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\server\sv_ccmds.cpp">
+      <Filter>Source Files\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\server\sv_world.cpp">
+      <Filter>Source Files\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\server\sv_ents.cpp">
+      <Filter>Source Files\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\server\sv_game.cpp">
+      <Filter>Source Files\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\server\sv_init.cpp">
+      <Filter>Source Files\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\server\sv_main.cpp">
+      <Filter>Source Files\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\server\sv_send.cpp">
+      <Filter>Source Files\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\server\sv_user.cpp">
+      <Filter>Source Files\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\qcommon\cmd.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\qcommon\common.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\qcommon\crc.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\qcommon\pmove.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\qcommon\net_chan.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_ai.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_chase.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_cmds.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_combat.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_func.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_items.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_main.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_misc.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_monster.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_phys.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_save.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_spawn.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_svcmds.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_target.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_trigger.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_utils.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\g_weapon.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\p_client.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\p_hud.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\p_trail.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\p_view.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\p_weapon.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\m_actor.cpp">
+      <Filter>Source Files\game\monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\m_flash.cpp">
+      <Filter>Source Files\game\monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\m_move.cpp">
+      <Filter>Source Files\game\monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\m_soldier.cpp">
+      <Filter>Source Files\game\monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\m_staticvars.cpp">
+      <Filter>Source Files\game\monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\keys.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\qcommon\anorms.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\in_win.cpp">
+      <Filter>Source Files\os_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\net_wins.cpp">
+      <Filter>Source Files\os_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\sys_win.cpp">
+      <Filter>Source Files\os_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\q_shwin.cpp">
+      <Filter>Source Files\os_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\game\q_shared.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Angles.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Matrix.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Plane.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Quat.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Rotation.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Box.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Bounds.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Sphere.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Pluecker.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\DrawVert.cpp">
+      <Filter>Source Files\geom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Surface.cpp">
+      <Filter>Source Files\geom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Surface_Patch.cpp">
+      <Filter>Source Files\geom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\map\cm.cpp">
+      <Filter>Source Files\map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\MapFile.cpp">
+      <Filter>Source Files\geom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\CmdArgs.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\CRC32.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\CVarSystem.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Dict.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\FileSystem.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\HashIndex.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Heap.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Lexer.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\MD4.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Parser.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Str.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Timer.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Token.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Surface_Polytope.cpp">
+      <Filter>Source Files\geom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Winding.cpp">
+      <Filter>Source Files\geom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Frustum.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\renderer\MaterialSystem.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\renderer\Renderer.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\GLLayer.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\Video.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\map\BspTree.cpp">
+      <Filter>Source Files\map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\SysLock_win.cpp">
+      <Filter>Source Files\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\SysSignal_win.cpp">
+      <Filter>Source Files\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\SysThread_win.cpp">
+      <Filter>Source Files\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Lock.cpp">
+      <Filter>Source Files\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\Signal.cpp">
+      <Filter>Source Files\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\ThreadBase.cpp">
+      <Filter>Source Files\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\zlib\ioapi.cpp">
+      <Filter>Source Files\lib\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\zlib\unzip.cpp">
+      <Filter>Source Files\lib\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\renderer\MovieExport.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\renderer\SVar.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\MiscImports.cpp">
+      <Filter>Source Files\os_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\SoundSystem.cpp">
+      <Filter>Source Files\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\client\Blip_Buffer.cpp">
+      <Filter>Source Files\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\map\MapSystem.cpp">
+      <Filter>Source Files\map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\d3\WStr.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\renderer\GUIRenderer.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\renderer\GUISystem.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\expat\xmlparse.cpp">
+      <Filter>Source Files\lib\expat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\expat\xmlrole.cpp">
+      <Filter>Source Files\lib\expat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\expat\xmltok.cpp">
+      <Filter>Source Files\lib\expat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\renderer\RendererThread.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\renderer\RendererModel.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\PerfMonitor.cpp">
+      <Filter>Source Files\os_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\allocators.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\bitset.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\c_locale.c">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\codecvt.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\collate.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\complex.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\complex_io.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\complex_trig.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\ctype.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\cxa.c">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\dll_main.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\facets_byname.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\fstream.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\ios.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\iostream.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\istream.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\locale.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\locale_catalog.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\locale_impl.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\messages.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\monetary.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\num_get.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\num_get_float.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\num_put.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\num_put_float.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\numpunct.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\ostream.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\sstream.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\stdio_streambuf.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\string.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\strstream.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\stlport\src\time_facets.cpp">
+      <Filter>Source Files\lib\stlport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\win32\con_win.cpp">
+      <Filter>Source Files\os_specific</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lapi.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lcode.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lctype.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\ldebug.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\ldo.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\ldump.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lfunc.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lgc.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\llex.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lmem.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lobject.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lopcodes.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lparser.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lstate.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lstring.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\ltable.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\ltm.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lundump.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lvm.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\core\lzio.cpp">
+      <Filter>Source Files\lib\lua52\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\lauxlib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\lbaselib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\lbitlib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\lcorolib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\ldblib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\linit.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\liolib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\lmathlib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\loadlib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\loslib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\lstrlib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua52\lib\ltablib.cpp">
+      <Filter>Source Files\lib\lua52\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\renderer\GLImports.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\qcommon\Script.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\m_actor.h">
+      <Filter>Header Files\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_player.h">
+      <Filter>Header Files\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_soldier.h">
+      <Filter>Header Files\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System_Q2.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System_OS.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\winquake.h">
+      <Filter>Header Files\q2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\g_local.h">
+      <Filter>Header Files\q2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\q_shared.h">
+      <Filter>Header Files\q2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\resource.h">
+      <Filter>Header Files\q2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\precompiled.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\client.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\game.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\sound.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\server.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\input.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\keys.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\qcommon.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\screen.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vid.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\pmove.h">
+      <Filter>Header Files\q2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Matrix.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Angles.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Plane.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Quat.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Rotation.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Pluecker.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\cm.h">
+      <Filter>Header Files\q2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Dict.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Lexer.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Parser.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Str.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\StrList.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\StrPool.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Token.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\DrawVert.h">
+      <Filter>Header Files\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Surface.h">
+      <Filter>Header Files\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Surface_Patch.h">
+      <Filter>Header Files\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vector.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CmdArgs.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CmdSystem.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CRC32.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CVarSystem.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\File.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FileSystem.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\HashIndex.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Heap.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Hierarchy.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LinkList.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\List.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MD4.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\NoGameTypeInfo.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Random.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\StaticList.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Timer.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MapFile.h">
+      <Filter>Header Files\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Surface_Polytope.h">
+      <Filter>Header Files\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\PlaneSet.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Winding.h">
+      <Filter>Header Files\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Bounds.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Box.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Sphere.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Surface_Polygon.h">
+      <Filter>Header Files\geom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Frustum.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MaterialSystem.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Renderer.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GLLayer.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SVar.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\NamedList.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BinaryTree.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Color.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SysLock.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SysSignal.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SysThread.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Lock.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Signal.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ThreadingDefs.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ThreadProcess.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ThreadBase.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VectorWeld.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\zlib\ioapi.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\zlib\unzip.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\zlib\zconf.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\zlib\zlib.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MovieExport.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MiscImports.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\faac\faac.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\faac\faaccfg.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\openal\al.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\openal\alc.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\openal\efx.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\openal\efx-creative.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\openal\EFX-Util.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\openal\xram.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SoundSystem.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\openal\al-prot.h">
+      <Filter>Header Files\lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Blip_Buffer.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\EndianUtil.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BitField.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\collision.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\collision_space.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\collision_trimesh.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\common.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\compatibility.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\contact.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\error.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\export-dif.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\mass.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\matrix.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\memory.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\misc.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\objects.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\ode.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\odeconfig.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\odecpp.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\odecpp_collision.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\odeinit.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\odemath.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\odemath_legacy.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\rotation.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ode\timer.h">
+      <Filter>Header Files\lib\ode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MapSystem.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\WStr.h">
+      <Filter>Header Files\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUIRenderer.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIAll.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIButtonBase.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUICheckbox.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUICheckboxProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIClippedContainer.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUICombobox.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIComboboxProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIComboDropList.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIDragContainer.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIDragContainerProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIEditbox.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIEditboxProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIFrameWindow.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIFrameWindowProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIGridLayoutContainer.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIGridLayoutContainerProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIGroupBox.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIGUISheet.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIHorizontalLayoutContainer.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIItemEntry.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIItemEntryProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIItemListBase.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIItemListBaseProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIItemListbox.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIItemListboxProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUILayoutContainer.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIListbox.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIListboxItem.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIListboxProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIListboxTextItem.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIListHeader.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIListHeaderProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIListHeaderSegment.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIListHeaderSegmentProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIMenubar.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIMenuBase.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIMenuBaseProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIMenuItem.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIMenuItemProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIMultiColumnList.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIMultiColumnListProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIMultiLineEditbox.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIMultiLineEditboxProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIPopupMenu.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIPopupMenuProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIProgressBar.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIProgressBarProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIPushButton.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIRadioButton.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIRadioButtonProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIScrollablePane.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIScrollablePaneProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIScrollbar.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIScrollbarProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIScrolledContainer.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIScrolledContainerProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIScrolledItemListBase.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIScrolledItemListBaseProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUISequentialLayoutContainer.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUISlider.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUISliderProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUISpinner.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUISpinnerProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUITabButton.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUITabControl.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUITabControlProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIThumb.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIThumbProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUITitlebar.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUITitlebarProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUITooltip.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUITooltipProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUITree.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUITreeItem.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUITreeProperties.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\elements\CEGUIVerticalLayoutContainer.h">
+      <Filter>Header Files\lib\cegui\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalagard_xmlHandler.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalComponentBase.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalDimensions.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalEnums.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalFrameComponent.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalImageryComponent.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalImagerySection.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalLayerSpecification.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalNamedArea.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalPropertyDefinition.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalPropertyDefinitionBase.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalPropertyInitialiser.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalPropertyLinkDefinition.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalSectionSpecification.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalStateImagery.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalTextComponent.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalWidgetComponent.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalWidgetLookFeel.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalWidgetLookManager.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\falagard\CEGUIFalXMLEnumHelper.h">
+      <Filter>Header Files\lib\cegui\falagard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\ImageCodecModules\TGAImageCodec\CEGUITGAImageCodec.h">
+      <Filter>Header Files\lib\cegui\ImageCodecModules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\ImageCodecModules\TGAImageCodec\CEGUITGAImageCodecModule.h">
+      <Filter>Header Files\lib\cegui\ImageCodecModules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\XMLParserModules\ExpatParser\CEGUIExpatParser.h">
+      <Filter>Header Files\lib\cegui\XMLParserModules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\XMLParserModules\ExpatParser\CEGUIExpatParserModule.h">
+      <Filter>Header Files\lib\cegui\XMLParserModules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalButton.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalDefault.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalEditbox.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalEditboxProperties.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalFrameWindow.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalItemEntry.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalItemListbox.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalListbox.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalListHeader.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalListHeaderProperties.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalListHeaderSegment.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalMenubar.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalMenuItem.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalModule.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalMultiColumnList.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalMultiLineEditbox.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalMultiLineEditboxProperties.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalPopupMenu.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalProgressBar.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalProgressBarProperties.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalScrollablePane.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalScrollbar.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalScrollbarProperties.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalSlider.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalSliderProperties.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalStatic.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalStaticImage.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalStaticImageProperties.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalStaticProperties.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalStaticText.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalStaticTextProperties.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalSystemButton.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalTabButton.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalTabControl.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalTabControlProperties.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalTitlebar.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalToggleButton.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalTooltip.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\WindowRendererSets\Falagard\FalTree.h">
+      <Filter>Header Files\lib\cegui\WindowRendererSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUI.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIAffector.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIAnimation.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIAnimation_xmlHandler.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIAnimationInstance.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIAnimationManager.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIBase.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIBasicInterpolators.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIBasicRenderedStringParser.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIBiDiVisualMapping.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIBoundSlot.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUICentredRenderedString.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIChainedXMLHandler.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIcolour.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIColourRect.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIConfig.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIConfig_xmlHandler.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUICoordConverter.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIDataContainer.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIDefaultLogger.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIDefaultRenderedStringParser.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIDefaultResourceProvider.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIDynamicModule.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIEvent.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIEventArgs.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIEventSet.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIExceptions.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFactoryModule.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFont.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFont_xmlHandler.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFontGlyph.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFontManager.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFormattedRenderedString.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIForwardRefs.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFreeFunctionSlot.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFreeTypeFont.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFribidiVisualMapping.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFunctorCopySlot.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFunctorPointerSlot.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFunctorReferenceBinder.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIFunctorReferenceSlot.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIGeometryBuffer.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIGlobalEventSet.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIGUILayout_xmlHandler.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIImage.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIImageCodec.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIImageset.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIImageset_xmlHandler.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIImagesetManager.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIInputEvent.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIInterpolator.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIIteratorBase.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIJustifiedRenderedString.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIKeyFrame.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUILeftAlignedRenderedString.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUILogger.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIMemberFunctionSlot.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIMinibidiVisualMapping.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIMinizipResourceProvider.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIMouseCursor.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUINamedXMLResourceManager.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIPCRERegexMatcher.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIPixmapFont.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIProperty.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIPropertyHelper.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIPropertySet.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRect.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRefCounted.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRegexMatcher.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderedString.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderedStringComponent.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderedStringImageComponent.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderedStringParser.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderedStringTextComponent.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderedStringWidgetComponent.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderedStringWordWrapper.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderEffect.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderEffectFactory.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderEffectManager.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderer.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderingContext.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderingRoot.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderingSurface.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderingWindow.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderQueue.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRenderTarget.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIResourceProvider.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIRightAlignedRenderedString.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIScheme.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIScheme_xmlHandler.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUISchemeManager.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIScriptModule.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUISingleton.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUISize.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUISlotFunctorBase.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIString.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUISubscriberSlot.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUISystem.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUITexture.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUITextureTarget.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUITextUtils.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUITplWindowFactory.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUITplWindowRendererFactory.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUITplWRFactoryRegisterer.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIUDim.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIVector.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIVersion.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIVertex.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIWidgetModule.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIWindow.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIWindowFactory.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIWindowFactoryManager.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIWindowManager.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIWindowProperties.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIWindowRenderer.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIWindowRendererManager.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIWindowRendererModule.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIWRFactoryRegisterer.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIXMLAttributes.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIXMLHandler.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIXMLParser.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\CEGUIXMLSerializer.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cegui\include\config.h">
+      <Filter>Header Files\lib\cegui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GUISystem.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\expat\asciitab.hpp">
+      <Filter>Header Files\lib\expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\expat\expat.h">
+      <Filter>Header Files\lib\expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\expat\iasciitab.hpp">
+      <Filter>Header Files\lib\expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\expat\latin1tab.hpp">
+      <Filter>Header Files\lib\expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\expat\utf8tab.hpp">
+      <Filter>Header Files\lib\expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\expat\xmltok_impl.hpp">
+      <Filter>Header Files\lib\expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\expat\xmltok_ns.hpp">
+      <Filter>Header Files\lib\expat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LuaScript.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CAList.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SSE_Data.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\PerfMonitor.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Vec3.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System_portable.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MemoryUtil.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BuildInfo.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\predefines.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Allocator.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\LuaStateExtraData.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\System_lib.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GLImports.h">
+      <Filter>Header Files\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Projection.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\include\sunrise.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\icon2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

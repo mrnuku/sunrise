@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.3.2 Source Code</TITLE>
+<META NAME="description" CONTENT="0.2.3.2 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node17.html">
+<LINK REL="previous" HREF="node15.html">
+<LINK REL="up" HREF="node14.html">
+<LINK REL="next" HREF="node17.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html531"
+ HREF="node17.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html527"
+ HREF="node14.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html521"
+ HREF="node15.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html529"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html530"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html532"
+ HREF="node17.html">0.2.3.3 References</A>
+<B> Up:</B> <A NAME="tex2html528"
+ HREF="node14.html">0.2.3 Binary Search Trees</A>
+<B> Previous:</B> <A NAME="tex2html522"
+ HREF="node15.html">0.2.3.1 Inserting and Deleting</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00033200000000000000">
+0.2.3.2 Source Code</A>
+</H3>
+
+<P>
+The following double pointer implementation of a BST was written by
+Thomas Niemann and is available on <A NAME="tex2html6"
+ HREF="http://www.geocities.com/SoHo/2167/book.html">his algorithm
+collection webpages</A>.
+
+<P>
+<HR>
+<DIV><TT>
+<BR><HR>
+<BR><PRE>#include <stdio.h>
+ #include <stdlib.h>
+ 
+ /* modify these lines to establish data type */
+ typedef int T;
+ #define CompLT(a,b) (a < b)
+ #define CompEQ(a,b) (a == b)
+ 
+ typedef struct Node_ {
+     struct Node_ *Left;         /* left child */
+     struct Node_ *Right;        /* right child */
+     struct Node_ *Parent;       /* parent */
+     T Data;                     /* data stored in node */
+ } Node;
+ 
+ Node *Root = NULL;               /* root of binary tree */
+ 
+ Node *InsertNode(T Data) {
+     Node *X, *Current, *Parent;
+ 
+ 
+    /***********************************************
+     *  allocate node for Data and insert in tree  *
+     ***********************************************/
+ 
+     /* setup new node */
+     if ((X = malloc (sizeof(*X))) == 0) {
+         fprintf (stderr, "insufficient memory (InsertNode)\n");
+         exit(1);
+     }
+     X->Data = Data;
+     X->Left = NULL;
+     X->Right = NULL;
+ 
+     /* find X's parent */
+     Current = Root;
+     Parent = 0;
+     while (Current) {
+         if (CompEQ(X->Data, Current->Data)) return (Current);
+         Parent = Current;
+         Current = CompLT(X->Data, Current->Data) ?
+             Current->Left : Current->Right;
+     }
+     X->Parent = Parent;
+ 
+     /* insert X in tree */
+     if(Parent)
+         if(CompLT(X->Data, Parent->Data))
+             Parent->Left = X;
+         else
+             Parent->Right = X;
+     else
+         Root = X;
+ 
+     return(X);
+ }
+ void DeleteNode(Node *Z) {
+     Node *X, *Y;
+ 
+    /*****************************
+     *  delete node Z from tree  *
+     *****************************/
+ 
+     /* Y will be removed from the parent chain */
+     if (!Z || Z == NULL) return;
+ 
+     /* find tree successor */
+     if (Z->Left == NULL || Z->Right == NULL)
+         Y = Z;
+     else {
+ 
+         Y = Z->Right;
+         while (Y->Left != NULL) Y = Y->Left;
+     }
+ 
+     /* X is Y's only child */
+     if (Y->Left != NULL)
+         X = Y->Left;
+     else
+         X = Y->Right;
+ 
+     /* remove Y from the parent chain */
+     if (X) X->Parent = Y->Parent;
+     if (Y->Parent)
+         if (Y == Y->Parent->Left)
+             Y->Parent->Left = X;
+         else
+             Y->Parent->Right = X;
+     else
+         Root = X;
+ 
+     /* Y is the node we're removing */
+     /* Z is the data we're removing */
+     /* if Z and Y are not the same, replace Z with Y. */
+     if (Y != Z) {
+         Y->Left = Z->Left;
+         if (Y->Left) Y->Left->Parent = Y;
+         Y->Right = Z->Right;
+         if (Y->Right) Y->Right->Parent = Y;
+         Y->Parent = Z->Parent;
+         if (Z->Parent)
+             if (Z == Z->Parent->Left)
+                 Z->Parent->Left = Y;
+             else
+                 Z->Parent->Right = Y;
+         else
+             Root = Y;
+         free (Z);
+     } else {
+         free (Y);
+     }
+ }
+ 
+ Node *FindNode(T Data) {
+ 
+    /*******************************
+     *  find node containing Data  *
+     *******************************/
+ 
+     Node *Current = Root;
+     while(Current != NULL)
+         if(CompEQ(Data, Current->Data))
+             return (Current);
+         else
+             Current = CompLT (Data, Current->Data) ?
+                 Current->Left : Current->Right;
+     return(0);
+ }
+</PRE>
+<BR><HR>
+<BR></TT></DIV> 
+<HR><P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

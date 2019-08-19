@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.8.3.1 Source Code</TITLE>
+<META NAME="description" CONTENT="0.8.3.1 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="previous" HREF="node158.html">
+<LINK REL="up" HREF="node158.html">
+<LINK REL="next" HREF="node160.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2364"
+ HREF="node160.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2360"
+ HREF="node158.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2356"
+ HREF="node158.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2362"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2363"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2365"
+ HREF="node160.html">0.8.4 Knapsack Problem</A>
+<B> Up:</B> <A NAME="tex2html2361"
+ HREF="node158.html">0.8.3 Determining Whether a</A>
+<B> Previous:</B> <A NAME="tex2html2357"
+ HREF="node158.html">0.8.3 Determining Whether a</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00093100000000000000">
+0.8.3.1 Source Code</A>
+</H3>
+
+<P>
+<HR><PRE>
+#include &lt;iostream.h&gt;
+#include &lt;math.h&gt;
+#include &lt;stdlib.h&gt;
+
+//
+//  Input parameters:
+//     npol               : number of vertices
+//     xp[npol], yp[npol] : x,y coord of vertices
+//     x,y                : coord of point to test 
+//
+//  Return Value:
+//     0 : test point is outside polygon
+//     1 : test point is inside polygon
+//
+//  Notes:
+//     if test point is on the border, 0 or 1 is returned.
+//     If there exists an adiacent polygon, the point is
+//     _in_ only in one of the two.
+//
+
+int pnpoly(int npol, float *xp, float *yp, float x, float y)
+{
+    int i, j, c = 0;
+    for (i = 0, j = npol-1; i &lt; npol; j = i++) 
+    {
+
+        if (
+             (
+               ((yp[i]&lt;=y) &amp;&amp; (y&lt;yp[j])) || 
+               ((yp[j]&lt;=y) &amp;&amp; (y&lt;yp[i]))
+             ) &amp;&amp;
+             (x &lt; (xp[j] - xp[i]) * (y - yp[i]) / (yp[j] - yp[i]) + xp[i]))
+	  
+          c = !c;
+    }
+    return c;
+}
+</PRE><HR>
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

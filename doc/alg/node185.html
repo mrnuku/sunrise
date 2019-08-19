@@ -1,0 +1,341 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.12.1.1 Source Code</TITLE>
+<META NAME="description" CONTENT="0.12.1.1 Source Code">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node186.html">
+<LINK REL="previous" HREF="node184.html">
+<LINK REL="up" HREF="node184.html">
+<LINK REL="next" HREF="node186.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html2698"
+ HREF="node186.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html2694"
+ HREF="node184.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html2688"
+ HREF="node184.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html2696"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html2697"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html2699"
+ HREF="node186.html">0.12.1.2 References</A>
+<B> Up:</B> <A NAME="tex2html2695"
+ HREF="node184.html">0.12.1 Checksums</A>
+<B> Previous:</B> <A NAME="tex2html2689"
+ HREF="node184.html">0.12.1 Checksums</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION000131100000000000000">
+0.12.1.1 Source Code</A>
+</H3>
+
+<P>
+The first piece of code on this page is a typical checksum generation
+routine that takes a pointer to the data in question and returns a
+checksum value which, when added to the data, will yield a multiple of 
+ten.
+<PRE>
+int checksum (char *data, int data_length) {
+
+  int sum, i = 0;
+
+  while (i &lt; data_length) {
+    sum += *data++;
+    i++;
+  }
+  return(10 - (sum % 10));
+}
+</PRE>
+<P>
+The following code was Bill Sasina.  It takes as input an Intel hex
+file and computes a checksum for it.  While the utility of this code
+is somewhat limited, it demonstrates the idea of how checksums work
+very well.  This code is not covered by the copyright statement in the 
+introduction of this document; it was donated by the author to the
+public domain.
+
+<P>
+<BR><HR>
+<PRE>/*
+                 Checksum Calculator Utility
+ 		Written by Bill Sasina, 1995
+ */
+ 
+ #include <stdio.h>
+ #include <conio.h>
+ #include <process.h>
+ #include <errno.h>
+ #include <stdlib.h>
+ 
+ /*the system error list is known at link time*/
+ extern char *sys_errlist [];
+ 
+ /*prototype definitions --*/
+ void main (int, char **);
+ void sum_it (long int *, char *, long int *);
+ char *fgetstr (char *, int, FILE *);
+ void errexit (unsigned);
+ long int prompt_for_size(void);
+ 
+ /* Global Variables */
+ int line_cnt = 0;
+ 
+ /*Main - open the first and second arguments and proceed as in Prog1*/
+ void main (int argc, char *argv[]) 
+ {
+ 	FILE *input;
+ 	char string[256];
+ 	long int cksum1 = 0;
+ 	long int cksum2 = 0;
+ 	long int byte_cnt = 0;
+ 	long int prom_size;
+ 	char *junk;
+ 
+ 	clrscr();
+ 	printf("%18c Bill's Checksum Utility  Version 2.2 \n\n", ' ');
+ 
+ 	if (argc < 2 || argc > 3)
+ 	{
+ 		errexit(1);
+ 	}
+   
+ 	if (argc == 3)
+ 	{
+ 		prom_size = ((strtol(argv[2], &junk, 10)) * (long) 1024) - 1;
+ 	}
+ 	else
+ 	{
+ 		prom_size = prompt_for_size();
+ 	}
+ 	
+ 	/*get input file*/
+ 	if ((input = fopen (argv[1], "r")) == 0) 
+ 	{
+ 		errexit(2);
+ 	}
+   
+ 	printf("\n%s\t", argv[1]);
+ 
+ 	while ((fgetstr(string, 255, input)) && (byte_cnt < prom_size)) 
+ 	{
+ 		line_cnt++;
+ 		sum_it(&cksum1, string, &byte_cnt);
+ 	}
+   
+ 	cksum2 = cksum1;
+   
+ 	if (byte_cnt < prom_size)
+ 	{
+ 		for ( ; byte_cnt <= prom_size; byte_cnt++) 
+ 		{
+ 			cksum1 += 255;
+ 		}
+ 	}
+ 
+ 	printf("\n\nFill Character\t FF\t\t 00\n");
+ 	printf("Checksum =\t%4X\t\t%4X\n", (int) cksum1, (int) cksum2);
+   
+ 	if (fclose(input))
+ 	{
+ 		errexit (6);
+ 	}
+   
+ 	/*exit normally*/
+ 	exit (0);
+ }
+ 
+ 
+ /*sum_it - Calculate the checksum */
+ 
+ void sum_it (long int *sum, char *stringptr, long int *bytes) 
+ {
+ 	int i;
+ 	long len = 0;
+ 	long line_sum = 0;
+ 	long temp = 0;
+ 	char tempstr[] = {"0XFF"};
+ 	char *junk;
+ 
+ 	if (*stringptr == 'S')
+ 	{
+ 		errexit(4);
+ 	}
+   
+ 	if (*stringptr == ':')
+ 	{
+ 		stringptr++;
+ 	}
+   
+ 	tempstr[2] = *stringptr++;
+ 	tempstr[3] = *stringptr++;
+ 
+ 	len = strtol(tempstr, &junk, 16);
+ 	line_sum = len;
+ 
+ 	for (i = 0; i < 3; i++) 
+ 	{
+ 		tempstr[2] = *stringptr++;
+ 		tempstr[3] = *stringptr++;
+ 
+ 		temp = strtol(tempstr, &junk, 16);
+ 		line_sum += temp;
+ 	}
+ 
+ 	if ( ( temp != 2 ) && ( temp != 3 ) )
+ 	{
+ 		*bytes += len;
+ 	}
+ 	else
+ 	{
+ 		if ( ( *stringptr != '0' ) && ( *stringptr != '1' ) ) 
+ 		{
+ 			printf("\nWarning\t--\tFile uses extended addressing.");
+ 			printf("\nOffset\t=\t%c%c%c%c", 
+ 				   stringptr[0], stringptr[1], stringptr[2], stringptr[3]);
+ 		}
+ 	}
+ 
+ 	for ( ; len; len--) 
+ 	{
+ 		tempstr[2] = *stringptr++;
+ 		tempstr[3] = *stringptr++;
+ 		
+ 		line_sum += strtol(tempstr, &junk, 16);
+ 		if ( ( temp != 2 ) && ( temp != 3 ) )
+ 		{
+ 			*sum += strtol(tempstr, &junk, 16);
+ 		}
+ 	}
+ 	tempstr[2] = *stringptr++;
+ 	tempstr[3] = *stringptr++;
+ 
+ 	if (((unsigned char) (~line_sum + 1)) != 
+ 		((unsigned char) strtol(tempstr, &junk, 16))) 
+ 	{
+ 		printf("Line number %d", line_cnt);
+ 		printf(" %X %X\n", (~((unsigned char) line_sum) + 1), 
+ 			   (unsigned char) strtol(tempstr, &junk, 16));
+ 		errexit(3);
+ 	}
+ }
+ 
+ /*fgetstr - 'gets' does not return '\n' -- 'fgets' does.
+             this routine makes 'fgets' like 'gets'*/
+ char *fgetstr (char string[], int n, FILE *filptr) 
+ {
+ 	char *retval, *ptr;
+ 	if ((retval = fgets (string, n, filptr)) != NULL)
+ 	{
+ 		for (ptr = string; *ptr; ptr++)
+ 		{
+ 			if (*ptr == '\n') 
+ 			{
+ 				*ptr = '\0';
+ 				break;
+ 			}
+ 		}
+ 	}
+ 	return retval;
+ }
+ 
+ 
+ /*Errexit - handle errors as they arise*/
+ char *errlist[] =
+ {"invalid error",
+  
+  "wrong number of arguments."
+  "\n Try: chksum <input_file> <prom_size>",
+  
+  "input file does not exist",
+  "checksum error in HEX file",
+  "File is a Motorola S-Record File.",
+  "error on output file write",
+  "error on closing input file",
+  "error on closing output file",
+  "debug error"};
+ 
+ void errexit (unsigned errnum) 
+ {
+ 	if (errnum > 7)
+ 	{
+ 		errnum = 7;
+ 	}
+ 
+ 	fprintf (stderr, "\nchecksum utility error:  %s\n"
+ 			 "system error:          %s\n",
+ 			 errlist[errnum],
+ 			 sys_errlist [errno]);
+ 	exit (errnum);
+ }
+ 
+ 
+ long int prompt_for_size() {
+ 	long int retval;
+   
+ 	printf("Select PROM Size:\n\n");
+ 	printf("1       8 KBytes x 8 (2764/87C528)\n");
+ 	printf("2      16 KBytes x 8 (27128)\n");
+ 	printf("3      32 KBytes x 8 (27256)\n");
+ 	printf("4      64 KBytes x 8 (27512)\n");
+ 	printf("5     128 KBytes x 8 (28F010/27C1024)\n");
+ 
+ 	while (!kbhit()) {
+ 	};
+   
+ 	switch (getch()) 
+ 	{
+ 		case '1': 
+ 			retval = 8191;
+ 			break;
+ 		case '2': 
+ 			retval = 16383;
+ 			break;
+ 		case '3': 
+ 			retval = 32767;
+ 			break;
+ 		case '4': 
+ 			retval = 65535;
+ 			break;
+ 		case '5': 
+ 			retval = 131071;
+ 			break;
+ 		default: 
+ 			retval = 0;
+ 			break;
+ 	}
+   
+ 	return( retval );
+ }
+ 
+</PRE>
+<HR>
+<BR></TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>

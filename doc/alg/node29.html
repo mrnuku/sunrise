@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>0.2.7.1 Selecting a Hash Function</TITLE>
+<META NAME="description" CONTENT="0.2.7.1 Selecting a Hash Function">
+<META NAME="keywords" CONTENT="alg">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="alg.css">
+<LINK REL="next" HREF="node30.html">
+<LINK REL="previous" HREF="node28.html">
+<LINK REL="up" HREF="node28.html">
+<LINK REL="next" HREF="node30.html">
+</HEAD>
+<BODY bgcolor=#cccc99 text=#555555 link=#993300 alink=#006666 vlink=#993300>
+<!--Navigation Panel-->
+<A NAME="tex2html692"
+ HREF="node30.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next_motif.gif"></A> 
+<A NAME="tex2html688"
+ HREF="node28.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_motif.gif"></A> 
+<A NAME="tex2html682"
+ HREF="node28.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="previous_motif.gif"></A> 
+<A NAME="tex2html690"
+ HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents_motif.gif"></A> 
+<A NAME="tex2html691"
+ HREF="node194.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index_motif.gif"></A> <A HREF="/cgi-bin/glimpse?title=search+the+algorithm+archive&dir=%2fusr%2flocal%2Finfo%2Fhttp%2Fhtdocs%2Fdata%2Fscott%2Fsearch%2Findex%2Falg">Search</A>
+<BR>
+<B> Next:</B> <A NAME="tex2html693"
+ HREF="node30.html">0.2.7.2 Dealing with Collisions</A>
+<B> Up:</B> <A NAME="tex2html689"
+ HREF="node28.html">0.2.7 Hashing</A>
+<B> Previous:</B> <A NAME="tex2html683"
+ HREF="node28.html">0.2.7 Hashing</A>
+<BR>
+<BR><TABLE WIDTH=640 BGCOLOR=#000000 ALIGN=CENTER CELLPADDING=5><TD><TABLE WIDTH=640 BGCOLOR=#ffffff CELLSPACING=0 ALIGN=CENTER CELLPADDING=5 CELLPADDING=5><TD>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION00037100000000000000">
+0.2.7.1 Selecting a Hash Function</A>
+</H3>
+
+<P>
+Choosing a good hash function is of the utmost importance.  An <B>uniform</B> hash function
+<A NAME="311">&#160;</A>
+<A NAME="312">&#160;</A>
+is one that equally distributes data items over the whole hash table
+data structure.  If the hash function is poorly chosen data items may
+tend to <B>clump</B>
+<A NAME="314">&#160;</A>
+in one area of the hash table and many collisions will ensue.  A
+non-uniform dispersal pattern and a high collision rate cause an
+overall data structure performance degradation.  There are several
+strategies for maximizing the uniformity of the hash function and
+thereby maximizing the efficiency of the hash table.
+
+<P>
+One method, called the <B>division method</B>
+<A NAME="316">&#160;</A>
+<A NAME="317">&#160;</A>
+, operates by dividing a data item's key value by the total size of
+the hash table and using the remainder of the division as the hash
+function return value.  This method has the advantage of being very
+simple to compute and very easy to understand.
+
+<P>
+Selecting an appropriate hash table size is an important factor in
+determining the efficiency of the division method.  If you choose to
+use this method, avoid hash table sizes that simply return a subset of
+the data item's key as the hash value.  For instance, a table
+one-hundred items large will result put key value 12345 at location
+forty-five, which is undesirable.  Further, an even data item key
+should not always map to an even hash value (and, likewise, odd key
+values should not always produce odd hash values).  A good rule of
+thumb in selecting your hash table size for use with a division method
+hash function is to pick a prime number that is not close to any power
+of two (2, 4, 8, 16, 32...).
+
+<P>
+<HR><PRE>
+int hash_function(data_item item) 
+{
+  return item.key % hash_table_size;
+}
+</PRE> 
+<HR><P>
+Sometimes it is inconvenient to have the hash table size be prime.  In
+certain cases only a hash table size which is a power of two will work.
+A simple way of dealing with table sizes which are powers of two is
+to use the following formula to computer a key: 
+<!-- MATH: $k = (x mod p) mod m$ -->
+<I>k</I> = (<I>x mod p</I>) <I>mod m</I>.
+In the above expression <I>x</I> is the data item key, <I>p</I> is a prime
+number, and <I>m</I> is the hash table size.  Choosing <I>p</I> to be much
+larger than <I>m</I> improves the uniformity of this key selection process.
+
+<P>
+Yet another hash function computation method, called the <B>multiplication method</B>, can be used with hash tables with a size that
+is a power of two.  The data item's key is multiplied by a constant,
+<I>k</I> and then bit-shifted to compute the hash function return value.
+<A NAME="323">&#160;</A>
+<A NAME="324">&#160;</A>
+
+<P>
+A good choice for the constant, <I>k</I> is 
+<!-- MATH: $N * (sqrt(5) - 1) / 2$ -->
+<I>N</I> * (<I>sqrt</I>(5) - 1) / 2 where
+<I>N</I> is the size of the hash table.
+
+<P>
+The product <I>key</I> * <I>k</I> is then bitwise shifted right to determine the
+final hash value.  The number of right shifts should be equal to the
+<I>log</I><SUB>2</SUB> <I>N</I> subtracted from the number of bits in a data item key.  For
+instance, for a 1024 position table (or 2<SUP>10</SUP>) and a 16-bit data
+item key, you should shift the product <I>key</I> * <I>k</I> right six (or 16 -
+10) places.
+
+<P>
+<HR><PRE>
+int hash_function(data_item item) 
+{
+  extern int constant;
+  extern int shifts;
+
+  return (int)((constant * item.key) &gt;&gt; shifts);
+}
+</PRE> 
+<HR><P>
+Note that the above method is only effective when all data item keys
+are of the same, fixed size (in bits).  To hash non-fixed length data
+item keys another method is <B>variable string addition</B>
+<A NAME="331">&#160;</A>
+so named because it is often used to hash variable length strings.  A
+table size of 256 is used.  The hash function works by first summing
+the ASCII value of each character in the variable length strings.
+Next, to determine the hash value of a given string, this sum is
+divided by 256.  The remainder of this division will be in the range
+of 0 to 255 and becomes the item's hash value.
+
+<P>
+<HR><PRE>
+int hash_function (char *str) 
+{
+  int total = 0;
+
+  while (*str) {
+    total += *str++;
+  }
+  return (total % 256);
+}
+</PRE> 
+<HR><P>
+Yet another method for hashing non fixed-length data is called <B>compression function</B> and discussed in the one-way hashing section.
+<A NAME="337">&#160;</A>
+<A NAME="338">&#160;</A>
+
+<P>
+</TD></TABLE></TD></TABLE>
+
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Scott Gasch</I>
+<BR><I>1999-07-09</I>
+</ADDRESS>
+</BODY>
+</HTML>
